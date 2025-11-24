@@ -10,5 +10,7 @@ add_executable(MyPython_Source_Code
         Classes/Source/Interpreter/Operation/Operation.cpp
         Classes/Source/Interpreter/Operation/OperationFactory.cpp
         Classes/Header/Interpreter/Operation/OperationFactory.h
-        Classes/Execption/InterpreterException.h
+        Classes/Exception/InterpreterException.h
+        Classes/Source/Interpreter/Operation/Assignment.cpp
+        Classes/Header/Interpreter/Operation/Assignment.h
 )
