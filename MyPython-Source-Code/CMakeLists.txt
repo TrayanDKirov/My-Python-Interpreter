@@ -13,4 +13,7 @@ add_executable(MyPython_Source_Code
         Classes/Exception/InterpreterException.h
         Classes/Source/Interpreter/Operation/Assignment.cpp
         Classes/Header/Interpreter/Operation/Assignment.h
+        Classes/Exception/ParsingException.h
+        Tests/TestTokenizer.cpp
+        Tests/TestTokenizer.h
 )

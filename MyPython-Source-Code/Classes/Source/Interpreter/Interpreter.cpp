@@ -1,9 +1,7 @@
 #include "../../Header/Interpreter/Interpreter.h"
-
-#include <ostream>
-#include <fstream>
-
 #include "../../Exception/InterpreterException.h"
+
+#include <fstream>
 
 Interpreter::Interpreter(const std::string& fileName, std::istream& is, std::ostream& os)
     : fileName(fileName), is(is), os(os) { }

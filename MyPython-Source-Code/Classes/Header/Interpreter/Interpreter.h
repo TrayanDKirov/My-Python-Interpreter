@@ -1,7 +1,8 @@
-#include <string>
-
+#pragma once
 #include "Tokenizer.h"
 #include "Operation/OperationFactory.h"
+
+#include <string>
 
 class Interpreter {
     std::string fileName = "";

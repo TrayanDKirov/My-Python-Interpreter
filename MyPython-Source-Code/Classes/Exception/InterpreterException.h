@@ -1,3 +1,4 @@
+#pragma once
 #include <stdexcept>
 
 class interpreter_exception : public std::runtime_error
