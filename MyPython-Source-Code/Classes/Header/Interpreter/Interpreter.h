@@ -6,8 +6,7 @@
 
 class Interpreter {
     std::string fileName = "";
-    std::istream& is;
-    std::ostream& os;
+    Contex contex;
 
     Tokenizer tokenizer;
     OperationFactory operationFactory;
@@ -18,5 +17,7 @@ public:
     const std::string& getFileName() const;
     void setFileName(const std::string& fileName);
 
-    void interpret() const;
+    void interpret();
+
+    void printContex() const;
 };

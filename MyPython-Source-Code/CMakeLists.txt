@@ -16,4 +16,24 @@ add_executable(MyPython_Source_Code
         Classes/Exception/ParsingException.h
         Tests/TestTokenizer.cpp
         Tests/TestTokenizer.h
+        Classes/Source/Variable/Variable.cpp
+        Classes/Header/Variable/Variable.h
+        Classes/Source/Variable/Number/Integer.cpp
+        Classes/Header/Variable/Number/Integer.h
+        Classes/Source/Variable/Number/FloatingPointNumber.cpp
+        Classes/Header/Variable/Number/FloatingPointNumber.h
+        Classes/Source/Variable/Number/Number.cpp
+        Classes/Header/Variable/Number/Number.h
+        Classes/Exception/OperationException.h
+        Classes/Source/Contex/Scope.cpp
+        Classes/Header/Contex/Scope.h
+        Classes/Exception/ScopeException/ScopeException.h
+        Classes/Exception/ScopeException/NotInScopeException.h
+        Classes/Source/Variable/VariableFactory.cpp
+        Classes/Header/Variable/VariableFactory.h
+        Classes/Exception/VariableException.h
+        Classes/Source/Contex/Contex.cpp
+        Classes/Header/Contex/Contex.h
+        Classes/Source/Variable/Bool.cpp
+        Classes/Header/Variable/Bool.h
 )

@@ -2,9 +2,10 @@
 #include "../../Exception/InterpreterException.h"
 
 #include <fstream>
+#include <iostream>
 
 Interpreter::Interpreter(const std::string& fileName, std::istream& is, std::ostream& os)
-    : fileName(fileName), is(is), os(os) { }
+    : fileName(fileName), contex(is, os) { }
 
 const std::string& Interpreter::getFileName() const {
     return this->fileName;
@@ -16,7 +17,7 @@ void Interpreter::setFileName(const std::string& fileName) {
 
 const size_t MAX_BUFFER_SIZE = 1024;
 
-void Interpreter::interpret() const {
+void Interpreter::interpret() {
     std::ifstream inputFile(fileName.c_str(), std::ios::in);
     if (!inputFile.is_open())
     {
@@ -25,14 +26,22 @@ void Interpreter::interpret() const {
 
     char buffer[MAX_BUFFER_SIZE];
     inputFile.getline(buffer, MAX_BUFFER_SIZE);
-    while (!inputFile.eof())
+    while (true)
     {
         auto tokens = tokenizer.tokenize(buffer);
         Operation* operation = operationFactory.create(tokens);
 
-        operation->execute();
-        //delete operation;
+        operation->execute(contex);
+        delete operation;
 
+        if (inputFile.eof())
+            break;
         inputFile.getline(buffer, MAX_BUFFER_SIZE);
     }
+
+    inputFile.close();
+}
+
+void Interpreter::printContex() const {
+    std::cout << contex << std::endl;
 }

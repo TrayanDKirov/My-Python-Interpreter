@@ -1,3 +1,4 @@
+#pragma once
 #include <stdexcept>
 
 class parsing_exception : public std::runtime_error {

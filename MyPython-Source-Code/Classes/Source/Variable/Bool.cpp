@@ -1,4 +1,4 @@
-#include "Bool.h"
+#include "../../Header/Variable/Bool.h"
 
 #include <stdexcept>
 

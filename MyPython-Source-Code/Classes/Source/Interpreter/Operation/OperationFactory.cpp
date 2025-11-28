@@ -1,7 +1,38 @@
 #include "../../../Header/Interpreter/Operation/OperationFactory.h"
 
+#include <algorithm>
+#include <bits/ranges_uninitialized.h>
+
+#include "../../../Exception/OperationException.h"
+using namespace std;
+
 #include "../../../Header/Interpreter/Operation/Assignment.h"
 
+int indexOf(const vector<string>& tokens, const string& toSearch) {
+    auto it = std::find(tokens.begin(), tokens.end(), toSearch);
+    if (it != tokens.end())
+        return static_cast<int>(std::distance(tokens.begin(), it));
+    return -1;
+}
+
+Operation* searchForAssigment(const vector<string>& tokens) {
+    int index = indexOf(tokens, Assignment::ASSIGMENT_OPERATOR);
+    if (index == -1) {
+        return nullptr;
+    }
+
+    if (index != 1 || tokens.size() != 3) {
+        throw operation_exception(Assignment::ASSIGMENT_SYNTAX.c_str());
+    }
+
+    return new Assignment(tokens[0], tokens[2]);
+}
+
 Operation* OperationFactory::create(const std::vector<std::string> &tokens) const {
-    return new Assignment();
+    Operation* result = searchForAssigment(tokens);
+    if (result)
+    {
+       return result;
+    }
+    return nullptr;
 }
