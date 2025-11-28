@@ -1,4 +1,4 @@
-#include "../../Header/Scope/Scope.h"
+#include "../../Header/Contex/Scope.h"
 
 #include "../../Exception/ScopeException/NotInScopeException.h"
 
@@ -45,3 +45,21 @@ bool Scope::assign(const string& name, unique_ptr<Variable> variable) {
     names.insert_or_assign(name, std::move(variable));
     return isFound;
 }
+
+std::ostream& operator<<(std::ostream& os, const Scope& scope)
+{
+    os << "{\n";
+
+    for (const auto& [name, varPtr] : scope.names) {
+        os << "  " << name << ": ";
+        if (varPtr)
+            os << varPtr->toString();   // or operator<< if you define one
+        else
+            os << "<null>";
+        os << "\n";
+    }
+
+    os << "}";
+    return os;
+}
+
