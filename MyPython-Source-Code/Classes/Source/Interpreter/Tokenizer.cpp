@@ -17,12 +17,12 @@ void Tokenizer::assertQuoteAtEndOfToken(const string& text, size_t index) const 
 std::vector<std::string> Tokenizer::tokenize(const std::string &text) const {
     std::vector<std::string> tokens;
 
-    bool isInSmallQuotes, isInBigQuotes, startNext, isInSpaces;
-    isInBigQuotes = isInSmallQuotes = startNext = isInSpaces = false;
+    bool isInSmallQuotes, isInBigQuotes, startNext, isInSpaces, shouldSkipSep;
+    isInBigQuotes = isInSmallQuotes = startNext = isInSpaces = shouldSkipSep = false;
     std::string currToken = "";
     for (size_t i = 0; i < text.size(); i++) {
         char currChar = text[i];
-        if (!(isInBigQuotes || isInSmallQuotes) && currChar == sep) {
+        if (!shouldSkipSep && currChar == sep) {
             if (!isInSpaces) {
                 startNext = isInSpaces = true;
             }
@@ -35,26 +35,27 @@ std::vector<std::string> Tokenizer::tokenize(const std::string &text) const {
             startNext = isInSpaces = false;
 
             if (currChar == smallQuote) {
-                isInSmallQuotes = true;
-                continue;
+                isInSmallQuotes = shouldSkipSep = true;
             }
-            if (currChar == bigQuote) {
-                isInBigQuotes = true;
-                continue;
+            else if (currChar == bigQuote) {
+                isInBigQuotes = shouldSkipSep = true;
             }
         }
-
-        if (!isInBigQuotes && currChar == smallQuote) {
+        else if (!isInBigQuotes && currChar == smallQuote) {
             assertQuoteAtEndOfToken(text, i);
 
-            isInSmallQuotes = false;
-            continue;
+            isInSmallQuotes = shouldSkipSep = false;
         }
-        if (!isInSmallQuotes && currChar == bigQuote) {
+        else if (!isInSmallQuotes && currChar == bigQuote) {
             assertQuoteAtEndOfToken(text, i);
 
-            isInBigQuotes = false;
-            continue;
+            isInBigQuotes = shouldSkipSep = false;
+        }
+        if (!(isInBigQuotes || isInSmallQuotes) && currChar == beginBracket) {
+            shouldSkipSep = true;
+        }
+        else if (!(isInBigQuotes || isInSmallQuotes) && currChar == endBracket) {
+            shouldSkipSep = false;
         }
 
         currToken.push_back(currChar);

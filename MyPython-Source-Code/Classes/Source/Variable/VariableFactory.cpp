@@ -6,11 +6,11 @@
 #include <stdexcept>
 
 #include "../../Header/Variable/Bool.h"
+#include "../../Header/Variable/Iterable/StringVariable.h"
 using std::unique_ptr;
 using std::make_unique;
 
-unique_ptr<Variable> VariableFactory::create(const string& value) const
-{
+unique_ptr<Variable> VariableFactory::create(const string& value) const {
     try {
         size_t pos = 0;
         int i = std::stoi(value, &pos);
@@ -34,6 +34,9 @@ unique_ptr<Variable> VariableFactory::create(const string& value) const
     }
     try {
         return make_unique<Bool>(value);
+    } catch (const std::invalid_argument&) { }
+    try {
+        return make_unique<StringVariable>(value);
     } catch (const std::invalid_argument&) { }
 
     throw variable_exception(value);
