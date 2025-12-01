@@ -13,5 +13,6 @@ public:
 
     string toString() const override;
 
+    Variable* clone() const override;
     ~Bool() override = default;
 };

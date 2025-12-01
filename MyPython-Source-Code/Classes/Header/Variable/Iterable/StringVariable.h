@@ -14,5 +14,6 @@ public:
 
     string toString() const override;
 
+    Variable* clone() const override;
     ~StringVariable() override = default;
 };

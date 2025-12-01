@@ -24,3 +24,8 @@ string StringVariable::toString() const
 {
     return SMALL_QUOTE + value + SMALL_QUOTE;
 }
+
+Variable * StringVariable::clone() const
+{
+    return new StringVariable(*this);
+}

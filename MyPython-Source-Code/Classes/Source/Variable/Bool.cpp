@@ -28,3 +28,8 @@ string Bool::toString() const
         return TRUE_STR;
     return FALSE_STR;
 }
+
+Variable * Bool::clone() const
+{
+    return new Bool(*this);
+}

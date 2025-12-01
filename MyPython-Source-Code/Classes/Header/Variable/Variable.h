@@ -7,5 +7,6 @@ class Variable {
 public:
     virtual string toString() const = 0;
 
+    virtual Variable* clone() const = 0;
     virtual ~Variable() = default;
 };

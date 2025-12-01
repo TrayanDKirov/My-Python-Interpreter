@@ -8,5 +8,6 @@ public:
 
     string toString() const override;
 
+    Variable* clone() const override;
     ~FloatingPointNumber() override = default;
 };
