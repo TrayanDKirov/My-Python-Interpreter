@@ -21,18 +21,19 @@ void testTokenizer() {
 int main() {
     /*std::cout << "Enter file name: ";
     std::string fileName = "";
-    std::cin >> fileName;
+    std::cin >> fileName;*/
+    std::string fileName = "testFile.mpy";
     Interpreter interpreter(fileName, std::cin, std::cout);
 
     std::cout << interpreter.getFileName() << std::endl;
     interpreter.interpret();
-    interpreter.printContex();*/
+    interpreter.printContex();
 
     /*TestTokenizer testTokenizer;
     testTokenizer.runTests();*/
 
-    TestArgsParser testArgsParser;
-    testArgsParser.test1();
+    /*TestArgsParser testArgsParser;
+    testArgsParser.test1();*/
 
     return 0;
 }

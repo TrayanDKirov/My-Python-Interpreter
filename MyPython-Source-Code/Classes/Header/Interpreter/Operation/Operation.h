@@ -4,7 +4,7 @@
 class Operation
 {
 public:
-    virtual void execute(Context& contex) = 0;
+    virtual std::unique_ptr<Variable> execute(Context& contex) = 0;
 
     virtual ~Operation() = default;
 };

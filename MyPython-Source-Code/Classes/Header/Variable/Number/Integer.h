@@ -6,7 +6,7 @@ class Integer : public Number {
 public:
     Integer(int value);
 
-    string toString() const override;
+    std::string toString() const override;
 
     Variable* clone() const override;
     ~Integer() override = default;

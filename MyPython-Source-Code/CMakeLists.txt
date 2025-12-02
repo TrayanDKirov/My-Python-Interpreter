@@ -36,8 +36,8 @@ add_executable(MyPython_Source_Code
         Classes/Header/Contex/Context.h
         Classes/Source/Variable/Bool.cpp
         Classes/Header/Variable/Bool.h
-        Classes/Header/Interpreter/Operation/PrintOp.cpp
-        Classes/Header/Interpreter/Operation/PrintOp.h
+        Classes/Header/Interpreter/Operation/ArgumentOperation/PrintOp.cpp
+        Classes/Header/Interpreter/Operation/ArgumentOperation/PrintOp.h
         Classes/Source/Variable/Iterable/Iterable.cpp
         Classes/Header/Variable/Iterable/Iterable.h
         Classes/Source/Variable/Iterable/StringVariable.cpp
@@ -46,4 +46,10 @@ add_executable(MyPython_Source_Code
         Classes/Header/Interpreter/ArgsParser.h
         Tests/TestArgsParser.cpp
         Tests/TestArgsParser.h
+        Classes/Source/Variable/NoneVariable.cpp
+        Classes/Header/Variable/NoneVariable.h
+        Classes/Header/Interpreter/Operation/ArgumentOperation/ArgumentOperation.cpp
+        Classes/Header/Interpreter/Operation/ArgumentOperation/ArgumentOperation.h
+        Classes/Header/Interpreter/Operation/EvalOp.cpp
+        Classes/Header/Interpreter/Operation/EvalOp.h
 )

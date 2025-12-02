@@ -1,6 +1,8 @@
 #include "../../Header/Contex/Scope.h"
 
 #include "../../Exception/ScopeException/NotInScopeException.h"
+using std::string;
+using std::unique_ptr;
 
 Scope::Scope(Scope* parent) : parent(parent) { }
 

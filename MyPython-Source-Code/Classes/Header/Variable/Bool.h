@@ -5,13 +5,13 @@ class Bool : public Variable {
     bool value;
 
 public:
-    static const string TRUE_STR;
-    static const string FALSE_STR;
+    static const std::string TRUE_STR;
+    static const std::string FALSE_STR;
 
-    Bool(const string& value);
+    Bool(const std::string& value);
     Bool(bool value);
 
-    string toString() const override;
+    std::string toString() const override;
 
     Variable* clone() const override;
     ~Bool() override = default;

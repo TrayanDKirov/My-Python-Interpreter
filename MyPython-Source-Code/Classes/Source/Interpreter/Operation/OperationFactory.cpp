@@ -1,11 +1,14 @@
 #include "../../../Header/Interpreter/Operation/OperationFactory.h"
 
 #include <algorithm>
-#include <bits/ranges_uninitialized.h>
 
 #include "../../../Exception/OperationException.h"
+#include "../../../Header/Interpreter/Operation/EvalOp.h"
+#include "../../../Header/Interpreter/Operation/ArgumentOperation/PrintOp.h"
 #include "../../../Header/Variable/VariableFactory.h"
-using namespace std;
+using std::vector;
+using std::string;
+using std::unique_ptr;
 
 #include "../../../Header/Interpreter/Operation/Assignment.h"
 
@@ -22,23 +25,43 @@ Operation* OperationFactory::searchForAssigment(const vector<string>& tokens) co
         return nullptr;
     }
 
-    if (index != 1 || tokens.size() != 3) {
+    if (index != 1) {
         throw operation_exception(Assignment::ASSIGMENT_SYNTAX.c_str());
     }
 
-    ;
-
-    return new Assignment(tokens[0], std::move(variableFactory->create(tokens[2])));
+    return new Assignment(tokens[0],
+        unique_ptr<Operation>(
+            searchForSecondOperation(tokens, index+1, tokens.size())));
 }
 
-OperationFactory::OperationFactory(VariableFactory *variableFactory) : variableFactory(variableFactory) { }
+OperationFactory::OperationFactory(VariableFactory *variableFactory)
+    : variableFactory(variableFactory), argsParser(variableFactory) { }
 
-Operation* OperationFactory::create(const std::vector<std::string> &tokens) const {
-    Operation* result = searchForAssigment(tokens);
-
-    if (result)
-    {
-       return result;
+Operation* OperationFactory::searchForSecondOperation(const std::vector<std::string> &tokens, size_t start, size_t end) const {
+    if (start == end-1) {
+        return new EvalOp(tokens[start], variableFactory);
     }
+
+    if (!ArgsParser::isArgsTuple(tokens[start+1])) {
+        return nullptr;
+    }
+
+    if (tokens[start] == PrintOp::NAME) {
+        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        return new PrintOp(args);
+    }
+
+    return nullptr;
+}
+
+Operation* OperationFactory::create(const std::vector<std::string>& tokens) const
+{
+    Operation* result = searchForAssigment(tokens);
+    if (result)
+       return result;
+    result = searchForSecondOperation(tokens, 0, tokens.size());
+    if (result)
+        return result;
+
     return nullptr;
 }

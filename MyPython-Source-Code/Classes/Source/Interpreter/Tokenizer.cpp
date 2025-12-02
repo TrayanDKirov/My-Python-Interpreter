@@ -8,7 +8,8 @@ bool Tokenizer::isQuote(char ch) const {
 }
 
 void Tokenizer::assertQuoteAtEndOfToken(const string& text, size_t index) const {
-    if (isQuote(text[index]) && index+1<text.size() && text[index+1] != sep) {
+    if (isQuote(text[index]) && index+1<text.size() && text[index+1] != sep)
+    {
         throw parsing_exception(("Parsing error: quote not in end of a token - "
              + text.substr(index-1, 3)).c_str());
     }
@@ -18,7 +19,8 @@ std::vector<std::string> Tokenizer::tokenize(const std::string &text) const {
     std::vector<std::string> tokens;
 
     bool isInSmallQuotes, isInBigQuotes, startNext, isInSpaces, shouldSkipSep, isInBrackets;
-    isInBigQuotes = isInSmallQuotes = startNext = isInSpaces = shouldSkipSep = isInBrackets = false;
+    isInBigQuotes = isInSmallQuotes = isInSpaces = shouldSkipSep = isInBrackets = false;
+    startNext = true;
     std::string currToken = "";
     for (size_t i = 0; i < text.size(); i++) {
         char currChar = text[i];
@@ -30,8 +32,11 @@ std::vector<std::string> Tokenizer::tokenize(const std::string &text) const {
         }
 
         if (startNext) {
-            tokens.push_back(currToken);
-            currToken.clear();
+            if (i != 0)
+            {
+                tokens.push_back(currToken);
+                currToken.clear();
+            }
             startNext = isInSpaces = false;
 
             if (currChar == smallQuote) {

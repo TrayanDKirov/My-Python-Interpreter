@@ -9,6 +9,7 @@
 #include "../../Header/Variable/Iterable/StringVariable.h"
 using std::unique_ptr;
 using std::make_unique;
+using std::string;
 
 VariableFactory::VariableFactory(const Context* context) : context(context) { }
 

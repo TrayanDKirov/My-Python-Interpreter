@@ -6,7 +6,7 @@ class FloatingPointNumber : public Number {
 public:
     FloatingPointNumber(float value);
 
-    string toString() const override;
+    std::string toString() const override;
 
     Variable* clone() const override;
     ~FloatingPointNumber() override = default;

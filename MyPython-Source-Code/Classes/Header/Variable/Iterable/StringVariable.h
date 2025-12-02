@@ -3,16 +3,16 @@
 
 class StringVariable : public Iterable
 {
-    string value = "";
+    std::string value = "";
     static const char BIG_QUOTE;
     static const char SMALL_QUOTE;
 
-    static bool isValidString(const string& value);
+    static bool isValidString(const std::string& value);
 
 public:
-    StringVariable(const string& value);
+    StringVariable(const std::string& value);
 
-    string toString() const override;
+    std::string toString() const override;
 
     Variable* clone() const override;
     ~StringVariable() override = default;

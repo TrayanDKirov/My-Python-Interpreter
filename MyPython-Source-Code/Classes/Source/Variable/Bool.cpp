@@ -1,7 +1,7 @@
 #include "../../Header/Variable/Bool.h"
 
 #include <stdexcept>
-
+using std::string;
 
 const string Bool::TRUE_STR = "True";
 const string Bool::FALSE_STR = "False";

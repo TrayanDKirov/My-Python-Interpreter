@@ -2,13 +2,11 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-using std::unordered_map;
-using std::unique_ptr;
 
 #include "../Variable/Variable.h"
 
 class Scope {
-    unordered_map<string, unique_ptr<Variable>> names;
+    std::unordered_map<std::string, std::unique_ptr<Variable>> names;
     Scope* parent = nullptr;
 
 public:
@@ -20,11 +18,11 @@ public:
     Scope(Scope&&) = default;
     Scope& operator=(Scope&&) = default;
 
-    Variable* get(const string& name);
-    const Variable* get(const string& name) const;
+    Variable* get(const std::string& name);
+    const Variable* get(const std::string& name) const;
 
-    bool contains(const string& name) const;
-    bool assign(const string& name, unique_ptr<Variable> variable);
+    bool contains(const std::string& name) const;
+    bool assign(const std::string& name, std::unique_ptr<Variable> variable);
 
     friend std::ostream& operator<<(std::ostream& os, const Scope& scope);
 };

@@ -10,5 +10,5 @@ class VariableFactory {
 public:
     VariableFactory(const Context* context);
 
-    std::unique_ptr<Variable> create(const string& value) const;
+    std::unique_ptr<Variable> create(const std::string& value) const;
 };
