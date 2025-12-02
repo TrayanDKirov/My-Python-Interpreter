@@ -18,8 +18,8 @@ add_executable(MyPython_Source_Code
         Tests/TestTokenizer.h
         Classes/Source/Variable/Variable.cpp
         Classes/Header/Variable/Variable.h
-        Classes/Source/Variable/Number/Integer.cpp
-        Classes/Header/Variable/Number/Integer.h
+        Classes/Source/Variable/Number/IntegerNumber.cpp
+        Classes/Header/Variable/Number/IntegerNumber.h
         Classes/Source/Variable/Number/FloatingPointNumber.cpp
         Classes/Header/Variable/Number/FloatingPointNumber.h
         Classes/Source/Variable/Number/Number.cpp
@@ -34,22 +34,31 @@ add_executable(MyPython_Source_Code
         Classes/Exception/VariableException.h
         Classes/Source/Contex/Context.cpp
         Classes/Header/Contex/Context.h
-        Classes/Source/Variable/Bool.cpp
-        Classes/Header/Variable/Bool.h
-        Classes/Header/Interpreter/Operation/ArgumentOperation/PrintOp.cpp
+        Classes/Source/Variable/BoolVariable.cpp
+        Classes/Header/Variable/BoolVariable.h
+        Classes/Source/Interpreter/Operation/ArgumentOperation/PrintOp.cpp
         Classes/Header/Interpreter/Operation/ArgumentOperation/PrintOp.h
         Classes/Source/Variable/Iterable/Iterable.cpp
         Classes/Header/Variable/Iterable/Iterable.h
         Classes/Source/Variable/Iterable/StringVariable.cpp
         Classes/Header/Variable/Iterable/StringVariable.h
-        Classes/Header/Interpreter/ArgsParser.cpp
+        Classes/Source/Interpreter/ArgsParser.cpp
         Classes/Header/Interpreter/ArgsParser.h
         Tests/TestArgsParser.cpp
         Tests/TestArgsParser.h
         Classes/Source/Variable/NoneVariable.cpp
         Classes/Header/Variable/NoneVariable.h
-        Classes/Header/Interpreter/Operation/ArgumentOperation/ArgumentOperation.cpp
+        Classes/Source/Interpreter/Operation/ArgumentOperation/ArgumentOperation.cpp
         Classes/Header/Interpreter/Operation/ArgumentOperation/ArgumentOperation.h
-        Classes/Header/Interpreter/Operation/EvalOp.cpp
+        Classes/Source/Interpreter/Operation/EvalOp.cpp
         Classes/Header/Interpreter/Operation/EvalOp.h
+        Classes/Header/Interpreter/Operation/CastOperation/CastOperation.h
+        Classes/Source/Interpreter/Operation/CastOperation/IntCastOp.cpp
+        Classes/Header/Interpreter/Operation/CastOperation/IntCastOp.h
+        Classes/Source/Interpreter/Operation/CastOperation/FloatCastOp.cpp
+        Classes/Header/Interpreter/Operation/CastOperation/FloatCastOp.h
+        Classes/Source/Interpreter/Operation/CastOperation/StringCastOp.cpp
+        Classes/Header/Interpreter/Operation/CastOperation/StringCastOp.h
+        Classes/Source/Interpreter/Operation/CastOperation/BoolCastOp.cpp
+        Classes/Header/Interpreter/Operation/CastOperation/BoolCastOp.h
 )

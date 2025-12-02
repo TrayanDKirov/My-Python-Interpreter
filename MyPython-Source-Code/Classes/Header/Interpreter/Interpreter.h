@@ -14,6 +14,8 @@ class Interpreter {
     VariableFactory variableFactory;
     OperationFactory operationFactory;
 
+    void interpretLineByLine(std::ifstream& inputFile);
+
 public:
     Interpreter(const std::string& fileName, std::istream& is, std::ostream& os);
 

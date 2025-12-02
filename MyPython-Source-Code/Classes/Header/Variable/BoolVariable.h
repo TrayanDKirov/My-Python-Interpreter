@@ -1,18 +1,20 @@
 #pragma once
 #include "Variable.h"
 
-class Bool : public Variable {
+class BoolVariable : public Variable {
     bool value;
 
 public:
     static const std::string TRUE_STR;
     static const std::string FALSE_STR;
 
-    Bool(const std::string& value);
-    Bool(bool value);
+    BoolVariable(const std::string& value);
+    BoolVariable(bool value);
 
     std::string toString() const override;
+    int toInt() const;
+    float toFloat() const;
 
     Variable* clone() const override;
-    ~Bool() override = default;
+    ~BoolVariable() override = default;
 };

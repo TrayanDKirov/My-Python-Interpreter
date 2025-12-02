@@ -18,13 +18,8 @@ void Interpreter::setFileName(const std::string& fileName) {
 
 const size_t MAX_BUFFER_SIZE = 1024;
 
-void Interpreter::interpret() {
-    std::ifstream inputFile(fileName.c_str(), std::ios::in);
-    if (!inputFile.is_open())
-    {
-        throw interpreter_exception("Error: file did not open. ");
-    }
-
+void Interpreter::interpretLineByLine(std::ifstream& inputFile)
+{
     char buffer[MAX_BUFFER_SIZE];
     inputFile.getline(buffer, MAX_BUFFER_SIZE);
     while (true)
@@ -38,6 +33,20 @@ void Interpreter::interpret() {
         if (inputFile.eof())
             break;
         inputFile.getline(buffer, MAX_BUFFER_SIZE);
+    }
+}
+
+void Interpreter::interpret() {
+    std::ifstream inputFile(fileName.c_str(), std::ios::in);
+    if (!inputFile.is_open())
+    {
+        throw interpreter_exception("Error: file did not open. ");
+    }
+
+    try {
+        interpretLineByLine(inputFile);
+    } catch (interpreter_exception& ex) {
+        context.getOutputStream() << "Error: " << ex.what() << std::endl;
     }
 
     inputFile.close();

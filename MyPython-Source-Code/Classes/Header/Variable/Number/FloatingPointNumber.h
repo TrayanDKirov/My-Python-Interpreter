@@ -7,6 +7,8 @@ public:
     FloatingPointNumber(float value);
 
     std::string toString() const override;
+    int toInt() const;
+    int toBool() const;
 
     Variable* clone() const override;
     ~FloatingPointNumber() override = default;

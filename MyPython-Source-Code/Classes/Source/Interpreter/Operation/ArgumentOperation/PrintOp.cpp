@@ -1,6 +1,6 @@
-#include "PrintOp.h"
+#include "../../../../Header/Interpreter/Operation/ArgumentOperation/PrintOp.h"
 
-#include "../../../Variable/NoneVariable.h"
+#include "../../../../Header/Variable/NoneVariable.h"
 using std::make_unique;
 
 const std::string PrintOp::NAME = "print";

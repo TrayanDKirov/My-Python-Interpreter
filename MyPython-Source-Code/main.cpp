@@ -27,6 +27,8 @@ int main() {
 
     std::cout << interpreter.getFileName() << std::endl;
     interpreter.interpret();
+
+    std::cout << std::endl << "Contex loaded: " << std::endl;
     interpreter.printContex();
 
     /*TestTokenizer testTokenizer;

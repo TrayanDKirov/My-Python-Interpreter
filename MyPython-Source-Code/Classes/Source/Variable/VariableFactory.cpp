@@ -1,11 +1,11 @@
 #include "../../Header/Variable/VariableFactory.h"
 #include "../../Exception/VariableException.h"
 #include "../../Header/Variable/Number/FloatingPointNumber.h"
-#include "../../Header/Variable/Number/Integer.h"
+#include "../../Header/Variable/Number/IntegerNumber.h"
 
 #include <stdexcept>
 
-#include "../../Header/Variable/Bool.h"
+#include "../../Header/Variable/BoolVariable.h"
 #include "../../Header/Variable/Iterable/StringVariable.h"
 using std::unique_ptr;
 using std::make_unique;
@@ -18,7 +18,7 @@ unique_ptr<Variable> VariableFactory::create(const string& value) const {
         size_t pos = 0;
         int i = std::stoi(value, &pos);
         if (pos == value.size()) {
-            return make_unique<Integer>(i);
+            return make_unique<IntegerNumber>(i);
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
@@ -36,7 +36,7 @@ unique_ptr<Variable> VariableFactory::create(const string& value) const {
         throw variable_exception("value is of type float but is out of range. ");
     }
     try {
-        return make_unique<Bool>(value);
+        return make_unique<BoolVariable>(value);
     } catch (const std::invalid_argument&) { }
     try {
         return make_unique<StringVariable>(value);

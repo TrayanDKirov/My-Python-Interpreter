@@ -5,6 +5,10 @@
 #include "../../../Exception/OperationException.h"
 #include "../../../Header/Interpreter/Operation/EvalOp.h"
 #include "../../../Header/Interpreter/Operation/ArgumentOperation/PrintOp.h"
+#include "../../../Header/Interpreter/Operation/CastOperation/BoolCastOp.h"
+#include "../../../Header/Interpreter/Operation/CastOperation/FloatCastOp.h"
+#include "../../../Header/Interpreter/Operation/CastOperation/IntCastOp.h"
+#include "../../../Header/Interpreter/Operation/CastOperation/StringCastOp.h"
 #include "../../../Header/Variable/VariableFactory.h"
 using std::vector;
 using std::string;
@@ -49,6 +53,22 @@ Operation* OperationFactory::searchForSecondOperation(const std::vector<std::str
     if (tokens[start] == PrintOp::NAME) {
         auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
         return new PrintOp(args);
+    }
+    if (tokens[start] == IntCastOp::NAME) {
+        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        return new IntCastOp(std::move(args[0]));
+    }
+    if (tokens[start] == FloatCastOp::NAME) {
+        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        return new FloatCastOp(std::move(args[0]));
+    }
+    if (tokens[start] == StringCastOp::NAME) {
+        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        return new StringCastOp(std::move(args[0]));
+    }
+    if (tokens[start] == BoolCastOp::NAME) {
+        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        return new BoolCastOp(std::move(args[0]));
     }
 
     return nullptr;

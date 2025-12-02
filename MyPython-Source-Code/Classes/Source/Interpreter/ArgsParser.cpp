@@ -1,7 +1,7 @@
-#include "ArgsParser.h"
+#include "../../Header/Interpreter/ArgsParser.h"
 
 #include "../../Exception/InterpreterException.h"
-#include "../Contex/Context.h"
+#include "../../Header/Contex/Context.h"
 using std::vector;
 using std::string;
 using std::unique_ptr;

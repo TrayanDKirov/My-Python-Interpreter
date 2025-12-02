@@ -13,6 +13,9 @@ public:
     StringVariable(const std::string& value);
 
     std::string toString() const override;
+    int toInt() const;
+    float toFloat() const;
+    bool toBool() const;
 
     Variable* clone() const override;
     ~StringVariable() override = default;

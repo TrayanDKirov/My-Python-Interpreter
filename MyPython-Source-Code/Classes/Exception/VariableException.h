@@ -1,10 +1,12 @@
 #pragma once
 #include <stdexcept>
 
-class variable_exception : public std::runtime_error {
+#include "InterpreterException.h"
+
+class variable_exception : public interpreter_exception {
 public:
     variable_exception(const std::string& value)
-        : std::runtime_error(("unknown type of value - " + value).c_str()) { }
+        : interpreter_exception(("unknown type of value - " + value).c_str()) { }
 
-    variable_exception(const char* msg) : std::runtime_error(msg) { }
+    variable_exception(const char* msg) : interpreter_exception(msg) { }
 };

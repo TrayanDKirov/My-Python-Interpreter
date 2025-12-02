@@ -1,7 +1,9 @@
 #pragma once
 #include <stdexcept>
 
-class parsing_exception : public std::runtime_error {
+#include "InterpreterException.h"
+
+class parsing_exception : public interpreter_exception {
 public:
-    parsing_exception(const char* msg) : std::runtime_error(msg) { }
+    parsing_exception(const char* msg) : interpreter_exception(msg) { }
 };

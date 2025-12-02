@@ -1,6 +1,6 @@
-#include "EvalOp.h"
+#include "../../../Header/Interpreter/Operation/EvalOp.h"
 
-#include "../../Variable/VariableFactory.h"
+#include "../../../Header/Variable/VariableFactory.h"
 
 EvalOp::EvalOp(const std::string& value, const VariableFactory* variableFactory)
     : value(value), variableFactory(variableFactory) { }
