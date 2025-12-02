@@ -4,11 +4,14 @@
 
 #include <string>
 
+#include "../Variable/VariableFactory.h"
+
 class Interpreter {
     std::string fileName = "";
-    Contex contex;
+    Context context;
 
     Tokenizer tokenizer;
+    VariableFactory variableFactory;
     OperationFactory operationFactory;
 
 public:

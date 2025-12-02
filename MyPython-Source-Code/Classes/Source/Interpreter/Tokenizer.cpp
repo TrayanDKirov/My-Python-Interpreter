@@ -17,8 +17,8 @@ void Tokenizer::assertQuoteAtEndOfToken(const string& text, size_t index) const 
 std::vector<std::string> Tokenizer::tokenize(const std::string &text) const {
     std::vector<std::string> tokens;
 
-    bool isInSmallQuotes, isInBigQuotes, startNext, isInSpaces, shouldSkipSep;
-    isInBigQuotes = isInSmallQuotes = startNext = isInSpaces = shouldSkipSep = false;
+    bool isInSmallQuotes, isInBigQuotes, startNext, isInSpaces, shouldSkipSep, isInBrackets;
+    isInBigQuotes = isInSmallQuotes = startNext = isInSpaces = shouldSkipSep = isInBrackets = false;
     std::string currToken = "";
     for (size_t i = 0; i < text.size(); i++) {
         char currChar = text[i];
@@ -41,21 +41,21 @@ std::vector<std::string> Tokenizer::tokenize(const std::string &text) const {
                 isInBigQuotes = shouldSkipSep = true;
             }
         }
-        else if (!isInBigQuotes && currChar == smallQuote) {
+        else if (!isInBigQuotes && !isInBrackets && currChar == smallQuote) {
             assertQuoteAtEndOfToken(text, i);
 
             isInSmallQuotes = shouldSkipSep = false;
         }
-        else if (!isInSmallQuotes && currChar == bigQuote) {
+        else if (!isInSmallQuotes && !isInBrackets && currChar == bigQuote) {
             assertQuoteAtEndOfToken(text, i);
 
             isInBigQuotes = shouldSkipSep = false;
         }
         if (!(isInBigQuotes || isInSmallQuotes) && currChar == beginBracket) {
-            shouldSkipSep = true;
+            shouldSkipSep = isInBrackets = true;
         }
         else if (!(isInBigQuotes || isInSmallQuotes) && currChar == endBracket) {
-            shouldSkipSep = false;
+            shouldSkipSep = isInBrackets = false;
         }
 
         currToken.push_back(currChar);

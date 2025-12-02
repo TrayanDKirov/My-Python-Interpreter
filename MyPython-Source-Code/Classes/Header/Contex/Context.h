@@ -1,14 +1,14 @@
 #pragma once
 #include "Scope.h"
 
-class Contex {
+class Context {
     Scope scope;
     std::istream& is;
     std::ostream& os;
 public:
-    Contex();
-    Contex(std::istream& is, std::ostream& os);
-    Contex(Scope scope, std::istream& is, std::ostream& os);
+    Context();
+    Context(std::istream& is, std::ostream& os);
+    Context(Scope scope, std::istream& is, std::ostream& os);
 
     Scope& getScope();
     const Scope& getScope() const;
@@ -16,5 +16,5 @@ public:
     std::istream& getInputStream();
     std::ostream& getOutputStream();
 
-    friend std::ostream& operator<<(std::ostream& os, const Contex& contex);
+    friend std::ostream& operator<<(std::ostream& os, const Context& contex);
 };

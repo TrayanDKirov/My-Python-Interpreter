@@ -5,7 +5,8 @@
 #include <iostream>
 
 Interpreter::Interpreter(const std::string& fileName, std::istream& is, std::ostream& os)
-    : fileName(fileName), contex(is, os) { }
+    : fileName(fileName), context(is, os),
+    variableFactory(&context), operationFactory(&variableFactory) { }
 
 const std::string& Interpreter::getFileName() const {
     return this->fileName;
@@ -31,7 +32,7 @@ void Interpreter::interpret() {
         auto tokens = tokenizer.tokenize(buffer);
         Operation* operation = operationFactory.create(tokens);
 
-        operation->execute(contex);
+        operation->execute(context);
         delete operation;
 
         if (inputFile.eof())
@@ -43,5 +44,5 @@ void Interpreter::interpret() {
 }
 
 void Interpreter::printContex() const {
-    std::cout << contex << std::endl;
+    std::cout << context << std::endl;
 }

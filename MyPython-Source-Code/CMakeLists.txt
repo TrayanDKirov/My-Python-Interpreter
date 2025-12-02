@@ -32,8 +32,18 @@ add_executable(MyPython_Source_Code
         Classes/Source/Variable/VariableFactory.cpp
         Classes/Header/Variable/VariableFactory.h
         Classes/Exception/VariableException.h
-        Classes/Source/Contex/Contex.cpp
-        Classes/Header/Contex/Contex.h
+        Classes/Source/Contex/Context.cpp
+        Classes/Header/Contex/Context.h
         Classes/Source/Variable/Bool.cpp
         Classes/Header/Variable/Bool.h
+        Classes/Header/Interpreter/Operation/PrintOp.cpp
+        Classes/Header/Interpreter/Operation/PrintOp.h
+        Classes/Source/Variable/Iterable/Iterable.cpp
+        Classes/Header/Variable/Iterable/Iterable.h
+        Classes/Source/Variable/Iterable/StringVariable.cpp
+        Classes/Header/Variable/Iterable/StringVariable.h
+        Classes/Header/Interpreter/ArgsParser.cpp
+        Classes/Header/Interpreter/ArgsParser.h
+        Tests/TestArgsParser.cpp
+        Tests/TestArgsParser.h
 )

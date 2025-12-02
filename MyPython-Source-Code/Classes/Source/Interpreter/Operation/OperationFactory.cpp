@@ -4,6 +4,7 @@
 #include <bits/ranges_uninitialized.h>
 
 #include "../../../Exception/OperationException.h"
+#include "../../../Header/Variable/VariableFactory.h"
 using namespace std;
 
 #include "../../../Header/Interpreter/Operation/Assignment.h"
@@ -15,7 +16,7 @@ int indexOf(const vector<string>& tokens, const string& toSearch) {
     return -1;
 }
 
-Operation* searchForAssigment(const vector<string>& tokens) {
+Operation* OperationFactory::searchForAssigment(const vector<string>& tokens) const {
     int index = indexOf(tokens, Assignment::ASSIGMENT_OPERATOR);
     if (index == -1) {
         return nullptr;
@@ -25,11 +26,16 @@ Operation* searchForAssigment(const vector<string>& tokens) {
         throw operation_exception(Assignment::ASSIGMENT_SYNTAX.c_str());
     }
 
-    return new Assignment(tokens[0], tokens[2]);
+    ;
+
+    return new Assignment(tokens[0], std::move(variableFactory->create(tokens[2])));
 }
+
+OperationFactory::OperationFactory(VariableFactory *variableFactory) : variableFactory(variableFactory) { }
 
 Operation* OperationFactory::create(const std::vector<std::string> &tokens) const {
     Operation* result = searchForAssigment(tokens);
+
     if (result)
     {
        return result;

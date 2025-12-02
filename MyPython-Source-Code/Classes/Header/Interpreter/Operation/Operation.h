@@ -1,10 +1,10 @@
 #pragma once
-#include "../../Contex/Contex.h"
+#include "../../Contex/Context.h"
 
 class Operation
 {
 public:
-    virtual void execute(Contex& contex) = 0;
+    virtual void execute(Context& contex) = 0;
 
     virtual ~Operation() = default;
 };

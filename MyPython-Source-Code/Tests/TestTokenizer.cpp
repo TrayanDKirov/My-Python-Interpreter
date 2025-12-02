@@ -88,6 +88,18 @@ void TestTokenizer::test8() {
     std::cout << "Failed!" << std::endl;
 }
 
+void TestTokenizer::test9()
+{
+    std:;cout << "Test 9" << std::endl;
+    std::cout << makeTokensIntoStr(tokenizer.tokenize("print(stringVar, 'str', x, y)")) << std::endl;
+}
+
+void TestTokenizer::test10()
+{
+    std:;cout << "Test 10" << std::endl;
+    std::cout << makeTokensIntoStr(tokenizer.tokenize("print   (stringVar, 'str', x, y)")) << std::endl;
+}
+
 void TestTokenizer::runTests() {
     test1();
     test2();
@@ -96,4 +108,7 @@ void TestTokenizer::runTests() {
     test6();
     test7();
     test8();
+    test9();
+    test10();
 }
+

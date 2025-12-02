@@ -5,14 +5,14 @@
 
 class Assignment : public Operation {
     std::string name = "";
-    std::string value = "";
+    unique_ptr<Variable> value;
 public:
     static const std::string ASSIGMENT_OPERATOR;
     static const std::string ASSIGMENT_SYNTAX;
 
-    Assignment(const std::string& name, const std::string& value);
+    Assignment(const std::string& name, unique_ptr<Variable> value);
 
-    void execute(Contex& contex) override;
+    void execute(Context& contex) override;
 
     ~Assignment() override = default;
 };

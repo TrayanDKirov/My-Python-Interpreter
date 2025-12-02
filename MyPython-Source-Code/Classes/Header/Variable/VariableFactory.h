@@ -2,15 +2,13 @@
 #include <memory>
 
 #include "Variable.h"
-using std::unique_ptr;
+#include "../Contex/Context.h"
 
 class VariableFactory {
-    VariableFactory() = default;
-    VariableFactory(const VariableFactory&) = delete;
-    VariableFactory& operator=(const VariableFactory&) = delete;
+    const Context* context;
 
 public:
-    unique_ptr<Variable> create(const string& value) const;
+    VariableFactory(const Context* context);
 
-    static VariableFactory& getInstance();
+    std::unique_ptr<Variable> create(const string& value) const;
 };

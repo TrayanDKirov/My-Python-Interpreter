@@ -10,6 +10,8 @@
 using std::unique_ptr;
 using std::make_unique;
 
+VariableFactory::VariableFactory(const Context* context) : context(context) { }
+
 unique_ptr<Variable> VariableFactory::create(const string& value) const {
     try {
         size_t pos = 0;
@@ -39,11 +41,5 @@ unique_ptr<Variable> VariableFactory::create(const string& value) const {
         return make_unique<StringVariable>(value);
     } catch (const std::invalid_argument&) { }
 
-    throw variable_exception(value);
-}
-
-VariableFactory& VariableFactory::getInstance()
-{
-    static VariableFactory factory;
-    return factory;
+    return unique_ptr<Variable>(context->getScope().get(value)->clone());
 }

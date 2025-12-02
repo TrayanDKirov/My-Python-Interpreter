@@ -1,5 +1,7 @@
+#include <filesystem>
 #include <iostream>
 #include "Classes/Header/Interpreter/Interpreter.h"
+#include "Tests/TestArgsParser.h"
 #include "Tests/TestTokenizer.h"
 
 void testTokenizer() {
@@ -20,12 +22,17 @@ int main() {
     /*std::cout << "Enter file name: ";
     std::string fileName = "";
     std::cin >> fileName;
-    Interpreter interpreter("testFile.py", std::cin, std::cout);
+    Interpreter interpreter(fileName, std::cin, std::cout);
 
     std::cout << interpreter.getFileName() << std::endl;
-    interpreter.interpret();*/
+    interpreter.interpret();
+    interpreter.printContex();*/
 
-    TestTokenizer testTokenizer;
-    testTokenizer.runTests();
+    /*TestTokenizer testTokenizer;
+    testTokenizer.runTests();*/
+
+    TestArgsParser testArgsParser;
+    testArgsParser.test1();
+
     return 0;
 }
