@@ -11,7 +11,7 @@ public:
 
     PrintOp(std::vector<std::unique_ptr<Variable>>& args);
 
-    std::unique_ptr<Variable> execute(Context& contex) override;
+    Variable* execute(Context& contex) override;
 
     ~PrintOp() override = default;
 };

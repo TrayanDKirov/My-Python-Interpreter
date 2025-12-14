@@ -39,10 +39,10 @@ Operation* OperationFactory::searchForAssigment(const vector<string>& tokens) co
 }
 
 OperationFactory::OperationFactory(VariableFactory *variableFactory)
-    : variableFactory(variableFactory), argsParser(variableFactory) { }
+    : variableFactory(variableFactory) { }
 
 Operation* OperationFactory::searchForSecondOperation(const std::vector<std::string> &tokens, size_t start, size_t end) const {
-    if (start == end-1) {
+    /*if (start == end-1) {
         return new EvalOp(tokens[start], variableFactory);
     }
 
@@ -51,26 +51,26 @@ Operation* OperationFactory::searchForSecondOperation(const std::vector<std::str
     }
 
     if (tokens[start] == PrintOp::NAME) {
-        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        vector<unique_ptr<Operation>> args;
         return new PrintOp(args);
     }
     if (tokens[start] == IntCastOp::NAME) {
-        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        vector<unique_ptr<Operation>> args;
         return new IntCastOp(std::move(args[0]));
     }
     if (tokens[start] == FloatCastOp::NAME) {
-        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        vector<unique_ptr<Operation>> args;
         return new FloatCastOp(std::move(args[0]));
     }
     if (tokens[start] == StringCastOp::NAME) {
-        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        vector<unique_ptr<Operation>> args;
         return new StringCastOp(std::move(args[0]));
     }
     if (tokens[start] == BoolCastOp::NAME) {
-        auto args = argsParser.parseArgs(tokens[start+1].substr(1, tokens[start+1].size()-2));
+        vector<unique_ptr<Operation>> args;
         return new BoolCastOp(std::move(args[0]));
     }
-
+    */
     return nullptr;
 }
 

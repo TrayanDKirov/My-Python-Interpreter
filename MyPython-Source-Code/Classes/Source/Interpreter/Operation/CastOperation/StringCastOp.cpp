@@ -11,22 +11,23 @@ using std::unique_ptr;
 
 const std::string StringCastOp::NAME = "str";
 
-StringCastOp::StringCastOp(unique_ptr<Variable> value) : value(std::move(value)) { }
+StringCastOp::StringCastOp(unique_ptr<Operation> value)
+    : value(std::move(value)) { }
 
-unique_ptr<Variable> StringCastOp::execute(Context& contex)
+Variable* StringCastOp::execute(Context& contex)
 {
-    Variable* val = value.get();
+    Variable* val = value.get()->execute(contex);
     if (StringVariable* strVal = dynamic_cast<StringVariable*>(val)) {
-        return unique_ptr<Variable>(strVal->clone());
+        return strVal->clone();
     }
     if (FloatingPointNumber* fVal = dynamic_cast<FloatingPointNumber*>(val)) {
-        return make_unique<StringVariable>(fVal->toString());
+        return new StringVariable(fVal->toString());
     }
     if (BoolVariable* bVal = dynamic_cast<BoolVariable*>(val)) {
-        return make_unique<StringVariable>(bVal->toString());
+        return new StringVariable(bVal->toString());
     }
     if (IntegerNumber* iVal = dynamic_cast<IntegerNumber*>(val)) {
-        return make_unique<StringVariable>(iVal->toString());
+        return new StringVariable(iVal->toString());
     }
 
     throw variable_exception("can not convert this type to string");

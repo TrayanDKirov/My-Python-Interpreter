@@ -3,15 +3,15 @@
 #include <vector>
 
 #include "Operation.h"
-#include "../ArgsParser.h"
 
 class VariableFactory;
 
 class OperationFactory
 {
     VariableFactory* variableFactory;
-    ArgsParser argsParser;
+
 public:
+
     OperationFactory(VariableFactory* variableFactory);
 
     Operation* searchForSecondOperation(const std::vector<std::string>& tokens,

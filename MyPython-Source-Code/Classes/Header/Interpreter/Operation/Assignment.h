@@ -14,7 +14,7 @@ public:
 
     Assignment(const std::string& name, std::unique_ptr<Operation> operation);
 
-    std::unique_ptr<Variable> execute(Context& contex) override;
+    Variable* execute(Context& contex) override;
 
     ~Assignment() override = default;
 };

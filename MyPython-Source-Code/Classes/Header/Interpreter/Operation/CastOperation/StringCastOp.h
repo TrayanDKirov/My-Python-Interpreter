@@ -3,13 +3,13 @@
 
 class StringCastOp : public CastOperation
 {
-    std::unique_ptr<Variable> value;
+    std::unique_ptr<Operation> value;
 public:
     static const std::string NAME;
 
-    StringCastOp(std::unique_ptr<Variable> value);
+    StringCastOp(std::unique_ptr<Operation> value);
 
-    std::unique_ptr<Variable> execute(Context &contex) override;
+    Variable* execute(Context &contex) override;
 
     ~StringCastOp() override = default;
 };

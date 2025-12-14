@@ -5,60 +5,44 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(MyPython_Source_Code
         main.cpp
+
+        # Interpreter
         Classes/Source/Interpreter/Interpreter.cpp
         Classes/Source/Interpreter/Tokenizer.cpp
+        Classes/Source/Interpreter/MpySymbols.cpp
+
+        # Operations
         Classes/Source/Interpreter/Operation/Operation.cpp
         Classes/Source/Interpreter/Operation/OperationFactory.cpp
-        Classes/Header/Interpreter/Operation/OperationFactory.h
-        Classes/Exception/InterpreterException.h
         Classes/Source/Interpreter/Operation/Assignment.cpp
-        Classes/Header/Interpreter/Operation/Assignment.h
-        Classes/Exception/ParsingException.h
-        Tests/TestTokenizer.cpp
-        Tests/TestTokenizer.h
-        Classes/Source/Variable/Variable.cpp
-        Classes/Header/Variable/Variable.h
-        Classes/Source/Variable/Number/IntegerNumber.cpp
-        Classes/Header/Variable/Number/IntegerNumber.h
-        Classes/Source/Variable/Number/FloatingPointNumber.cpp
-        Classes/Header/Variable/Number/FloatingPointNumber.h
-        Classes/Source/Variable/Number/Number.cpp
-        Classes/Header/Variable/Number/Number.h
-        Classes/Exception/OperationException.h
-        Classes/Source/Contex/Scope.cpp
-        Classes/Header/Contex/Scope.h
-        Classes/Exception/ScopeException/ScopeException.h
-        Classes/Exception/ScopeException/NotInScopeException.h
-        Classes/Source/Variable/VariableFactory.cpp
-        Classes/Header/Variable/VariableFactory.h
-        Classes/Exception/VariableException.h
-        Classes/Source/Contex/Context.cpp
-        Classes/Header/Contex/Context.h
-        Classes/Source/Variable/BoolVariable.cpp
-        Classes/Header/Variable/BoolVariable.h
-        Classes/Source/Interpreter/Operation/ArgumentOperation/PrintOp.cpp
-        Classes/Header/Interpreter/Operation/ArgumentOperation/PrintOp.h
-        Classes/Source/Variable/Iterable/Iterable.cpp
-        Classes/Header/Variable/Iterable/Iterable.h
-        Classes/Source/Variable/Iterable/StringVariable.cpp
-        Classes/Header/Variable/Iterable/StringVariable.h
-        Classes/Source/Interpreter/ArgsParser.cpp
-        Classes/Header/Interpreter/ArgsParser.h
-        Tests/TestArgsParser.cpp
-        Tests/TestArgsParser.h
-        Classes/Source/Variable/NoneVariable.cpp
-        Classes/Header/Variable/NoneVariable.h
         Classes/Source/Interpreter/Operation/ArgumentOperation/ArgumentOperation.cpp
-        Classes/Header/Interpreter/Operation/ArgumentOperation/ArgumentOperation.h
+        Classes/Source/Interpreter/Operation/ArgumentOperation/PrintOp.cpp
         Classes/Source/Interpreter/Operation/EvalOp.cpp
-        Classes/Header/Interpreter/Operation/EvalOp.h
-        Classes/Header/Interpreter/Operation/CastOperation/CastOperation.h
+
+        # Cast operations
         Classes/Source/Interpreter/Operation/CastOperation/IntCastOp.cpp
-        Classes/Header/Interpreter/Operation/CastOperation/IntCastOp.h
         Classes/Source/Interpreter/Operation/CastOperation/FloatCastOp.cpp
-        Classes/Header/Interpreter/Operation/CastOperation/FloatCastOp.h
         Classes/Source/Interpreter/Operation/CastOperation/StringCastOp.cpp
-        Classes/Header/Interpreter/Operation/CastOperation/StringCastOp.h
         Classes/Source/Interpreter/Operation/CastOperation/BoolCastOp.cpp
-        Classes/Header/Interpreter/Operation/CastOperation/BoolCastOp.h
+
+        # Context / Scope
+        Classes/Source/Contex/Scope.cpp
+        Classes/Source/Contex/Context.cpp
+
+        # Variables
+        Classes/Source/Variable/Variable.cpp
+        Classes/Source/Variable/VariableFactory.cpp
+        Classes/Source/Variable/BoolVariable.cpp
+        Classes/Source/Variable/NoneVariable.cpp
+
+        Classes/Source/Variable/Number/IntegerNumber.cpp
+        Classes/Source/Variable/Number/FloatingPointNumber.cpp
+        Classes/Source/Variable/Number/Number.cpp
+
+        Classes/Source/Variable/Iterable/Iterable.cpp
+        Classes/Source/Variable/Iterable/StringVariable.cpp
+
+        # Tests (if you want them in this executable)
+        Tests/TestTokenizer.cpp
 )
+

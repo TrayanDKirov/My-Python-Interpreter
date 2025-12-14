@@ -12,7 +12,7 @@ public:
 
     EvalOp(const std::string& value, const VariableFactory* variableFactory);
 
-    std::unique_ptr<Variable> execute(Context &contex) override;
+    Variable* execute(Context &contex) override;
 
     ~EvalOp() override = default;
 };

@@ -3,13 +3,13 @@
 
 class FloatCastOp : public CastOperation
 {
-    std::unique_ptr<Variable> value;
+    std::unique_ptr<Operation> value;
 public:
     static const std::string NAME;
 
-    FloatCastOp(std::unique_ptr<Variable> value);
+    FloatCastOp(std::unique_ptr<Operation> value);
 
-    std::unique_ptr<Variable> execute(Context &contex) override;
+    Variable* execute(Context &contex) override;
 
     ~FloatCastOp() override = default;
 };

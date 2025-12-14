@@ -11,22 +11,22 @@ using std::unique_ptr;
 
 const std::string BoolCastOp::NAME = "bool";
 
-BoolCastOp::BoolCastOp(unique_ptr<Variable> value) : value(std::move(value)) { }
+BoolCastOp::BoolCastOp(unique_ptr<Operation> value) : value(std::move(value)) { }
 
-unique_ptr<Variable> BoolCastOp::execute(Context& contex)
+Variable* BoolCastOp::execute(Context& contex)
 {
-    Variable* val = value.get();
+    Variable* val = value.get()->execute(contex);
     if (StringVariable* strVal = dynamic_cast<StringVariable*>(val)) {
-        return make_unique<BoolVariable>(strVal->toBool());
+        return new BoolVariable(strVal->toBool());
     }
     if (FloatingPointNumber* fVal = dynamic_cast<FloatingPointNumber*>(val)) {
-        return make_unique<BoolVariable>(fVal->toBool());
+        return new BoolVariable(fVal->toBool());
     }
     if (BoolVariable* bVal = dynamic_cast<BoolVariable*>(val)) {
-        return unique_ptr<Variable>(bVal->clone());
+        return bVal->clone();
     }
     if (IntegerNumber* iVal = dynamic_cast<IntegerNumber*>(val)) {
-        return make_unique<BoolVariable>(iVal->toBool());
+        return new BoolVariable(iVal->toBool());
     }
 
     throw variable_exception("can not convert this type to bool");

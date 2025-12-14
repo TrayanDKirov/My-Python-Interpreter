@@ -9,7 +9,7 @@ const std::string PrintOp::NAME = "print";
 PrintOp::PrintOp(std::vector<std::unique_ptr<Variable>> &args)
     : ArgumentOperation(args) { }
 
-std::unique_ptr<Variable> PrintOp::execute(Context& contex)
+Variable* PrintOp::execute(Context& contex)
 {
     for (size_t i = 0; i < args.size(); i++)
     {
@@ -20,5 +20,5 @@ std::unique_ptr<Variable> PrintOp::execute(Context& contex)
         }
     }
     contex.getOutputStream() << end;
-    return make_unique<NoneVariable>();
+    return new NoneVariable();
 }

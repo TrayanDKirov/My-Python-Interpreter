@@ -13,12 +13,12 @@ using std::string;
 
 VariableFactory::VariableFactory(const Context* context) : context(context) { }
 
-unique_ptr<Variable> VariableFactory::create(const string& value) const {
+Variable* VariableFactory::create(const string& value) const {
     try {
         size_t pos = 0;
         int i = std::stoi(value, &pos);
         if (pos == value.size()) {
-            return make_unique<IntegerNumber>(i);
+            return new IntegerNumber(i);
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
@@ -29,18 +29,18 @@ unique_ptr<Variable> VariableFactory::create(const string& value) const {
         std::size_t pos = 0;
         float f = std::stof(value, &pos);
         if (pos == value.size()) {
-            return make_unique<FloatingPointNumber>(f);
+            return new FloatingPointNumber(f);
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
         throw variable_exception("value is of type float but is out of range. ");
     }
     try {
-        return make_unique<BoolVariable>(value);
+        return new BoolVariable(value);
     } catch (const std::invalid_argument&) { }
     try {
-        return make_unique<StringVariable>(value);
+        return new StringVariable(value);
     } catch (const std::invalid_argument&) { }
 
-    return unique_ptr<Variable>(context->getScope().get(value)->clone());
+    return context->getScope().get(value)->clone();
 }
