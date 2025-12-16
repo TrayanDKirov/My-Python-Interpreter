@@ -59,7 +59,7 @@ void TestTokenizer::test5() {
 void TestTokenizer::test6() {
     std::cout << "Test 6: ";
     std::cout << "Parsing \"x    =    10   'Text    with    spaces'\": ";
-    if (makeTokensIntoStr(tokenizer.tokenize("x    =    10   'Text    with    spaces'")) == "x, =, 10, Text    with    spaces") {
+    if (makeTokensIntoStr(tokenizer.tokenize("x    =    10   'Text    with    spaces'")) == "x, =, 10, 'Text    with    spaces'") {
         std::cout << "Passed!" << std::endl;
         return;
     }
@@ -69,7 +69,7 @@ void TestTokenizer::test6() {
 void TestTokenizer::test7() {
     std::cout << "Test 7: ";
     std::cout << "Parsing \"x    =    10   'Text with \"another quotes\"  '\": ";
-    if (makeTokensIntoStr(tokenizer.tokenize("x    =    10   'Text with \"another quotes\"  '")) == "x, =, 10, Text with \"another quotes\"  ") {
+    if (makeTokensIntoStr(tokenizer.tokenize("x    =    10   'Text with \"another quotes\"  '")) == "x, =, 10, 'Text with \"another quotes\"  '") {
         std::cout << "Passed!" << std::endl;
         return;
     }

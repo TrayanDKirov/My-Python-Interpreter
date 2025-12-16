@@ -44,5 +44,7 @@ add_executable(MyPython_Source_Code
 
         # Tests (if you want them in this executable)
         Tests/TestTokenizer.cpp
+        Classes/Exception/Error.h
+        Classes/Exception/SyntaxError.h
 )
 
