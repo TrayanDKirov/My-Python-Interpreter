@@ -1,13 +1,14 @@
 #pragma once
+#include <vector>
+
 #include "CastOperation.h"
 
 class StringCastOp : public CastOperation
 {
-    std::unique_ptr<Operation> value;
 public:
     static const std::string NAME;
 
-    StringCastOp(std::unique_ptr<Operation> value);
+    StringCastOp(std::vector<std::unique_ptr<Operation>>& args);
 
     Variable* execute(Context &contex) override;
 

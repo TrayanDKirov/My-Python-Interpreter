@@ -36,3 +36,15 @@ bool MpySymbols::isIntDelOperator(char ch1, char ch2) {
 bool MpySymbols::isDifferenceOperator(char ch1, char ch2) {
     return ch1 == different && ch2 == equal;
 }
+
+bool MpySymbols::isCommaSep(const std::string &str) {
+    return str.size() == 1 && str[0] == commaSep;
+}
+
+bool MpySymbols::isStartBracket(const std::string &str) {
+    return str.size() == 1 && str[0] == startBracket;
+}
+
+bool MpySymbols::isEndBracket(const std::string &str) {
+    return str.size() == 1 && str[0] == endBracket;
+}

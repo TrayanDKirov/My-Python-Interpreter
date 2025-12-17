@@ -20,10 +20,10 @@ add_executable(MyPython_Source_Code
         Classes/Source/Interpreter/Operation/EvalOp.cpp
 
         # Cast operations
-        Classes/Source/Interpreter/Operation/CastOperation/IntCastOp.cpp
-        Classes/Source/Interpreter/Operation/CastOperation/FloatCastOp.cpp
-        Classes/Source/Interpreter/Operation/CastOperation/StringCastOp.cpp
-        Classes/Source/Interpreter/Operation/CastOperation/BoolCastOp.cpp
+        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/IntCastOp.cpp
+        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/FloatCastOp.cpp
+        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/StringCastOp.cpp
+        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/BoolCastOp.cpp
 
         # Context / Scope
         Classes/Source/Contex/Scope.cpp
@@ -46,5 +46,6 @@ add_executable(MyPython_Source_Code
         Tests/TestTokenizer.cpp
         Classes/Exception/Error.h
         Classes/Exception/SyntaxError.h
+        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/CastOperation.cpp
 )
 

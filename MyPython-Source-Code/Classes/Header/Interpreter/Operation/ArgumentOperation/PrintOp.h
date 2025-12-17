@@ -9,7 +9,7 @@ class PrintOp : public ArgumentOperation
 public:
     static const std::string NAME;
 
-    PrintOp(std::vector<std::unique_ptr<Variable>>& args);
+    PrintOp(std::vector<std::unique_ptr<Operation>>& args);
 
     Variable* execute(Context& contex) override;
 

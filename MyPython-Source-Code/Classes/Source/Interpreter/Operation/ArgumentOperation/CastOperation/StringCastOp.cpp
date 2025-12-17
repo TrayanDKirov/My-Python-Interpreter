@@ -1,22 +1,21 @@
-#include "../../../../Header/Interpreter/Operation/CastOperation/StringCastOp.h"
+#include "../../../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/StringCastOp.h"
 
-#include "../../../../Exception/VariableException.h"
-#include "../../../../Header/Variable/BoolVariable.h"
-#include "../../../../Header/Variable/Number/FloatingPointNumber.h"
+#include "../../../../../Exception/VariableException.h"
+#include "../../../../../Header/Variable/BoolVariable.h"
+#include "../../../../../Header/Variable/Number/FloatingPointNumber.h"
 using std::make_unique;
 using std::unique_ptr;
 
-#include "../../../../Header/Variable/Iterable/StringVariable.h"
-#include "../../../../Header/Variable/Number/IntegerNumber.h"
+#include "../../../../../Header/Variable/Iterable/StringVariable.h"
+#include "../../../../../Header/Variable/Number/IntegerNumber.h"
 
 const std::string StringCastOp::NAME = "str";
 
-StringCastOp::StringCastOp(unique_ptr<Operation> value)
-    : value(std::move(value)) { }
+StringCastOp::StringCastOp(std::vector<unique_ptr<Operation>>& args) : CastOperation(args) { }
 
 Variable* StringCastOp::execute(Context& contex)
 {
-    Variable* val = value.get()->execute(contex);
+    Variable* val = args[0].get()->execute(contex);
     if (StringVariable* strVal = dynamic_cast<StringVariable*>(val)) {
         return strVal->clone();
     }

@@ -6,14 +6,14 @@ using std::make_unique;
 const std::string PrintOp::NAME = "print";
 
 
-PrintOp::PrintOp(std::vector<std::unique_ptr<Variable>> &args)
+PrintOp::PrintOp(std::vector<std::unique_ptr<Operation>>& args)
     : ArgumentOperation(args) { }
 
 Variable* PrintOp::execute(Context& contex)
 {
     for (size_t i = 0; i < args.size(); i++)
     {
-        contex.getOutputStream() << args[i]->toString();
+        contex.getOutputStream() << args[i]->execute(contex)->toString();
         if (i != args.size())
         {
             contex.getOutputStream() << sep;

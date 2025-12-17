@@ -7,7 +7,7 @@
 class ArgumentOperation : public Operation
 {
 protected:
-    std::vector<std::unique_ptr<Variable>> args;
+    std::vector<std::unique_ptr<Operation>> args;
 public:
-    ArgumentOperation(std::vector<std::unique_ptr<Variable>>& args);
+    ArgumentOperation(std::vector<std::unique_ptr<Operation>>& args);
 };

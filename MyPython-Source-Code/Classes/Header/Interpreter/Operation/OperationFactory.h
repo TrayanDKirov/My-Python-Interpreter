@@ -2,20 +2,26 @@
 #include <string>
 #include <vector>
 
+#include "../../Variable/VariableFactory.h"
 #include "Operation.h"
 
-class VariableFactory;
 
 class OperationFactory
 {
     VariableFactory* variableFactory;
 
+    std::vector<std::unique_ptr<Operation>> parseArgs(const std::vector<std::string>& tokens,
+        size_t start, size_t end) const;
+
+    Operation* createAssigment(const std::vector<std::string>& tokens, size_t start, size_t end) const;
+
+    Operation* create(const std::vector<std::string>& tokens, size_t start, size_t end) const;
 public:
 
     OperationFactory(VariableFactory* variableFactory);
 
-    Operation* searchForSecondOperation(const std::vector<std::string>& tokens,
+    Operation* createLeave(const std::vector<std::string>& tokens,
         size_t start, size_t end) const;
-    Operation* searchForAssigment(const std::vector<std::string>& tokens) const;
+
     Operation* create(const std::vector<std::string>& tokens) const;
 };

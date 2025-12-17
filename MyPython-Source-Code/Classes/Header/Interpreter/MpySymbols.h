@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <unordered_set>
 
 class MpySymbols {
@@ -26,4 +27,8 @@ public:
     static bool isPowerOperator(char ch1, char ch2);
     static bool isIntDelOperator(char ch1, char ch2);
     static bool isDifferenceOperator(char ch1, char ch2);
+
+    static bool isCommaSep(const std::string& str);
+    static bool isStartBracket(const std::string& str);
+    static bool isEndBracket(const std::string& str);
 };

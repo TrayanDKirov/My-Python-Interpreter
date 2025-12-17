@@ -24,10 +24,15 @@ int main()
 
     //testTokenizer();
 
-    Tokenizer tokenizer;
+    /*Tokenizer tokenizer;
     auto tokens = tokenizer.tokenize("f('Hi',g(8))");
     for (auto token : tokens) {
         std::cout << token << std::endl;
-    }
+    }*/
+
+    Interpreter interpreter("testFile.mpy", std::cin, std::cout);
+    std::cout << interpreter.getFileName() << ": " << std::endl;
+    interpreter.interpret();
+
     return 0;
 }
