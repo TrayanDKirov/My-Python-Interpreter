@@ -23,6 +23,8 @@ public:
     static const char equal;
     static const char different;
 
+    static const size_t MAX_BUFFER_SIZE;
+
     static bool isOperator(char ch);
     static bool isPowerOperator(char ch1, char ch2);
     static bool isIntDelOperator(char ch1, char ch2);
@@ -31,4 +33,6 @@ public:
     static bool isCommaSep(const std::string& str);
     static bool isStartBracket(const std::string& str);
     static bool isEndBracket(const std::string& str);
+
+    static std::string toMpyString(const std::string& str);
 };

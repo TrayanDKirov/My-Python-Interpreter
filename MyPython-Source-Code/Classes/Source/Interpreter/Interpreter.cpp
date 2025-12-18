@@ -5,8 +5,7 @@
 #include <iostream>
 
 Interpreter::Interpreter(const std::string& fileName, std::istream& is, std::ostream& os)
-    : fileName(fileName), context(is, os),
-    variableFactory(&context), operationFactory(&variableFactory) { }
+    : fileName(fileName), context(is, os) { }
 
 const std::string& Interpreter::getFileName() const {
     return this->fileName;
@@ -16,12 +15,10 @@ void Interpreter::setFileName(const std::string& fileName) {
     this->fileName = fileName;
 }
 
-const size_t MAX_BUFFER_SIZE = 1024;
-
 void Interpreter::interpretLineByLine(std::ifstream& inputFile)
 {
-    char buffer[MAX_BUFFER_SIZE];
-    inputFile.getline(buffer, MAX_BUFFER_SIZE);
+    char buffer[MpySymbols::MAX_BUFFER_SIZE];
+    inputFile.getline(buffer, MpySymbols::MAX_BUFFER_SIZE);
     while (true)
     {
         auto tokens = tokenizer.tokenize(buffer);
@@ -32,7 +29,7 @@ void Interpreter::interpretLineByLine(std::ifstream& inputFile)
 
         if (inputFile.eof())
             break;
-        inputFile.getline(buffer, MAX_BUFFER_SIZE);
+        inputFile.getline(buffer, MpySymbols::MAX_BUFFER_SIZE);
     }
 }
 

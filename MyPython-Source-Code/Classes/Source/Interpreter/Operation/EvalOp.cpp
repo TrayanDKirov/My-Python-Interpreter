@@ -1,11 +1,18 @@
 #include "../../../Header/Interpreter/Operation/EvalOp.h"
 
 #include "../../../Header/Variable/VariableFactory.h"
+#include "../../../Header/Variable/VoidVariable.h"
 
-EvalOp::EvalOp(const std::string& value, const VariableFactory* variableFactory)
-    : value(value), variableFactory(variableFactory) { }
+EvalOp::EvalOp(const std::string& value)
+    : value(value) { }
 
 Variable* EvalOp::execute(Context &contex)
 {
-    return variableFactory->create(value);
+    VariableFactory variableFactory = VariableFactory::getInstance();
+    Variable* var = variableFactory.create(value);
+
+    if (VoidVariable* voidVar = dynamic_cast<VoidVariable*>(var)) {
+        return variableFactory.createByName(value, contex);
+    }
+    return var;
 }

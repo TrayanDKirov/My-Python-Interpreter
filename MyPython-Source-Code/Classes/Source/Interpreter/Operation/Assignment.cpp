@@ -2,6 +2,7 @@
 
 #include "../../../Header/Variable/NoneVariable.h"
 #include "../../../Header/Variable/VariableFactory.h"
+#include "../../../Header/Variable/VoidVariable.h"
 
 using std::unique_ptr;
 using std::string;
@@ -16,5 +17,5 @@ Variable* Assignment::execute(Context& contex)
 {
     unique_ptr<Variable> value(operation->execute(contex));
     contex.getScope().assign(name,  std::move(value));
-    return new NoneVariable();
+    return new VoidVariable();
 }

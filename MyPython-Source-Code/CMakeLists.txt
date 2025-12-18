@@ -16,7 +16,7 @@ add_executable(MyPython_Source_Code
         Classes/Source/Interpreter/Operation/OperationFactory.cpp
         Classes/Source/Interpreter/Operation/Assignment.cpp
         Classes/Source/Interpreter/Operation/ArgumentOperation/ArgumentOperation.cpp
-        Classes/Source/Interpreter/Operation/ArgumentOperation/PrintOp.cpp
+        Classes/Source/Interpreter/Operation/ArgumentOperation/PrintOperation.cpp
         Classes/Source/Interpreter/Operation/EvalOp.cpp
 
         # Cast operations
@@ -47,5 +47,10 @@ add_executable(MyPython_Source_Code
         Classes/Exception/Error.h
         Classes/Exception/SyntaxError.h
         Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/CastOperation.cpp
+        Classes/Source/Interpreter/Operation/ArgumentOperation/InputOperation.cpp
+        Classes/Header/Interpreter/Operation/ArgumentOperation/InputOperation.h
+        Classes/Source/Variable/VoidVariable.cpp
+        Classes/Header/Variable/VoidVariable.h
+        Classes/Exception/TypeError.h
 )
 

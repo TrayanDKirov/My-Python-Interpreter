@@ -3,7 +3,7 @@
 IntegerNumber::IntegerNumber(int value) : value(value) { }
 
 std::string IntegerNumber::toString() const {
-    return "\"" + std::to_string(value) + "\"";
+    return std::to_string(value);
 }
 
 float IntegerNumber::toFloat() const {

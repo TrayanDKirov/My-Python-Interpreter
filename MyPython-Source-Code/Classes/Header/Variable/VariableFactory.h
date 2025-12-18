@@ -2,11 +2,14 @@
 #include "Variable.h"
 #include "../Contex/Context.h"
 
-class VariableFactory {
-    const Context* context;
+class VariableFactory
+{
+    VariableFactory() = default;
 
 public:
-    VariableFactory(const Context* context);
 
     Variable* create(const std::string& value) const;
+    Variable* createByName(const std::string& value, Context& context) const;
+
+    static VariableFactory& getInstance();
 };

@@ -13,8 +13,8 @@ const char StringVariable::SMALL_QUOTE = '\'';
 
 bool StringVariable::isValidString(const std::string& value)
 {
-    return (value[0] == SMALL_QUOTE &&  value[value.size()-1] == SMALL_QUOTE) ||
-        (value[0] == BIG_QUOTE && value[value.size()-1] == BIG_QUOTE);
+    return value.size() > 1 && ((value[0] == SMALL_QUOTE &&  value[value.size()-1] == SMALL_QUOTE) ||
+        (value[0] == BIG_QUOTE && value[value.size()-1] == BIG_QUOTE));
 }
 
 StringVariable::StringVariable(const std::string& value)
@@ -28,7 +28,7 @@ StringVariable::StringVariable(const std::string& value)
 
 std::string StringVariable::toString() const
 {
-    return SMALL_QUOTE + value + SMALL_QUOTE;
+    return value;
 }
 
 int StringVariable::toInt() const {

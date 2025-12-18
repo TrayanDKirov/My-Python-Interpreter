@@ -1,43 +1,45 @@
 #include "../../../Header/Interpreter/Operation/OperationFactory.h"
 
-#include <algorithm>
-
 #include "../../../Exception/Error.h"
-#include "../../../Exception/OperationException.h"
 #include "../../../Exception/SyntaxError.h"
 #include "../../../Header/Interpreter/MpySymbols.h"
 #include "../../../Header/Interpreter/Operation/EvalOp.h"
-#include "../../../Header/Interpreter/Operation/ArgumentOperation/PrintOp.h"
+#include "../../../Header/Interpreter/Operation/ArgumentOperation/PrintOperation.h"
 #include "../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/BoolCastOp.h"
 #include "../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/FloatCastOp.h"
 #include "../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/IntCastOp.h"
 #include "../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/StringCastOp.h"
+#include "../../../Header/Interpreter/Operation/ArgumentOperation/InputOperation.h"
 using std::vector;
 using std::string;
 using std::unique_ptr;
 
 #include "../../../Header/Interpreter/Operation/Assignment.h"
 
-int indexOf(const vector<string>& tokens, const string& toSearch) {
-    auto it = std::find(tokens.begin(), tokens.end(), toSearch);
-    if (it != tokens.end())
-        return static_cast<int>(std::distance(tokens.begin(), it));
+int indexOf(const vector<string>& tokens, const string& toSearch, size_t start, size_t end) {
+    for (size_t i = start; i < end && i < tokens.size(); i++) {
+        if (tokens[i] == toSearch) {
+            return i;
+        }
+    }
+
     return -1;
 }
 
 Operation* OperationFactory::createAssigment(const vector<string>& tokens, size_t start, size_t end) const {
-    int index = indexOf(tokens, Assignment::ASSIGMENT_OPERATOR);
+    int index = indexOf(tokens, Assignment::ASSIGMENT_OPERATOR, start, end);
     if (index < start || index >= end) {
         return nullptr;
     }
 
     if (index != start+1) {
-        throw syntax_error(("valid syntax for assigment: " + Assignment::ASSIGMENT_SYNTAX).c_str());
+        //throw syntax_error(("valid syntax for assigment: " + Assignment::ASSIGMENT_SYNTAX).c_str());
+        return nullptr;
     }
 
-    return new Assignment(tokens[0],
+    return new Assignment(tokens[start],
         unique_ptr<Operation>(
-            createLeave(tokens, index+1, tokens.size())));
+            createLeave(tokens, index+1, end)));
 }
 
 vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& tokens,
@@ -49,8 +51,18 @@ vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& 
         return result;
 
     size_t currStart = start;
+    int bracketCounter = 0;
+    bool ignoreCommas = false;
     for (size_t i = start; i < tokens.size(); i++) {
-        if (MpySymbols::isCommaSep(tokens[i]) || i == end || i == tokens.size()-1) {
+        if (MpySymbols::isStartBracket(tokens[i])) {
+            ignoreCommas = true;
+            bracketCounter++;
+        } else if (MpySymbols::isEndBracket(tokens[i]))
+            bracketCounter--;
+        if (ignoreCommas && bracketCounter == 0)
+            ignoreCommas = false;
+        if (!ignoreCommas &&
+            (MpySymbols::isCommaSep(tokens[i]) || i == tokens.size()-1 || i == end)) {
             result.push_back(unique_ptr<Operation>(create(tokens, currStart,i)));
             if (i == end || i == tokens.size()-1) {
                 break;
@@ -74,16 +86,13 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
     return nullptr;
 }
 
-OperationFactory::OperationFactory(VariableFactory *variableFactory)
-    : variableFactory(variableFactory) { }
-
 bool isTupleStart(const string& str) {
     return str.size() == 1 && str[0] == MpySymbols::startBracket;
 }
 
 Operation* OperationFactory::createLeave(const vector<string>& tokens, size_t start, size_t end) const {
     if (end-start == 1) {
-        return new EvalOp(tokens[start], variableFactory);
+        return new EvalOp(tokens[start]);
     }
 
     vector<unique_ptr<Operation>> args;
@@ -92,8 +101,11 @@ Operation* OperationFactory::createLeave(const vector<string>& tokens, size_t st
     }
     args = parseArgs(tokens, start+2, end-1);
 
-    if (tokens[start] == PrintOp::NAME) {
-        return new PrintOp(args);
+    if (tokens[start] == PrintOperation::NAME) {
+        return new PrintOperation(args);
+    }
+    if (tokens[start] == InputOperation::NAME) {
+        return new InputOperation(args);
     }
     if (tokens[start] == IntCastOp::NAME) {
         return new IntCastOp(args);

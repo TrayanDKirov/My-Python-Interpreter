@@ -3,9 +3,10 @@
 
 class NoneVariable : public Variable
 {
-    std::string value = "None";
+    std::string value = NAME;
 
 public:
+    static const std::string NAME;
 
     std::string toString() const override;
 

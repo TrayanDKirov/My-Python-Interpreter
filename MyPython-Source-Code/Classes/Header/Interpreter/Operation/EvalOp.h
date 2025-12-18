@@ -10,7 +10,7 @@ class EvalOp : public Operation
 
 public:
 
-    EvalOp(const std::string& value, const VariableFactory* variableFactory);
+    EvalOp(const std::string& value);
 
     Variable* execute(Context &contex) override;
 

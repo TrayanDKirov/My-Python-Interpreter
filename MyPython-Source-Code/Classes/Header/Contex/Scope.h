@@ -23,6 +23,7 @@ public:
 
     bool contains(const std::string& name) const;
     bool assign(const std::string& name, std::unique_ptr<Variable> variable);
+    bool assign(const std::string& name, const std::string& value);
 
     friend std::ostream& operator<<(std::ostream& os, const Scope& scope);
 };

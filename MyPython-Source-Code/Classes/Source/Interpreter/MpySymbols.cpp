@@ -1,5 +1,7 @@
 #include "../../Header/Interpreter/MpySymbols.h"
 
+using std::string;
+
 const char MpySymbols::startBracket = '(';
 const char MpySymbols::endBracket = ')';
 const char MpySymbols::bigQuote = '"';
@@ -18,6 +20,8 @@ const char MpySymbols::div = '/';
 const char MpySymbols::per = '%';
 const char MpySymbols::equal = '=';
 const char MpySymbols::different = '!';
+
+const size_t MpySymbols::MAX_BUFFER_SIZE = 1024;
 
 bool MpySymbols::isOperator(char ch)
 {
@@ -47,4 +51,10 @@ bool MpySymbols::isStartBracket(const std::string &str) {
 
 bool MpySymbols::isEndBracket(const std::string &str) {
     return str.size() == 1 && str[0] == endBracket;
+}
+string MpySymbols::toMpyString(const string& str) {
+    string quote = "";
+    quote.push_back(bigQuote);
+
+    return quote + str + quote;
 }

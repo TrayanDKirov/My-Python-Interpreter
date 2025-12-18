@@ -11,7 +11,6 @@ class Interpreter {
     Context context;
 
     Tokenizer tokenizer;
-    VariableFactory variableFactory;
     OperationFactory operationFactory;
 
     void interpretLineByLine(std::ifstream& inputFile);

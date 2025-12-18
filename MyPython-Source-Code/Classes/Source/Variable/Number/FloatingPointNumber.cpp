@@ -3,7 +3,7 @@
 FloatingPointNumber::FloatingPointNumber(float value) : value(value) { }
 
 std::string FloatingPointNumber::toString() const {
-    return "\"" + std::to_string(value) + "\"";
+    return std::to_string(value);
 }
 
 int FloatingPointNumber::toInt() const {

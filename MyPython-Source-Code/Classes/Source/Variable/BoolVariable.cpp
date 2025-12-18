@@ -25,8 +25,8 @@ BoolVariable::BoolVariable(bool value) : value(value) { }
 string BoolVariable::toString() const
 {
     if (value)
-        return "\"" + TRUE_STR + "\"";
-    return "\"" + FALSE_STR + "\"";
+        return TRUE_STR;
+    return FALSE_STR;
 }
 
 int BoolVariable::toInt() const {
