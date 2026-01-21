@@ -1,6 +1,6 @@
-#include "../../../../Header/Interpreter/Operation/ArgumentOperation/ArgumentOperation.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ArgumentOperation.h"
 
-#include "../../../../Header/Variable/VoidVariable.h"
+#include "Variable/VoidVariable.h"
 using std::vector;
 using std::unique_ptr;
 

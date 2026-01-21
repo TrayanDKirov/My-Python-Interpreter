@@ -2,9 +2,9 @@
 #include <memory>
 #include <vector>
 
-#include "../Operation.h"
+#include "../LeaveOperation.h"
 
-class ArgumentOperation : public Operation
+class ArgumentOperation : public LeaveOperation
 {
 protected:
     std::vector<std::unique_ptr<Operation>> args;

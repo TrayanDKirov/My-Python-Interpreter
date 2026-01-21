@@ -1,13 +1,13 @@
-#include "../../../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/IntCastOp.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.h"
 
-#include "../../../../../Exception/VariableException.h"
-#include "../../../../../Header/Variable/BoolVariable.h"
-#include "../../../../../Header/Variable/Number/FloatingPointNumber.h"
+#include "../../../../../../../Exception/VariableException.h"
+#include "../../../../../../../Header/Variable/BoolVariable.h"
+#include "../../../../../../../Header/Variable/Number/FloatingPointNumber.h"
 using std::make_unique;
 using std::unique_ptr;
 
-#include "../../../../../Header/Variable/Iterable/StringVariable.h"
-#include "../../../../../Header/Variable/Number/IntegerNumber.h"
+#include "../../../../../../../Header/Variable/Iterable/StringVariable.h"
+#include "../../../../../../../Header/Variable/Number/IntegerNumber.h"
 
 const std::string IntCastOp::NAME = "int";
 

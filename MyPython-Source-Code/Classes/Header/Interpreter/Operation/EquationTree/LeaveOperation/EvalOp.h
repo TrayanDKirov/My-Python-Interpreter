@@ -1,9 +1,10 @@
 #pragma once
-#include "Operation.h"
+#include "LeaveOperation.h"
+#include "../../Operation.h"
 
 class VariableFactory;
 
-class EvalOp : public Operation
+class EvalOp : public LeaveOperation
 {
     std::string value;
     const VariableFactory* variableFactory;

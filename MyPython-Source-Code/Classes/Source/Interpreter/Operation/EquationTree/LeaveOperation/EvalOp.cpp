@@ -1,7 +1,7 @@
-#include "../../../Header/Interpreter/Operation/EvalOp.h"
+#include "../../../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.h"
 
-#include "../../../Header/Variable/VariableFactory.h"
-#include "../../../Header/Variable/VoidVariable.h"
+#include "../../../../../Header/Variable/VariableFactory.h"
+#include "../../../../../Header/Variable/VoidVariable.h"
 
 EvalOp::EvalOp(const std::string& value)
     : value(value) { }

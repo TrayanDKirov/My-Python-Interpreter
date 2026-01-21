@@ -15,15 +15,20 @@ add_executable(MyPython_Source_Code
         Classes/Source/Interpreter/Operation/Operation.cpp
         Classes/Source/Interpreter/Operation/OperationFactory.cpp
         Classes/Source/Interpreter/Operation/Assignment.cpp
-        Classes/Source/Interpreter/Operation/ArgumentOperation/ArgumentOperation.cpp
-        Classes/Source/Interpreter/Operation/ArgumentOperation/PrintOperation.cpp
-        Classes/Source/Interpreter/Operation/EvalOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ArgumentOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BooleanEqTree.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/AndOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/EquationTreeFactory.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.cpp
 
         # Cast operations
-        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/IntCastOp.cpp
-        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/FloatCastOp.cpp
-        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/StringCastOp.cpp
-        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/BoolCastOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/CastOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/FloatCastOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.cpp
 
         # Context / Scope
         Classes/Source/Contex/Scope.cpp
@@ -34,6 +39,7 @@ add_executable(MyPython_Source_Code
         Classes/Source/Variable/VariableFactory.cpp
         Classes/Source/Variable/BoolVariable.cpp
         Classes/Source/Variable/NoneVariable.cpp
+        Classes/Source/Variable/VoidVariable.cpp
 
         Classes/Source/Variable/Number/IntegerNumber.cpp
         Classes/Source/Variable/Number/FloatingPointNumber.cpp
@@ -44,13 +50,8 @@ add_executable(MyPython_Source_Code
 
         # Tests (if you want them in this executable)
         Tests/TestTokenizer.cpp
-        Classes/Exception/Error.h
-        Classes/Exception/SyntaxError.h
-        Classes/Source/Interpreter/Operation/ArgumentOperation/CastOperation/CastOperation.cpp
-        Classes/Source/Interpreter/Operation/ArgumentOperation/InputOperation.cpp
-        Classes/Header/Interpreter/Operation/ArgumentOperation/InputOperation.h
-        Classes/Source/Variable/VoidVariable.cpp
-        Classes/Header/Variable/VoidVariable.h
-        Classes/Exception/TypeError.h
 )
 
+target_include_directories(MyPython_Source_Code PRIVATE
+        ${CMAKE_SOURCE_DIR}/Classes/Header
+)

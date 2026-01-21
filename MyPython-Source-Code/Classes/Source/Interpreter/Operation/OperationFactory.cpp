@@ -1,15 +1,15 @@
-#include "../../../Header/Interpreter/Operation/OperationFactory.h"
+#include "Interpreter/Operation/OperationFactory.h"
 
 #include "../../../Exception/Error.h"
-#include "../../../Exception/SyntaxError.h"
 #include "../../../Header/Interpreter/MpySymbols.h"
-#include "../../../Header/Interpreter/Operation/EvalOp.h"
-#include "../../../Header/Interpreter/Operation/ArgumentOperation/PrintOperation.h"
-#include "../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/BoolCastOp.h"
-#include "../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/FloatCastOp.h"
-#include "../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/IntCastOp.h"
-#include "../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/StringCastOp.h"
-#include "../../../Header/Interpreter/Operation/ArgumentOperation/InputOperation.h"
+#include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.h"
+#include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.h"
+#include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.h"
+#include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/FloatCastOp.h"
+#include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.h"
+#include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.h"
+#include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.h"
+
 using std::vector;
 using std::string;
 using std::unique_ptr;
@@ -39,11 +39,11 @@ Operation* OperationFactory::createAssigment(const vector<string>& tokens, size_
 
     return new Assignment(tokens[start],
         unique_ptr<Operation>(
-            createLeave(tokens, index+1, end)));
+            eqTreeFactory.create(tokens, index+1, end)));
 }
 
 vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& tokens,
-    size_t start, size_t end) const
+                                                          size_t start, size_t end) const
 {
     vector<unique_ptr<Operation>> result;
     if (!MpySymbols::isStartBracket(tokens[start-1])
@@ -79,24 +79,30 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
     Operation* result = createAssigment(tokens, start, end);
     if (result)
         return result;
-    result = createLeave(tokens, start, end);
+    result = eqTreeFactory.create(tokens, start, end);
     if (result)
         return result;
 
     return nullptr;
 }
 
+OperationFactory::OperationFactory() : eqTreeFactory(this) { }
+
 bool isTupleStart(const string& str) {
     return str.size() == 1 && str[0] == MpySymbols::startBracket;
 }
 
-Operation* OperationFactory::createLeave(const vector<string>& tokens, size_t start, size_t end) const {
+bool isTupleEnd(const string& str) {
+    return str.size() == 1 && str[0] == MpySymbols::endBracket;
+}
+
+LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size_t start, size_t end) const {
     if (end-start == 1) {
         return new EvalOp(tokens[start]);
     }
 
     vector<unique_ptr<Operation>> args;
-    if (!isTupleStart(tokens[start+1])) {
+    if (!isTupleStart(tokens[start+1]) || !isTupleEnd(tokens[end-1])) {
         throw error("Leave is not one token. ");
     }
     args = parseArgs(tokens, start+2, end-1);

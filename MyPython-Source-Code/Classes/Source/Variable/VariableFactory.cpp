@@ -5,6 +5,10 @@
 
 #include <stdexcept>
 
+#include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.h"
+#include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/FloatCastOp.h"
+#include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.h"
+#include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.h"
 #include "../../Header/Variable/BoolVariable.h"
 #include "../../Header/Variable/NoneVariable.h"
 #include "../../Header/Variable/VoidVariable.h"
@@ -89,11 +93,29 @@ Variable* VariableFactory::create(const string& value) const {
     return new VoidVariable();
 }
 
-Variable* VariableFactory::createByName(const std::string &value, Context &context) const {
+Variable* VariableFactory::createByName(const std::string &value, Context &context) const
+{
     return context.getScope().get(value)->clone();
 }
 
-VariableFactory & VariableFactory::getInstance() {
+std::string VariableFactory::getTypeOfVariable(Variable* variable)
+{
+    if (BoolVariable* bVar = dynamic_cast<BoolVariable*>(variable))
+        return BoolCastOp::NAME;
+    if (IntegerNumber* ilVar = dynamic_cast<IntegerNumber*>(variable))
+        return IntCastOp::NAME;
+    if (FloatingPointNumber* fVar = dynamic_cast<FloatingPointNumber*>(variable))
+        return FloatCastOp::NAME;
+    if (StringVariable* sVar = dynamic_cast<StringVariable*>(variable))
+        return StringCastOp::NAME;
+    if (NoneVariable* nVar = dynamic_cast<NoneVariable*>(variable))
+        return NoneVariable::NAME;
+
+    return "void";
+}
+
+VariableFactory & VariableFactory::getInstance()
+{
     static VariableFactory variableFactory;
 
     return variableFactory;

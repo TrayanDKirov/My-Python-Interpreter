@@ -2,12 +2,16 @@
 #include <string>
 #include <vector>
 
-#include "../../Variable/VariableFactory.h"
 #include "Operation.h"
+#include "EquationTree/EquationTreeFactory.h"
+#include "EquationTree/LeaveOperation/LeaveOperation.h"
 
+
+class EvalOp;
 
 class OperationFactory
 {
+    EquationTreeFactory eqTreeFactory;
     std::vector<std::unique_ptr<Operation>> parseArgs(const std::vector<std::string>& tokens,
         size_t start, size_t end) const;
 
@@ -16,9 +20,9 @@ class OperationFactory
     Operation* create(const std::vector<std::string>& tokens, size_t start, size_t end) const;
 public:
 
-    OperationFactory() = default;
+    OperationFactory();
 
-    Operation* createLeave(const std::vector<std::string>& tokens,
+    LeaveOperation* createLeave(const std::vector<std::string>& tokens,
         size_t start, size_t end) const;
 
     Operation* create(const std::vector<std::string>& tokens) const;

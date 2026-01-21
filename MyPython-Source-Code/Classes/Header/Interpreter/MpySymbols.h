@@ -13,15 +13,20 @@ public:
     static const char smallQuote;
     static const char bigQuote;
 
-    static const char less;
-    static const char more;
     static const char plus;
     static const char minus;
     static const char mult;
     static const char div;
     static const char per;
+
+    static const char less;
+    static const char more;
     static const char equal;
     static const char different;
+    static const std::string AND;
+    static const std::string OR;
+    static const std::string NOT;
+    static const std::string EQUALS;
 
     static const size_t MAX_BUFFER_SIZE;
 
@@ -29,6 +34,8 @@ public:
     static bool isPowerOperator(char ch1, char ch2);
     static bool isIntDelOperator(char ch1, char ch2);
     static bool isDifferenceOperator(char ch1, char ch2);
+
+    static bool isBoolOperator(const std::string& str);
 
     static bool isCommaSep(const std::string& str);
     static bool isStartBracket(const std::string& str);

@@ -22,6 +22,10 @@ BoolVariable::BoolVariable(const string &value)
 
 BoolVariable::BoolVariable(bool value) : value(value) { }
 
+bool BoolVariable::getValue() const {
+    return this->value;
+}
+
 string BoolVariable::toString() const
 {
     if (value)

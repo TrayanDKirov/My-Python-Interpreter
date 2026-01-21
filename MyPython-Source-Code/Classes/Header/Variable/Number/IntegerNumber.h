@@ -10,6 +10,8 @@ public:
     float toFloat() const;
     bool toBool() const;
 
+    int getValue();
+
     Variable* clone() const override;
     ~IntegerNumber() override = default;
 };

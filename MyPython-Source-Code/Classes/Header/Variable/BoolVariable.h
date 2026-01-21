@@ -11,6 +11,8 @@ public:
     BoolVariable(const std::string& value);
     BoolVariable(bool value);
 
+    bool getValue() const;
+
     std::string toString() const override;
     int toInt() const;
     float toFloat() const;

@@ -1,6 +1,6 @@
-#include "../../../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/CastOperation.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/CastOperation.h"
 
-#include "../../../../../Exception/SyntaxError.h"
+#include "../../../../../../../Exception/SyntaxError.h"
 
 std::vector<std::unique_ptr<Operation>>& CastOperation::validateArgs(
     std::vector<std::unique_ptr<Operation>>& args) {

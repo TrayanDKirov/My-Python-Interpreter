@@ -1,18 +1,16 @@
-#include "../../../../Header/Interpreter/Operation/ArgumentOperation/PrintOperation.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.h"
 
-#include <variant>
-
-#include "../../../../Exception/TypeError.h"
-#include "../../../../Header/Interpreter/Operation/ArgumentOperation/CastOperation/StringCastOp.h"
-#include "../../../../Header/Variable/NoneVariable.h"
-#include "../../../../Header/Variable/VariableFactory.h"
-#include "../../../../Header/Variable/Iterable/StringVariable.h"
+#include "../Exception/TypeError.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ArgumentOperation.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.h"
+#include "Variable/NoneVariable.h"
+#include "Variable/VariableFactory.h"
+#include "Variable/Iterable/StringVariable.h"
 using std::make_unique;
 using std::unique_ptr;
 using std::string;
 
 const std::string PrintOperation::NAME = "print";
-
 
 void PrintOperation::assignVars(Context& myContext) {
     myContext.getScope().assign("end", "'\n'");

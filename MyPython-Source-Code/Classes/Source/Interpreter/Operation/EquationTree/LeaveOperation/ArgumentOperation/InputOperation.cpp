@@ -1,9 +1,10 @@
-#include "../../../../Header/Interpreter/Operation/ArgumentOperation/InputOperation.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.h"
 
 #include <istream>
 
-#include "../../../../Header/Interpreter/MpySymbols.h"
-#include "../../../../Header/Interpreter/Operation/ArgumentOperation/PrintOperation.h"
+#include "Interpreter/MpySymbols.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.h"
+#include "Variable/VariableFactory.h"
 using std::unique_ptr;
 using std::make_unique;
 using std::string;

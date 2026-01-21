@@ -11,5 +11,7 @@ public:
     Variable* create(const std::string& value) const;
     Variable* createByName(const std::string& value, Context& context) const;
 
+    static std::string getTypeOfVariable(Variable* variable);
+
     static VariableFactory& getInstance();
 };

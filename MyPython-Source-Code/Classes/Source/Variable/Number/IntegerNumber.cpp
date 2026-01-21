@@ -14,6 +14,10 @@ bool IntegerNumber::toBool() const {
     return (bool)value;
 }
 
+int IntegerNumber::getValue() {
+    return this->value;
+}
+
 Variable * IntegerNumber::clone() const
 {
     return new IntegerNumber(*this);

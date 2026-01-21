@@ -1,9 +1,7 @@
 #pragma once
-#include "ArgumentOperation.h"
 #include "PrintOperation.h"
-#include "../../../Variable/VariableFactory.h"
 
-class InputOperation : public Operation {
+class InputOperation : public LeaveOperation {
     std::unique_ptr<PrintOperation> print;
 
 public:
