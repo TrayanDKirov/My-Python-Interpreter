@@ -45,3 +45,8 @@ Variable * BoolVariable::clone() const
 {
     return new BoolVariable(*this);
 }
+
+bool operator==(const BoolVariable &left, const BoolVariable &right)
+{
+    return left.value == right.value;
+}

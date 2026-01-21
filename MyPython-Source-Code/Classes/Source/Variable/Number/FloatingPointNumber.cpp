@@ -18,3 +18,25 @@ Variable * FloatingPointNumber::clone() const
 {
     return new FloatingPointNumber(*this);
 }
+
+bool operator==(const FloatingPointNumber& left, const FloatingPointNumber& right)
+{
+    float epsi = 0.000001;
+
+    return abs(left.value - right.value) < epsi;
+}
+bool operator!=(const FloatingPointNumber& left, const FloatingPointNumber& right) {
+    return !(left == right);
+}
+bool operator<(const FloatingPointNumber& left, const FloatingPointNumber& right) {
+    return left.value < right.value && !(left == right);
+}
+bool operator>(const FloatingPointNumber& left, const FloatingPointNumber& right) {
+    return left.value > right.value && !(left == right);
+}
+bool operator<=(const FloatingPointNumber& left, const FloatingPointNumber& right) {
+    return left.value < right.value || left == right;
+}
+bool operator>=(const FloatingPointNumber& left, const FloatingPointNumber& right) {
+    return left.value > right.value || left == right;
+}

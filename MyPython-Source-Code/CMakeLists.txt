@@ -50,6 +50,22 @@ add_executable(MyPython_Source_Code
 
         # Tests (if you want them in this executable)
         Tests/TestTokenizer.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/OrOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/OrOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/NotOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/NotOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/EqualOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/EqualOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/DifferentOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/DifferentOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/LessOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/LessOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BiggerOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/BiggerOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/LessOrEqualOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/LessOrEqualOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BiggerOrEqualOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/BiggerOrEqualOperation.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 
+#include "../../Exception/Error.h"
+
 Interpreter::Interpreter(const std::string& fileName, std::istream& is, std::ostream& os)
     : fileName(fileName), context(is, os) { }
 
@@ -19,13 +21,21 @@ void Interpreter::interpretLineByLine(std::ifstream& inputFile)
 {
     char buffer[MpySymbols::MAX_BUFFER_SIZE];
     inputFile.getline(buffer, MpySymbols::MAX_BUFFER_SIZE);
+    size_t lineNumber = 0;
     while (true)
     {
-        auto tokens = tokenizer.tokenize(buffer);
-        Operation* operation = operationFactory.create(tokens);
+        lineNumber++;
+        if (std::string(buffer) != std::string("")) {
+            try {
+                auto tokens = tokenizer.tokenize(buffer);
+                Operation* operation = operationFactory.create(tokens);
 
-        operation->execute(context);
-        delete operation;
+                operation->execute(context);
+                delete operation;
+            } catch (error& error) {
+                context.getOutputStream() << "Line " << lineNumber <<  " Error: " << error.what() << std::endl;
+            }
+        }
 
         if (inputFile.eof())
             break;

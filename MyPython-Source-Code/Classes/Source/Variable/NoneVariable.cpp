@@ -11,3 +11,10 @@ string NoneVariable::toString() const
 Variable * NoneVariable::clone() const {
     return new NoneVariable(*this);
 }
+
+NoneVariable& NoneVariable::getInstance()
+{
+    static NoneVariable noneVar;
+
+    return noneVar;
+}

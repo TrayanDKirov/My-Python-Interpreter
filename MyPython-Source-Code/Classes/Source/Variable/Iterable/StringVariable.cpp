@@ -73,3 +73,8 @@ Variable * StringVariable::clone() const
 {
     return new StringVariable(*this);
 }
+
+bool operator==(const StringVariable& left, const StringVariable& right)
+{
+    return left.value == right.value;
+}

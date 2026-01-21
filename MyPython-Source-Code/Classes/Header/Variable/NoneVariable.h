@@ -5,6 +5,8 @@ class NoneVariable : public Variable
 {
     std::string value = NAME;
 
+    NoneVariable() = default
+    ;
 public:
     static const std::string NAME;
 
@@ -13,4 +15,6 @@ public:
     Variable * clone() const override;
 
     ~NoneVariable() override = default;
+
+    static NoneVariable& getInstance();
 };

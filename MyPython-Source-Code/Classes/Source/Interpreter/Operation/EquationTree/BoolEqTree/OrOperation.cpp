@@ -1,23 +1,23 @@
-#include "../../../../../Header/Interpreter/Operation/EquationTree/BooleanEqTree/AndOperation.h"
+#include "Interpreter/Operation/EquationTree/BooleanEqTree/OrOperation.h"
 
 #include "../Exception/TypeError.h"
 #include "Variable/BoolVariable.h"
 using std::unique_ptr;
 using std::string;
 
-const string AndOperation::NAME = "and";
+const string OrOperation::NAME = "or";
 
-AndOperation::AndOperation(unique_ptr<BasicEqTree> left,
-    unique_ptr<BasicEqTree> right) : BooleanEqTree(std::move(left), std::move(right)) { }
+OrOperation::OrOperation(unique_ptr<BasicEqTree> left,
+    unique_ptr<BasicEqTree> right) : BooleanEqTree(std::move(left), std::move(right)) {  }
 
-Variable* AndOperation::execute(Context& contex)
+Variable* OrOperation::execute(Context &contex)
 {
     Variable* leftVar = left->execute(contex);
     BoolVariable* boolLeft = dynamic_cast<BoolVariable*>(leftVar);
     if (!boolLeft)
         throw type_error("Left equation of or must result in a bool");
 
-    if (boolLeft->getValue() == false)
+    if (boolLeft->getValue() == true)
     {
         return boolLeft;
     }

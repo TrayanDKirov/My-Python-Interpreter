@@ -10,8 +10,15 @@ public:
     float toFloat() const;
     bool toBool() const;
 
-    int getValue();
+    int getValue() const;
 
     Variable* clone() const override;
     ~IntegerNumber() override = default;
+
+    friend bool operator==(const IntegerNumber& left, const IntegerNumber& right);
+    friend bool operator!=(const IntegerNumber& left, const IntegerNumber& right);
+    friend bool operator<(const IntegerNumber& left, const IntegerNumber& right);
+    friend bool operator>(const IntegerNumber& left, const IntegerNumber& right);
+    friend bool operator<=(const IntegerNumber& left, const IntegerNumber& right);
+    friend bool operator>=(const IntegerNumber& left, const IntegerNumber& right);
 };

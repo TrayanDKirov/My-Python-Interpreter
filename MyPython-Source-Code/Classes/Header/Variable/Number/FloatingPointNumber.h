@@ -12,4 +12,11 @@ public:
 
     Variable* clone() const override;
     ~FloatingPointNumber() override = default;
+
+    friend bool operator==(const FloatingPointNumber& left, const FloatingPointNumber& right);
+    friend bool operator!=(const FloatingPointNumber& left, const FloatingPointNumber& right);
+    friend bool operator<(const FloatingPointNumber& left, const FloatingPointNumber& right);
+    friend bool operator>(const FloatingPointNumber& left, const FloatingPointNumber& right);
+    friend bool operator<=(const FloatingPointNumber& left, const FloatingPointNumber& right);
+    friend bool operator>=(const FloatingPointNumber& left, const FloatingPointNumber& right);
 };

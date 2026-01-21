@@ -19,4 +19,7 @@ public:
 
     Variable* clone() const override;
     ~StringVariable() override = default;
+
+    friend bool operator==(const StringVariable& left, const StringVariable& right);
 };
+

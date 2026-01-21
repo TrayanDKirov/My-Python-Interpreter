@@ -44,5 +44,5 @@ Variable* PrintOperation::execute(Context& contex)
         }
     }
     myContext.getOutputStream() << end;
-    return new NoneVariable();
+    return &NoneVariable::getInstance();
 }

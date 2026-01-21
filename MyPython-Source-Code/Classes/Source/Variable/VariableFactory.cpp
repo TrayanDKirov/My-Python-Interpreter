@@ -87,7 +87,7 @@ Variable* VariableFactory::create(const string& value) const {
         return result;
 
     if (value == NoneVariable::NAME) {
-        return new NoneVariable();
+        return &NoneVariable::getInstance();
     }
 
     return new VoidVariable();

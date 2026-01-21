@@ -10,6 +10,9 @@ class EquationTreeFactory
 {
     OperationFactory* operationFactory;
 
+    BasicEqTree* createPr4(const std::vector<std::string>& tokens, size_t start, size_t end) const;
+    BasicEqTree* createPr5(const std::vector<std::string>& tokens, size_t start, size_t end) const;
+    BasicEqTree* createPr6(const std::vector<std::string>& tokens, size_t start, size_t end) const;
     BasicEqTree* createPr7(const std::vector<std::string>& tokens, size_t start, size_t end) const;
     BasicEqTree* createPr8(const std::vector<std::string>& tokens, size_t start, size_t end) const;
 
