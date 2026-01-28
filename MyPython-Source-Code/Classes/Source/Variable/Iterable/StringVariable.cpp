@@ -3,9 +3,8 @@
 #include <memory>
 #include <stdexcept>
 
-#include "../../../Exception/VariableException.h"
+#include "../../../Exception/ValueError.h"
 #include "../../../Header/Variable/BoolVariable.h"
-#include "../../../Header/Variable/Number/IntegerNumber.h"
 using std::make_unique;
 
 const char StringVariable::BIG_QUOTE = '"';
@@ -33,7 +32,7 @@ std::string StringVariable::toString() const
 
 int StringVariable::toInt() const {
     if (value == "")
-        throw variable_exception("empty string can not be cast to int");
+        throw value_error("ValueError: empty string can not be cast to int");
     try {
         size_t pos = 0;
         int i = std::stoi(value, &pos);
@@ -42,14 +41,14 @@ int StringVariable::toInt() const {
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
-        throw variable_exception("string is of type int but is out of range");
+        throw value_error("ValueError: string is of type int but is out of range");
     }
-    throw variable_exception("string is not of type int");
+    throw value_error("ValueError: string is not of type int");
 }
 
 float StringVariable::toFloat() const {
     if (value == "")
-        throw variable_exception("empty string can not be cast to float");
+        throw value_error("ValueError: empty string can not be cast to float");
     try {
         std::size_t pos = 0;
         float f = std::stof(value, &pos);
@@ -58,9 +57,9 @@ float StringVariable::toFloat() const {
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
-        throw variable_exception("string is of type float but is out of range. ");
+        throw value_error("ValueError: string is of type float but is out of range. ");
     }
-    throw variable_exception("string is not of type float");
+    throw value_error("ValueError: string is not of type float");
 }
 
 bool StringVariable::toBool() const {

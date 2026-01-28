@@ -1,6 +1,6 @@
 #include "../../Header/Contex/Scope.h"
 
-#include "../../Exception/ScopeException/NotInScopeException.h"
+#include "../../Exception/ValueError.h"
 #include "../../Header/Variable/VariableFactory.h"
 using std::string;
 using std::unique_ptr;
@@ -16,7 +16,7 @@ Variable* Scope::get(const string &name) {
         return parent->get(name);
     }
 
-    throw not_in_scope_exception(name);
+    throw value_error(("ValueError: " + name + "not defined in this scope").c_str());
 }
 
 const Variable* Scope::get(const string& name) const {
@@ -28,7 +28,7 @@ const Variable* Scope::get(const string& name) const {
         return parent->get(name);
     }
 
-    throw not_in_scope_exception(name);
+    throw value_error(("ValueError: " + name + "not defined in this scope").c_str());
 }
 
 bool Scope::contains(const string &name) const {

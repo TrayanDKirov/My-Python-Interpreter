@@ -80,6 +80,9 @@ add_executable(MyPython_Source_Code
         Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PercentOperation.h
         Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PowerOperation.cpp
         Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PowerOperation.h
+        Classes/Exception/ValueError.h
+        Classes/Exception/ZeroDivisionError.h
+        Classes/Exception/FileNotFoundError.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

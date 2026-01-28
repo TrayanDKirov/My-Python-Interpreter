@@ -1,10 +1,10 @@
 #include "../../Header/Variable/VariableFactory.h"
-#include "../../Exception/VariableException.h"
 #include "../../Header/Variable/Number/FloatingPointNumber.h"
 #include "../../Header/Variable/Number/IntegerNumber.h"
 
 #include <stdexcept>
 
+#include "../../Exception/ValueError.h"
 #include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.h"
 #include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/FloatCastOp.h"
 #include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.h"
@@ -27,7 +27,7 @@ Variable* createInt(const string& value)
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
-        throw variable_exception("value is of type int but is out of range. ");
+        throw value_error("ValueError: value is of type int but is out of range. ");
     } catch (...) { }
 
     return nullptr;
@@ -43,7 +43,7 @@ Variable* createFloat(const string& value)
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
-        throw variable_exception("value is of type float but is out of range. ");
+        throw value_error("ValueError: value is of type float but is out of range. ");
     } catch (...) { }
 
     return nullptr;

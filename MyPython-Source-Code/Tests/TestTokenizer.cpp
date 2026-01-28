@@ -1,6 +1,7 @@
 #include "TestTokenizer.h"
-#include "../Classes/Exception/ParsingException.h"
 #include <iostream>
+
+#include "../Classes/Exception/SyntaxError.h"
 using namespace std;
 
 
@@ -81,7 +82,7 @@ void TestTokenizer::test8() {
     std::cout << "Parsing \"x    =    10   'text 'nosepAfterEndQuote \": ";
     try {
         tokenizer.tokenize("x    =    10   'text 'nosepAfterEndQuote ");
-    } catch (parsing_exception& ex) {
+    } catch (syntax_error& ex) {
         std::cout << "Passed!" << std::endl;
         return;
     }

@@ -1,6 +1,6 @@
 #include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.h"
 
-#include "../../../../../../../Exception/VariableException.h"
+#include "../../../../../../../Exception/ValueError.h"
 #include "../../../../../../../Header/Variable/BoolVariable.h"
 #include "../../../../../../../Header/Variable/Number/FloatingPointNumber.h"
 using std::make_unique;
@@ -29,5 +29,5 @@ Variable* BoolCastOp::execute(Context& contex)
         return new BoolVariable(iVal->toBool());
     }
 
-    throw variable_exception("can not convert this type to bool");
+    throw value_error("ValueError: can not convert this type to bool");
 }

@@ -1,8 +1,5 @@
 #include "../../Header/Interpreter/Tokenizer.h"
 
-#include <pthread.h>
-
-#include "../../Exception/ParsingException.h"
 #include "../../Exception/SyntaxError.h"
 #include "../../Header/Interpreter/MpySymbols.h"
 
@@ -16,7 +13,7 @@ void Tokenizer::assertQuoteAtEndOfToken(const string& text, size_t index) const
 {
     if (isQuote(text[index]) && index+1<text.size() && text[index+1] != sep)
     {
-        throw parsing_exception(("Parsing error: quote not in end of a token - "
+        throw syntax_error(("SyntaxError: quote not in end of a token - "
              + text.substr(index-1, 3)).c_str());
     }
 }

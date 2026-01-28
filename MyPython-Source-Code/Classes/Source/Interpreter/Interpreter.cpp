@@ -1,10 +1,10 @@
 #include "../../Header/Interpreter/Interpreter.h"
-#include "../../Exception/InterpreterException.h"
 
 #include <fstream>
 #include <iostream>
 
 #include "../../Exception/Error.h"
+#include "../../Exception/FileNotFoundError.h"
 
 Interpreter::Interpreter(const std::string& fileName, std::istream& is, std::ostream& os)
     : fileName(fileName), context(is, os) { }
@@ -39,7 +39,7 @@ void Interpreter::interpretLineByLine(std::ifstream& inputFile)
             inputFile.getline(buffer, MpySymbols::MAX_BUFFER_SIZE);
         }
     } catch (error& error) {
-        context.getOutputStream() << "Line " << lineNumber <<  " Error: " << error.what() << std::endl;
+        context.getOutputStream() << "Line " << lineNumber << error.what() << std::endl;
     }
 }
 
@@ -47,7 +47,7 @@ void Interpreter::interpret() {
     std::ifstream inputFile(fileName.c_str(), std::ios::in);
     if (!inputFile.is_open())
     {
-        throw interpreter_exception("Error: file did not open. ");
+        throw file_not_found_error(("mypython: FileNotFoundError: file  " + fileName +  "  did not open. ").c_str());
     }
 
     interpretLineByLine(inputFile);
