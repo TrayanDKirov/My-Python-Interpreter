@@ -40,8 +40,10 @@ size_t Tokenizer::parseInBrackets(vector<string>& tokens, const string& text, si
         char currChar = text[i];
 
         if (currChar == endBracket) {
-            tokens.push_back(currToken);
-            currToken.clear();
+            if (!currToken.empty()) {
+                tokens.push_back(currToken);
+                currToken.clear();
+            }
 
             addChar(tokens, endBracket);
             return i;

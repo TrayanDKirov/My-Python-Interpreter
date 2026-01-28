@@ -22,24 +22,24 @@ void Interpreter::interpretLineByLine(std::ifstream& inputFile)
     char buffer[MpySymbols::MAX_BUFFER_SIZE];
     inputFile.getline(buffer, MpySymbols::MAX_BUFFER_SIZE);
     size_t lineNumber = 0;
-    while (true)
-    {
-        lineNumber++;
-        if (std::string(buffer) != std::string("")) {
-            try {
+    try {
+        while (true)
+        {
+            lineNumber++;
+            if (buffer[0] != MpySymbols::comment && std::string(buffer) != std::string("")) {
                 auto tokens = tokenizer.tokenize(buffer);
                 Operation* operation = operationFactory.create(tokens);
 
                 operation->execute(context);
                 delete operation;
-            } catch (error& error) {
-                context.getOutputStream() << "Line " << lineNumber <<  " Error: " << error.what() << std::endl;
             }
-        }
 
-        if (inputFile.eof())
-            break;
-        inputFile.getline(buffer, MpySymbols::MAX_BUFFER_SIZE);
+            if (inputFile.eof())
+                break;
+            inputFile.getline(buffer, MpySymbols::MAX_BUFFER_SIZE);
+        }
+    } catch (error& error) {
+        context.getOutputStream() << "Line " << lineNumber <<  " Error: " << error.what() << std::endl;
     }
 }
 
@@ -50,11 +50,7 @@ void Interpreter::interpret() {
         throw interpreter_exception("Error: file did not open. ");
     }
 
-    try {
-        interpretLineByLine(inputFile);
-    } catch (interpreter_exception& ex) {
-        context.getOutputStream() << "Error: " << ex.what() << std::endl;
-    }
+    interpretLineByLine(inputFile);
 
     inputFile.close();
 }

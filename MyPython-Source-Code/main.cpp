@@ -25,7 +25,7 @@ int main()
     //testTokenizer();
 
     /*Tokenizer tokenizer;
-    auto tokens = tokenizer.tokenize("f('Hi',g(8))");
+    auto tokens = tokenizer.tokenize("((3))");
     for (auto token : tokens) {
         std::cout << token << std::endl;
     }*/

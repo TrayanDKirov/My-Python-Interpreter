@@ -2,6 +2,7 @@
 
 using std::string;
 
+const char MpySymbols::comment = '#';
 const char MpySymbols::startBracket = '(';
 const char MpySymbols::endBracket = ')';
 const char MpySymbols::bigQuote = '"';

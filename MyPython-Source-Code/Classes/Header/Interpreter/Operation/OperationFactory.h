@@ -13,17 +13,17 @@ class OperationFactory
 {
     EquationTreeFactory eqTreeFactory;
     std::vector<std::unique_ptr<Operation>> parseArgs(const std::vector<std::string>& tokens,
-        size_t start, size_t end) const;
+        size_t start, size_t end);
 
-    Operation* createAssigment(const std::vector<std::string>& tokens, size_t start, size_t end) const;
+    Operation* createAssigment(const std::vector<std::string>& tokens, size_t start, size_t end);
 
-    Operation* create(const std::vector<std::string>& tokens, size_t start, size_t end) const;
+    Operation* create(const std::vector<std::string>& tokens, size_t start, size_t end);
 public:
 
     OperationFactory();
 
     LeaveOperation* createLeave(const std::vector<std::string>& tokens,
-        size_t start, size_t end) const;
+        size_t start, size_t end);
 
-    Operation* create(const std::vector<std::string>& tokens) const;
+    Operation* create(const std::vector<std::string>& tokens);
 };

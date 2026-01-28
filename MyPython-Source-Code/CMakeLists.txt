@@ -66,6 +66,20 @@ add_executable(MyPython_Source_Code
         Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/LessOrEqualOperation.h
         Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BiggerOrEqualOperation.cpp
         Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/BiggerOrEqualOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/ArithmeticEqTree.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/ArithmeticEqTree.h
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PlusOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PlusOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/MinusOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/MinusOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/MultOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/MultOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/DivOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/DivOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PercentOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PercentOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PowerOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PowerOperation.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

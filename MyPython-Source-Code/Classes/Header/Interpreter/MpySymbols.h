@@ -4,6 +4,8 @@
 
 class MpySymbols {
 public:
+    static const char comment;
+
     static const char startBracket;
     static const char endBracket;
     static const char whiteSpaceSep;

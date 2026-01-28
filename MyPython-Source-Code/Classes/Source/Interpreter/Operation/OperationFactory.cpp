@@ -26,7 +26,7 @@ int indexOf(const vector<string>& tokens, const string& toSearch, size_t start, 
     return -1;
 }
 
-Operation* OperationFactory::createAssigment(const vector<string>& tokens, size_t start, size_t end) const {
+Operation* OperationFactory::createAssigment(const vector<string>& tokens, size_t start, size_t end) {
     int index = indexOf(tokens, Assignment::ASSIGMENT_OPERATOR, start, end);
     if (index < start || index >= end) {
         return nullptr;
@@ -43,7 +43,7 @@ Operation* OperationFactory::createAssigment(const vector<string>& tokens, size_
 }
 
 vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& tokens,
-                                                          size_t start, size_t end) const
+                                                          size_t start, size_t end)
 {
     vector<unique_ptr<Operation>> result;
     if (!MpySymbols::isStartBracket(tokens[start-1])
@@ -74,7 +74,7 @@ vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& 
     return result;
 }
 
-Operation * OperationFactory::create(const std::vector<std::string> &tokens, size_t start, size_t end) const
+Operation * OperationFactory::create(const std::vector<std::string> &tokens, size_t start, size_t end)
 {
     Operation* result = createAssigment(tokens, start, end);
     if (result)
@@ -96,7 +96,7 @@ bool isTupleEnd(const string& str) {
     return str.size() == 1 && str[0] == MpySymbols::endBracket;
 }
 
-LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size_t start, size_t end) const {
+LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size_t start, size_t end) {
     if (end-start == 1) {
         return new EvalOp(tokens[start]);
     }
@@ -129,7 +129,7 @@ LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size
     return nullptr;
 }
 
-Operation* OperationFactory::create(const std::vector<std::string>& tokens) const
+Operation* OperationFactory::create(const std::vector<std::string>& tokens)
 {
     return create(tokens, 0, tokens.size());
 }

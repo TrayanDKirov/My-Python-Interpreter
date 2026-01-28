@@ -1,4 +1,5 @@
 #pragma once
+#include "FloatingPointNumber.h"
 #include "Number.h"
 
 class IntegerNumber : public Number {
@@ -14,6 +15,16 @@ public:
 
     Variable* clone() const override;
     ~IntegerNumber() override = default;
+
+    friend IntegerNumber operator+(const IntegerNumber& left, const IntegerNumber& right);
+    friend IntegerNumber operator-(const IntegerNumber& left, const IntegerNumber& right);
+    friend IntegerNumber operator*(const IntegerNumber& left, const IntegerNumber& right);
+    friend FloatingPointNumber operator/(const IntegerNumber& left, const IntegerNumber& right);
+    friend IntegerNumber operator%(const IntegerNumber& left, const IntegerNumber& right);
+
+    friend IntegerNumber power(const IntegerNumber& left, const IntegerNumber& right);
+
+    friend IntegerNumber opWholeDivision(const IntegerNumber& left, const IntegerNumber& right);
 
     friend bool operator==(const IntegerNumber& left, const IntegerNumber& right);
     friend bool operator!=(const IntegerNumber& left, const IntegerNumber& right);

@@ -1,4 +1,5 @@
 #include "../../../Header/Variable/Number/FloatingPointNumber.h"
+#include <cmath>
 
 FloatingPointNumber::FloatingPointNumber(float value) : value(value) { }
 
@@ -17,6 +18,28 @@ int FloatingPointNumber::toBool() const {
 Variable * FloatingPointNumber::clone() const
 {
     return new FloatingPointNumber(*this);
+}
+
+FloatingPointNumber operator+(const FloatingPointNumber& left, const FloatingPointNumber& right)
+{
+    return left.value + right.value;
+}
+FloatingPointNumber operator-(const FloatingPointNumber& left, const FloatingPointNumber& right)
+{
+    return left.value - right.value;
+}
+FloatingPointNumber operator*(const FloatingPointNumber& left, const FloatingPointNumber& right)
+{
+    return left.value * right.value;
+}
+FloatingPointNumber operator/(const FloatingPointNumber& left, const FloatingPointNumber& right)
+{
+    return left.value / right.value;
+}
+
+FloatingPointNumber power(const FloatingPointNumber &left, const FloatingPointNumber &right)
+{
+    return FloatingPointNumber(std::pow(left.value, right.value));
 }
 
 bool operator==(const FloatingPointNumber& left, const FloatingPointNumber& right)
