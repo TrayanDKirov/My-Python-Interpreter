@@ -90,7 +90,7 @@ string Tokenizer::transformText(const string& text)
 {
     string result = "";
     bool isInQuotes = false;
-    char quotes;
+    char quotes = ' ';
     for (size_t i = 0; i < text.size(); i++)
     {
         if (isInQuotes || (!MpySymbols::isOperator(text[i]) && !isQuote(text[i]))) {

@@ -90,7 +90,7 @@ Variable* VariableFactory::create(const string& value) const {
         return &NoneVariable::getInstance();
     }
 
-    return new VoidVariable();
+    return &VoidVariable::getInstance();
 }
 
 Variable* VariableFactory::createByName(const std::string &value, Context &context) const

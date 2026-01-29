@@ -1,6 +1,11 @@
 #include "Interpreter/Operation/OperationFactory.h"
 
+#include <emmintrin.h>
+#include <ranges>
+#include <pstl/parallel_backend_serial.h>
+
 #include "../../../Exception/Error.h"
+#include "../../../Exception/SyntaxError.h"
 #include "../../../Header/Interpreter/MpySymbols.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.h"
@@ -9,12 +14,52 @@
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.h"
+#include "Interpreter/Operation/IfOperation.h"
+#include "Interpreter/Operation/PassOperation.h"
 
 using std::vector;
 using std::string;
 using std::unique_ptr;
 
 #include "../../../Header/Interpreter/Operation/Assignment.h"
+
+OperationFactory::OperationFactory(vector<string>& lines)
+    : lines(lines), eqTreeFactory(this), indentation(4) { }
+
+OperationFactory::OperationFactory(vector<string>& lines, size_t indentation)
+    : lines(lines), eqTreeFactory(this), indentation(indentation) { }
+
+vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& tokens,
+                                                          size_t start, size_t end)
+{
+    vector<unique_ptr<Operation>> result;
+    if (!MpySymbols::isStartBracket(tokens[start-1])
+        || !MpySymbols::isEndBracket(tokens[end]))
+        return result;
+
+    size_t currStart = start;
+    int bracketCounter = 0;
+    bool ignoreCommas = false;
+    for (size_t i = start; i < tokens.size(); i++) {
+        if (MpySymbols::isStartBracket(tokens[i])) {
+            ignoreCommas = true;
+            bracketCounter++;
+        } else if (MpySymbols::isEndBracket(tokens[i]))
+            bracketCounter--;
+        if (ignoreCommas && bracketCounter == 0)
+            ignoreCommas = false;
+        if (!ignoreCommas &&
+            (MpySymbols::isCommaSep(tokens[i]) || i == tokens.size()-1 || i == end)) {
+            result.push_back(unique_ptr<Operation>(create(tokens, currStart, i)));
+            if (i == end || i == tokens.size()-1) {
+                break;
+            }
+            currStart = i + 1;
+            }
+    }
+
+    return result;
+}
 
 int indexOf(const vector<string>& tokens, const string& toSearch, size_t start, size_t end) {
     for (size_t i = start; i < end && i < tokens.size(); i++) {
@@ -42,51 +87,91 @@ Operation* OperationFactory::createAssigment(const vector<string>& tokens, size_
             eqTreeFactory.create(tokens, index+1, end)));
 }
 
-vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& tokens,
-                                                          size_t start, size_t end)
-{
-    vector<unique_ptr<Operation>> result;
-    if (!MpySymbols::isStartBracket(tokens[start-1])
-        || !MpySymbols::isEndBracket(tokens[end]))
-        return result;
+bool OperationFactory::hasCorrectIndentation(size_t ind) {
+    return ind % indentation == 0;
+}
 
-    size_t currStart = start;
-    int bracketCounter = 0;
-    bool ignoreCommas = false;
-    for (size_t i = start; i < tokens.size(); i++) {
-        if (MpySymbols::isStartBracket(tokens[i])) {
-            ignoreCommas = true;
-            bracketCounter++;
-        } else if (MpySymbols::isEndBracket(tokens[i]))
-            bracketCounter--;
-        if (ignoreCommas && bracketCounter == 0)
-            ignoreCommas = false;
-        if (!ignoreCommas &&
-            (MpySymbols::isCommaSep(tokens[i]) || i == tokens.size()-1 || i == end)) {
-            result.push_back(unique_ptr<Operation>(create(tokens, currStart,i)));
-            if (i == end || i == tokens.size()-1) {
-                break;
-            }
-            currStart = i + 1;
+bool OperationFactory::hasCorrectIndentation(size_t ind, size_t currIndentation)
+{
+    return ind == currIndentation;
+}
+
+size_t getIndentation(const string& line)
+{
+    size_t index = 0;
+    while (index < line.size() && line[index] == MpySymbols::whiteSpaceSep)
+        index++;
+
+    return index;
+}
+
+bool isPrefixIgnoreInd(const string& prefix, const string& line)
+{
+    size_t ind = getIndentation(line);
+    for (size_t i = 0; i < prefix.size(); i++) {
+        if (i+ind >= line.size() || prefix[i] != line[i+ind])
+            return false;
+    }
+
+    return true;
+}
+
+IfOperation* OperationFactory::createIfBody(const std::vector<std::string>& tokens,
+    size_t start, size_t end, size_t& currLineIndex) {
+    unique_ptr<BasicEqTree> cond  = unique_ptr<BasicEqTree>(eqTreeFactory.create(tokens, start, end));
+
+    OperationBody ifBody = readBody(currLineIndex);
+    if (currLineIndex < lines.size() && isPrefixIgnoreInd(IfOperation::ELIF_NAME, lines[currLineIndex])) {
+        vector<string> newLineTokens = tokenizer.tokenize(lines[currLineIndex]);
+
+        unique_ptr<IfOperation> elif = unique_ptr<IfOperation>(createIfBody(newLineTokens,
+            1, newLineTokens.size()-1, currLineIndex));
+
+        return new IfOperation(cond, ifBody, elif);
+    }
+
+    if (currLineIndex < lines.size() && isPrefixIgnoreInd(IfOperation::ELSE_NAME, lines[currLineIndex]))
+    {
+        vector<string> elseTokens = tokenizer.tokenize(lines[currLineIndex]);
+
+        if (elseTokens.size() == 2 && elseTokens[0] == IfOperation::ELSE_NAME && MpySymbols::isScopeStart(elseTokens[1])) {
+            OperationBody elseBody = readBody(currLineIndex);
+
+            return new IfOperation(cond, ifBody, elseBody);
         }
     }
 
-    return result;
+    currLineIndex--;
+    return new IfOperation(cond, ifBody);
 }
 
-Operation * OperationFactory::create(const std::vector<std::string> &tokens, size_t start, size_t end)
+Operation* OperationFactory::createIf(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLineIndex)
 {
-    Operation* result = createAssigment(tokens, start, end);
-    if (result)
-        return result;
-    result = eqTreeFactory.create(tokens, start, end);
-    if (result)
-        return result;
+    if (tokens[start] != IfOperation::IF_NAME || !MpySymbols::isScopeStart(tokens[end-1]))
+        return nullptr;
 
-    return nullptr;
+    return createIfBody(tokens, start+1, end-1, currLineIndex);
 }
 
-OperationFactory::OperationFactory() : eqTreeFactory(this) { }
+OperationBody OperationFactory::readBody(size_t& currLineIndex)
+{
+    vector<unique_ptr<Operation>> operations;
+
+    size_t currInd = getIndentation(lines[currLineIndex]);
+    if (!hasCorrectIndentation(currInd))
+        throw syntax_error("SyntaxError: indentation is not correct");
+
+    currLineIndex++;
+    while (currLineIndex < lines.size() && getIndentation(lines[currLineIndex]) == currInd + indentation)
+    {
+        operations.push_back(unique_ptr<Operation>(create(currLineIndex)));
+    }
+
+    if (currLineIndex < lines.size() && getIndentation(lines[currLineIndex]) != currInd)
+        throw syntax_error("SyntaxError: indentation is not correct");
+
+    return operations;
+}
 
 bool isTupleStart(const string& str) {
     return str.size() == 1 && str[0] == MpySymbols::startBracket;
@@ -129,7 +214,43 @@ LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size
     return nullptr;
 }
 
-Operation* OperationFactory::create(const std::vector<std::string>& tokens)
+Operation * OperationFactory::create(const std::vector<std::string> &tokens, size_t start, size_t end)
 {
-    return create(tokens, 0, tokens.size());
+    Operation* result = createAssigment(tokens, start, end);
+    if (result)
+        return result;
+    result = eqTreeFactory.create(tokens, start, end);
+    if (result)
+        return result;
+
+    return nullptr;
+}
+
+Operation * OperationFactory::create(const std::vector<std::string> &tokens, size_t start, size_t end, size_t& currLine)
+{
+    if (tokens.empty())
+        return new PassOperation();
+
+    Operation* result = createAssigment(tokens, start, end);
+    if (result)
+        return result;
+
+    result = createIf(tokens, start, end, currLine);
+    if (result)
+        return result;
+
+    result = createLeave(tokens, start, end);
+    if (result)
+        return result;
+
+    return nullptr;
+}
+
+Operation * OperationFactory::create(size_t& currLineIndex) {
+    vector<string> tokens = tokenizer.tokenize(lines[currLineIndex]);
+
+    Operation* result = create(tokens, 0, tokens.size(), currLineIndex);
+    currLineIndex++;
+
+    return result;
 }

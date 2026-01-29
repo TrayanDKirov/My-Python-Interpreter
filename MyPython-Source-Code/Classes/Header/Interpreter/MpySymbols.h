@@ -4,6 +4,7 @@
 
 class MpySymbols {
 public:
+    static const char scopeStart;
     static const char comment;
 
     static const char startBracket;
@@ -31,6 +32,8 @@ public:
     static const std::string EQUALS;
 
     static const size_t MAX_BUFFER_SIZE;
+
+    static bool isScopeStart(const std::string& str);
 
     static bool isOperator(char ch);
     static bool isPowerOperator(char ch1, char ch2);

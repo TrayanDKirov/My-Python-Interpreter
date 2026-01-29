@@ -7,13 +7,13 @@
 #include "../Variable/VariableFactory.h"
 
 class Interpreter {
-    std::string fileName = "";
+    std::string fileName;
     Context context;
-
-    Tokenizer tokenizer;
     OperationFactory operationFactory;
+    std::vector<std::string> lines;
 
-    void interpretLineByLine(std::ifstream& inputFile);
+    void readLines(std::ifstream& inputFile);
+    void readFile();
 
 public:
     Interpreter(const std::string& fileName, std::istream& is, std::ostream& os);

@@ -25,7 +25,7 @@ int main()
     //testTokenizer();
 
     /*Tokenizer tokenizer;
-    auto tokens = tokenizer.tokenize("((3))");
+    auto tokens = tokenizer.tokenize("if a**b == 4:");
     for (auto token : tokens) {
         std::cout << token << std::endl;
     }*/

@@ -2,6 +2,8 @@
 
 using std::string;
 
+const char MpySymbols::scopeStart = ':';
+
 const char MpySymbols::comment = '#';
 const char MpySymbols::startBracket = '(';
 const char MpySymbols::endBracket = ')';
@@ -29,10 +31,15 @@ const std::string MpySymbols::EQUALS = "==";
 
 const size_t MpySymbols::MAX_BUFFER_SIZE = 1024;
 
+bool MpySymbols::isScopeStart(const std::string& str) {
+    return str.size() == 1 && str[0] == scopeStart;
+}
+
 bool MpySymbols::isOperator(char ch)
 {
     return ch == less || ch == more || ch == plus || ch == minus ||
-        ch == mult || ch == div || ch == per || ch == equal || ch == different;
+        ch == mult || ch == div || ch == per || ch == equal
+        || ch == different || ch == scopeStart;
 }
 
 bool MpySymbols::isPowerOperator(char ch1, char ch2) {
@@ -67,6 +74,7 @@ bool MpySymbols::isStartBracket(const std::string &str) {
 bool MpySymbols::isEndBracket(const std::string &str) {
     return str.size() == 1 && str[0] == endBracket;
 }
+
 string MpySymbols::toMpyString(const string& str) {
     string quote = "";
     quote.push_back(bigQuote);

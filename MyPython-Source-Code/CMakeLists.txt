@@ -83,6 +83,12 @@ add_executable(MyPython_Source_Code
         Classes/Exception/ValueError.h
         Classes/Exception/ZeroDivisionError.h
         Classes/Exception/FileNotFoundError.h
+        Classes/Source/Interpreter/Operation/IfOperation.cpp
+        Classes/Header/Interpreter/Operation/IfOperation.h
+        Classes/Source/Interpreter/Operation/OperationBody.cpp
+        Classes/Header/Interpreter/Operation/OperationBody.h
+        Classes/Source/Interpreter/Operation/PassOperation.cpp
+        Classes/Header/Interpreter/Operation/PassOperation.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

@@ -7,3 +7,9 @@ std::string VoidVariable::toString() const {
 Variable* VoidVariable::clone() const {
     return new VoidVariable(*this);
 }
+
+VoidVariable & VoidVariable::getInstance() {
+    static VoidVariable voidVar;
+
+    return voidVar;
+}
