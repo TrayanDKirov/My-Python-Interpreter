@@ -16,18 +16,24 @@ FloatCastOp::FloatCastOp(std::vector<unique_ptr<Operation>>& args) : CastOperati
 Variable* FloatCastOp::execute(Context& contex)
 {
     Variable* val = args[0].get()->execute(contex);
-    if (StringVariable* strVal = dynamic_cast<StringVariable*>(val)) {
-        return new FloatingPointNumber(strVal->toFloat());
+    FloatingPointNumber* result = nullptr;
+    
+    if (auto strVal = dynamic_cast<StringVariable*>(val)) {
+        result = new FloatingPointNumber(strVal->toFloat());
     }
-    if (FloatingPointNumber* fVal = dynamic_cast<FloatingPointNumber*>(val)) {
-        return fVal->clone();
+    else if (auto fVal = dynamic_cast<FloatingPointNumber*>(val)) {
+        result = dynamic_cast<FloatingPointNumber*>(fVal->clone());
     }
-    if (BoolVariable* bVal = dynamic_cast<BoolVariable*>(val)) {
-        return new FloatingPointNumber(bVal->toFloat());
+    else if (auto bVal = dynamic_cast<BoolVariable*>(val)) {
+        result = new FloatingPointNumber(bVal->toFloat());
     }
-    if (IntegerNumber* iVal = dynamic_cast<IntegerNumber*>(val)) {
-        return new FloatingPointNumber(iVal->toFloat());
+    else if (auto iVal = dynamic_cast<IntegerNumber*>(val)) {
+        result = new FloatingPointNumber(iVal->toFloat());
     }
+
+    delete val;
+    if (result)
+        return result;
 
     throw value_error("ValueError: can not convert this type to float");
 }

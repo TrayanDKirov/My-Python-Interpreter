@@ -16,5 +16,7 @@ public:
     std::istream& getInputStream();
     std::ostream& getOutputStream();
 
+    Context getSubContext();
+
     friend std::ostream& operator<<(std::ostream& os, const Context& contex);
 };

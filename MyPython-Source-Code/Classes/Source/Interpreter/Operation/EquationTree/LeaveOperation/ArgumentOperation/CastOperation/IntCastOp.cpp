@@ -16,18 +16,24 @@ IntCastOp::IntCastOp(std::vector<unique_ptr<Operation>>& args) : CastOperation(a
 Variable* IntCastOp::execute(Context& contex)
 {
     Variable* val = args[0].get()->execute(contex);
-    if (StringVariable* strVal = dynamic_cast<StringVariable*>(val)) {
-        return new IntegerNumber(strVal->toInt());
+    IntegerNumber* result = nullptr;
+    
+    if (auto strVal = dynamic_cast<StringVariable*>(val)) {
+        result = new IntegerNumber(strVal->toInt());
     }
-    if (FloatingPointNumber* fVal = dynamic_cast<FloatingPointNumber*>(val)) {
-        return new IntegerNumber(fVal->toInt());
+    else if (auto fVal = dynamic_cast<FloatingPointNumber*>(val)) {
+        result = new IntegerNumber(fVal->toInt());
     }
-    if (BoolVariable* bVal = dynamic_cast<BoolVariable*>(val)) {
-        return new IntegerNumber(bVal->toInt());
+    else if (auto bVal = dynamic_cast<BoolVariable*>(val)) {
+        result = new IntegerNumber(bVal->toInt());
     }
-    if (IntegerNumber* iVal = dynamic_cast<IntegerNumber*>(val)) {
-        return iVal->clone();
+    else if (auto iVal = dynamic_cast<IntegerNumber*>(val)) {
+        result = dynamic_cast<IntegerNumber*>(iVal->clone());
     }
+
+    delete val;
+    if (result)
+        return result;
 
     throw value_error("ValueError: can not convert this type to int");
 }

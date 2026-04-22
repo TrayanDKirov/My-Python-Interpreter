@@ -7,7 +7,6 @@ class VariableFactory;
 class EvalOp : public LeaveOperation
 {
     std::string value;
-    const VariableFactory* variableFactory;
 
 public:
 

@@ -16,6 +16,7 @@
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.h"
 #include "Interpreter/Operation/IfOperation.h"
 #include "Interpreter/Operation/PassOperation.h"
+#include "Interpreter/Operation/WhileOperation.h"
 
 using std::vector;
 using std::string;
@@ -137,6 +138,7 @@ IfOperation* OperationFactory::createIfBody(const std::vector<std::string>& toke
         if (elseTokens.size() == 2 && elseTokens[0] == IfOperation::ELSE_NAME && MpySymbols::isScopeStart(elseTokens[1])) {
             OperationBody elseBody = readBody(currLineIndex);
 
+            currLineIndex--;
             return new IfOperation(cond, ifBody, elseBody);
         }
     }
@@ -153,6 +155,19 @@ Operation* OperationFactory::createIf(const std::vector<std::string>& tokens, si
     return createIfBody(tokens, start+1, end-1, currLineIndex);
 }
 
+Operation * OperationFactory::createWhile(const std::vector<std::string>& tokens, size_t start, size_t end,
+    size_t& currLineIndex) {
+    if (tokens[start] != WhileOperation::NAME || !MpySymbols::isScopeStart(tokens[end-1]))
+        return nullptr;
+
+    unique_ptr<BasicEqTree> cond  = unique_ptr<BasicEqTree>(eqTreeFactory.create(tokens, start+1, end-1));
+
+    OperationBody body = readBody(currLineIndex);
+
+    currLineIndex--;
+    return new WhileOperation(cond, body);
+}
+
 OperationBody OperationFactory::readBody(size_t& currLineIndex)
 {
     vector<unique_ptr<Operation>> operations;
@@ -167,8 +182,12 @@ OperationBody OperationFactory::readBody(size_t& currLineIndex)
         operations.push_back(unique_ptr<Operation>(create(currLineIndex)));
     }
 
-    if (currLineIndex < lines.size() && getIndentation(lines[currLineIndex]) != currInd)
-        throw syntax_error("SyntaxError: indentation is not correct");
+    if (currLineIndex < lines.size()) {
+        size_t ind = getIndentation(lines[currLineIndex]);
+        if (!hasCorrectIndentation(ind) || ind > currInd) {
+            throw syntax_error("SyntaxError: indentation is not correct");
+        }
+    }
 
     return operations;
 }
@@ -236,6 +255,10 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
         return result;
 
     result = createIf(tokens, start, end, currLine);
+    if (result)
+        return result;
+
+    result = createWhile(tokens, start, end, currLine);
     if (result)
         return result;
 

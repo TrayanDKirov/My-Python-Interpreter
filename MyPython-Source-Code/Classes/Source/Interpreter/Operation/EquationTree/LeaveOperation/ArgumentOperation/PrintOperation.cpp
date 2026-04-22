@@ -17,11 +17,11 @@ void PrintOperation::assignVars(Context& myContext) {
     myContext.getScope().assign("sep", "' '");
     this->variables = getArgs(myContext);
     StringVariable* sepVar = dynamic_cast<StringVariable*>(myContext.getScope().get("sep"));
-    if (!(sepVar))
-        throw type_error(("type of sep must be" + StringCastOp::NAME).c_str());
+    if (!sepVar)
+        throw type_error(("type of sep must be " + StringCastOp::NAME).c_str());
     StringVariable* endVar = dynamic_cast<StringVariable*>(myContext.getScope().get("end"));
     if (!endVar)
-        throw type_error(("type of sep must be" + StringCastOp::NAME).c_str());
+        throw type_error(("type of end must be " + StringCastOp::NAME).c_str());
 
     this->sep = sepVar->toString();
     this->end = endVar->toString();
@@ -32,17 +32,16 @@ PrintOperation::PrintOperation(std::vector<std::unique_ptr<Operation>>& args)
 
 Variable* PrintOperation::execute(Context& contex)
 {
-    Context myContext = Context(Scope(&contex.getScope()),
-        contex.getInputStream(), contex.getOutputStream());
+    Context myContext = contex.getSubContext();
     assignVars(myContext);
     for (size_t i = 0; i < variables.size(); i++)
     {
         myContext.getOutputStream() << variables[i]->toString();
-        if (i != args.size())
+        if (i != variables.size() - 1)
         {
             myContext.getOutputStream() << sep;
         }
     }
     myContext.getOutputStream() << end;
-    return &NoneVariable::getInstance();
+    return NoneVariable::getInstance().clone();
 }

@@ -6,7 +6,8 @@ OperationBody::OperationBody(std::vector<std::unique_ptr<Operation>>& operations
 void OperationBody::execute(Context &context) {
     for (size_t i = 0; i < operations.size(); i++)
     {
-        operations[i]->execute(context);
+        Variable* var = operations[i]->execute(context);
+        delete var;
     }
 }
 

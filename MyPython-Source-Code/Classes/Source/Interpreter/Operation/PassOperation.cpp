@@ -5,6 +5,6 @@ using std::string;
 
 const string PassOperation::NAME = "pass";
 
-Variable * PassOperation::execute(Context &contex) {
-    return &VoidVariable::getInstance();
+Variable* PassOperation::execute(Context &contex) {
+    return VoidVariable::getInstance().clone();
 }

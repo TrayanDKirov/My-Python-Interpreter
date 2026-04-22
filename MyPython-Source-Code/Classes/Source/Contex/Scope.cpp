@@ -16,7 +16,7 @@ Variable* Scope::get(const string &name) {
         return parent->get(name);
     }
 
-    throw value_error(("ValueError: " + name + "not defined in this scope").c_str());
+    throw value_error(("ValueError: " + name + " not defined in this scope").c_str());
 }
 
 const Variable* Scope::get(const string& name) const {
@@ -28,12 +28,12 @@ const Variable* Scope::get(const string& name) const {
         return parent->get(name);
     }
 
-    throw value_error(("ValueError: " + name + "not defined in this scope").c_str());
+    throw value_error(("ValueError: " + name + " not defined in this scope").c_str());
 }
 
 bool Scope::contains(const string &name) const {
     auto iter = names.find(name);
-    if (iter == names.end()) {
+    if (iter != names.end()) {
         return true;
     }
     if (parent) {

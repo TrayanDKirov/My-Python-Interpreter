@@ -17,5 +17,5 @@ Variable* Assignment::execute(Context& contex)
 {
     unique_ptr<Variable> value(operation->execute(contex));
     contex.getScope().assign(name,  std::move(value));
-    return &VoidVariable::getInstance();
+    return VoidVariable::getInstance().clone();
 }

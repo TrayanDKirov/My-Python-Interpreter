@@ -29,6 +29,10 @@ std::ostream & Context::getOutputStream()
     return this->os;
 }
 
+Context Context::getSubContext() {
+    return Context(Scope(&scope), is, os);
+}
+
 std::ostream& operator<<(std::ostream& os, const Context& contex)
 {
     return os << contex.scope;

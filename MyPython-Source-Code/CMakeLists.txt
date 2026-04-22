@@ -89,6 +89,8 @@ add_executable(MyPython_Source_Code
         Classes/Header/Interpreter/Operation/OperationBody.h
         Classes/Source/Interpreter/Operation/PassOperation.cpp
         Classes/Header/Interpreter/Operation/PassOperation.h
+        Classes/Source/Interpreter/Operation/WhileOperation.cpp
+        Classes/Header/Interpreter/Operation/WhileOperation.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

@@ -18,7 +18,7 @@ InputOperation::InputOperation(std::vector<std::unique_ptr<Operation>> &args)
 
 Variable* InputOperation::execute(Context& contex)
 {
-    print->execute(contex);
+    delete print->execute(contex);
 
     string value = "";
     char buffer[MpySymbols::MAX_BUFFER_SIZE];

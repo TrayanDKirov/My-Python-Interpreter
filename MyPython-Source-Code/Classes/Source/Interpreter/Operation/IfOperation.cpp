@@ -47,11 +47,13 @@ Variable * IfOperation::execute(Context& contex) {
         ifBody.execute(contex);
     }
     else if (hasElif) {
-        elif->execute(contex);
+        delete elif->execute(contex);
     }
-    else  if (hasElse) {
+    else if (hasElse) {
         elseBody.execute(contex);
     }
 
-    return &VoidVariable::getInstance();
+    delete condResult;
+
+    return VoidVariable::getInstance().clone();
 }

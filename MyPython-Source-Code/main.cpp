@@ -1,38 +1,48 @@
-#include <filesystem>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include "Classes/Header/Interpreter/Interpreter.h"
-#include "Tests/TestTokenizer.h"
 
-void testTokenizer() {
-    Tokenizer tokenizer;
+struct TestCase {
+    std::string fileName;
+    std::string expected;
+};
 
-    char buffer[1024];
-    std::cin.getline(buffer, 1024);
-    auto v = tokenizer.tokenize(buffer);
-    for (size_t i = 0; i < v.size(); i++) {
-        std::cout << v[i];
-        if (i != v.size()-1) {
-            std::cout << ", ";
-        }
-    }
+void runTest(const TestCase& test) {
+    std::ostringstream actual;
+    Interpreter interpreter(test.fileName, std::cin, actual);
+    interpreter.interpret();
+
+    std::cout << "=== " << test.fileName << " ===\n";
+    std::cout << "Expected:\n" << test.expected;
+    std::cout << "Actual:\n"   << actual.str();
+    std::cout << (actual.str() == test.expected ? "PASS" : "FAIL") << "\n\n";
 }
 
 int main()
 {
-    /*TestTokenizer test_tokenizer;
-    test_tokenizer.runTests();*/
+    TestCase tests[] = {
+        {
+            "testFile1.mpy",
+            "8\n2\n15\n2\n125\n"
+        },
+        {
+            "testFile2.mpy",
+            "False\nTrue\nTrue\nFalse\nTrue\nFalse\nTrue\n"
+        },
+        {
+            "testFile3.mpy",
+            "big\nmedium\nnot positive\n"
+        },
+        {
+            "testFile4.mpy",
+            "42\n3.140000\nFalse\nTrue\n1\n"
+        }
+    };
 
-    //testTokenizer();
-
-    /*Tokenizer tokenizer;
-    auto tokens = tokenizer.tokenize("if a**b == 4:");
-    for (auto token : tokens) {
-        std::cout << token << std::endl;
-    }*/
-
-    Interpreter interpreter("testFile.mpy", std::cin, std::cout);
-    std::cout << interpreter.getFileName() << ": " << std::endl;
-    interpreter.interpret();
+    for (const auto& test : tests) {
+        runTest(test);
+    }
 
     return 0;
 }

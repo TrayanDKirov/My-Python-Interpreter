@@ -16,18 +16,24 @@ BoolCastOp::BoolCastOp(std::vector<unique_ptr<Operation>>& args) : CastOperation
 Variable* BoolCastOp::execute(Context& contex)
 {
     Variable* val = args[0].get()->execute(contex);
-    if (StringVariable* strVal = dynamic_cast<StringVariable*>(val)) {
-        return new BoolVariable(strVal->toBool());
+    BoolVariable* result = nullptr;
+    
+    if (auto strVal = dynamic_cast<StringVariable*>(val)) {
+        result = new BoolVariable(strVal->toBool());
     }
-    if (FloatingPointNumber* fVal = dynamic_cast<FloatingPointNumber*>(val)) {
-        return new BoolVariable(fVal->toBool());
+    else if (auto fVal = dynamic_cast<FloatingPointNumber*>(val)) {
+        result = new BoolVariable(fVal->toBool());
     }
-    if (BoolVariable* bVal = dynamic_cast<BoolVariable*>(val)) {
-        return bVal->clone();
+    else if (auto bVal = dynamic_cast<BoolVariable*>(val)) {        
+        result = dynamic_cast<BoolVariable*>(bVal->clone());
     }
-    if (IntegerNumber* iVal = dynamic_cast<IntegerNumber*>(val)) {
-        return new BoolVariable(iVal->toBool());
+    else if (auto iVal = dynamic_cast<IntegerNumber*>(val)) {
+        result = new BoolVariable(iVal->toBool());
     }
+
+    delete val;
+    if (result)
+        return result;
 
     throw value_error("ValueError: can not convert this type to bool");
 }

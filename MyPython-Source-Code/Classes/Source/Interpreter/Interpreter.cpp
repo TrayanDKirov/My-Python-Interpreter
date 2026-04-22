@@ -50,7 +50,7 @@ void Interpreter::interpret()
         while (currLineIndex < lines.size())
         {
             Operation* operation = operationFactory.create(currLineIndex);
-            operation->execute(context);
+            delete operation->execute(context);
 
             delete operation;
         }

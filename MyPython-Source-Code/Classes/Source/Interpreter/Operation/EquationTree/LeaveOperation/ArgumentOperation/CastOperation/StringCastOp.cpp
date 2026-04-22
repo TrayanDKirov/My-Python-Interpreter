@@ -16,18 +16,24 @@ StringCastOp::StringCastOp(std::vector<unique_ptr<Operation>>& args) : CastOpera
 Variable* StringCastOp::execute(Context& contex)
 {
     Variable* val = args[0].get()->execute(contex);
-    if (StringVariable* strVal = dynamic_cast<StringVariable*>(val)) {
-        return strVal->clone();
+    StringVariable* result = nullptr;
+    
+    if (auto strVal = dynamic_cast<StringVariable*>(val)) {
+        result = dynamic_cast<StringVariable*>(strVal->clone());
     }
-    if (FloatingPointNumber* fVal = dynamic_cast<FloatingPointNumber*>(val)) {
-        return new StringVariable(fVal->toString());
+    else if (auto fVal = dynamic_cast<FloatingPointNumber*>(val)) {
+        result = new StringVariable(fVal->toString());
     }
-    if (BoolVariable* bVal = dynamic_cast<BoolVariable*>(val)) {
-        return new StringVariable(bVal->toString());
+    else if (auto bVal = dynamic_cast<BoolVariable*>(val)) {
+        result = new StringVariable(bVal->toString());
     }
-    if (IntegerNumber* iVal = dynamic_cast<IntegerNumber*>(val)) {
-        return new StringVariable(iVal->toString());
+    else if (auto iVal = dynamic_cast<IntegerNumber*>(val)) {
+        result = new StringVariable(iVal->toString());
     }
+
+    delete val;
+    if (result)
+        return result;
 
     throw value_error("ValueError: can not convert this type to string");
 }
