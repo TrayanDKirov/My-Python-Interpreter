@@ -87,10 +87,10 @@ Variable* VariableFactory::create(const string& value) const {
         return result;
 
     if (value == NoneVariable::NAME) {
-        return &NoneVariable::getInstance();
+        return NoneVariable::getInstance().clone();
     }
 
-    return &VoidVariable::getInstance();
+    return VoidVariable::getInstance().clone();
 }
 
 Variable* VariableFactory::createByName(const std::string &value, Context &context) const
