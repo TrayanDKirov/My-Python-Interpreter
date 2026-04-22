@@ -98,11 +98,13 @@ Variable* DifferentOperation::execute(Context& contex)
         result = compareString(leftVar, rightVar);
     if (!result)
         result = compareFloat(leftVar, rightVar);
+    if (!result)
+        result = compareNone(leftVar, rightVar);
 
     delete leftVar;
     delete rightVar;
 
     if (!result)
-        throw type_error("Left and right side of != must be the same type. ");
+        return new BoolVariable(false);
     return result;
 }

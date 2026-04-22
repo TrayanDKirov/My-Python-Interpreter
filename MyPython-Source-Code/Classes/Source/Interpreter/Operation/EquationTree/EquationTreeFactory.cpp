@@ -64,11 +64,6 @@ BasicEqTree* EquationTreeFactory::createPr3(const std::vector<std::string> &toke
             return new DivOperation(unique_ptr<BasicEqTree>(createPr3(tokens, start, i)),
                 unique_ptr<BasicEqTree>(createPr3(tokens, i+1, end)));
         }
-        if (tokens[i] == PercentOperation::NAME)
-        {
-            return new PercentOperation(unique_ptr<BasicEqTree>(createPr3(tokens, start, i)),
-                unique_ptr<BasicEqTree>(createPr3(tokens, i+1, end)));
-        }
         if (tokens[i] == PercentOperation::NAME) {
             return new PercentOperation(unique_ptr<BasicEqTree>(createPr3(tokens, start, i)),
                 unique_ptr<BasicEqTree>(createPr3(tokens, i+1, end)));

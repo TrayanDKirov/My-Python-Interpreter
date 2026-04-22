@@ -14,8 +14,11 @@ Variable* NotOperation::execute(Context &contex)
 {
     Variable* rightVar = right->execute(contex);
     BoolVariable* boolRight = dynamic_cast<BoolVariable*>(rightVar);
-    if (!boolRight)
+    if (!boolRight) {
+        delete rightVar;
+        
         throw type_error("Right equation of not must result in a bool");
+    }
 
     BoolVariable* result = new BoolVariable(!boolRight->getValue());
     delete boolRight;

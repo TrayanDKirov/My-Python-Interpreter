@@ -14,8 +14,11 @@ Variable* AndOperation::execute(Context& contex)
 {
     Variable* leftVar = left->execute(contex);
     BoolVariable* boolLeft = dynamic_cast<BoolVariable*>(leftVar);
-    if (!boolLeft)
-        throw type_error("Left equation of or must result in a bool");
+    if (!boolLeft) {
+        delete leftVar;
+        
+        throw type_error("Left equation of and must result in a bool");
+    }
 
     if (boolLeft->getValue() == false)
     {
@@ -23,8 +26,12 @@ Variable* AndOperation::execute(Context& contex)
     }
     Variable* rightVar = right->execute(contex);
     BoolVariable* boolRight = dynamic_cast<BoolVariable*>(rightVar);
-    if (!boolRight)
-        throw type_error("Right equation of or must result in a bool");
+    if (!boolRight) {
+        delete leftVar;
+        delete rightVar;
+        
+        throw type_error("Right equation of and must result in a bool");
+    }
 
     delete boolLeft;
 

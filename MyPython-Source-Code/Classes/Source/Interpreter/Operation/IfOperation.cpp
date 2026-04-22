@@ -40,6 +40,8 @@ Variable * IfOperation::execute(Context& contex) {
     Variable* condResult = condition->execute(contex);
     BoolVariable* cond = dynamic_cast<BoolVariable*>(condResult);
     if (!cond) {
+        delete condResult;
+        
         throw value_error("ValueError: condition in if should return a bool value");
     }
 
