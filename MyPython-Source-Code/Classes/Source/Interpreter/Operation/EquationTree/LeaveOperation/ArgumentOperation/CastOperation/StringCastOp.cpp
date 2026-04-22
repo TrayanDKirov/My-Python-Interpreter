@@ -22,13 +22,13 @@ Variable* StringCastOp::execute(Context& contex)
         result = dynamic_cast<StringVariable*>(strVal->clone());
     }
     else if (auto fVal = dynamic_cast<FloatingPointNumber*>(val)) {
-        result = new StringVariable(fVal->toString());
+        result = new StringVariable("'" + fVal->toString() + "'");
     }
     else if (auto bVal = dynamic_cast<BoolVariable*>(val)) {
-        result = new StringVariable(bVal->toString());
+        result = new StringVariable("'" + bVal->toString() + "'");
     }
     else if (auto iVal = dynamic_cast<IntegerNumber*>(val)) {
-        result = new StringVariable(iVal->toString());
+        result = new StringVariable("'" + iVal->toString() + "'");
     }
 
     delete val;
