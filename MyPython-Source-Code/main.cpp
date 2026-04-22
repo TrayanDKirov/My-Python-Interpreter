@@ -19,30 +19,37 @@ void runTest(const TestCase& test) {
     std::cout << (actual.str() == test.expected ? "PASS" : "FAIL") << "\n\n";
 }
 
-int main()
-{
+void runTests() {
     TestCase tests[] = {
-        {
-            "testFile1.mpy",
-            "8\n2\n15\n2\n125\n"
-        },
-        {
-            "testFile2.mpy",
-            "False\nTrue\nTrue\nFalse\nTrue\nFalse\nTrue\n"
-        },
-        {
-            "testFile3.mpy",
-            "big\nmedium\nnot positive\n"
-        },
-        {
-            "testFile4.mpy",
-            "42\n3.140000\nFalse\nTrue\n1\n"
-        }
+        { "tests/arithmetic.mpy",  "8\n2\n15\n2\n125\n1.666667\n" },
+        { "tests/comparison.mpy",  "False\nTrue\nTrue\nFalse\nTrue\nFalse\nTrue\nFalse\n" },
+        { "tests/boolean.mpy",     "True\nFalse\nTrue\nFalse\nFalse\nTrue\n" },
+        { "tests/conditionals.mpy","big\nmedium\nnot positive\n" },
+        { "tests/casting.mpy",     "42\n1\n3.140000\nFalse\nTrue\n100\nTrue\nhello\n" },
+        { "tests/while.mpy",       "0\n1\n2\n3\n4\n15\n" }
     };
 
     for (const auto& test : tests) {
         runTest(test);
     }
+}
+
+int main(int argc, char* argv[])
+{
+    if (argc != 2) {
+        std::cerr << "Usage: mpy -run-tests | <file.mpy>\n";
+        return 1;
+    }
+
+    std::string arg = argv[1];
+
+    if (arg == "-run-tests") {
+        runTests();
+        return 0;
+    }
+
+    Interpreter interpreter(arg, std::cin, std::cout);
+    interpreter.interpret();
 
     return 0;
 }
