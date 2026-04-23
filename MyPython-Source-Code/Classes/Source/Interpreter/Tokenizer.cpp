@@ -24,37 +24,39 @@ void addChar(vector<string>& arr, char ch) {
     arr.push_back(str);
 }
 
-size_t Tokenizer::parseInBrackets(vector<string>& tokens, const string& text, size_t curr)
-{
-    if (text[curr] != startBracket)
+size_t Tokenizer::parseInBrackets(vector<string>& tokens, const string& text, size_t curr) {
+    if (text[curr] != startBracket && text[curr] != sqStartBracket)
         return curr;
+    char stBracket = text[curr];
+    char eBracket = stBracket == startBracket ? endBracket : sqEndBracket;
 
     string currToken = "";
-    addChar(tokens, startBracket);
+    addChar(tokens, stBracket);
     int bracketCounter = 1;
     for (size_t i = curr + 1; i < text.size(); i++)
     {
         char currChar = text[i];
 
-        if (currChar == endBracket) {
+        if (currChar == eBracket) {
             if (!currToken.empty()) {
                 tokens.push_back(currToken);
                 currToken.clear();
             }
 
-            addChar(tokens, endBracket);
+            addChar(tokens, eBracket);
             return i;
         }
-        if (currChar == startBracket) {
+        if (currChar == startBracket || currChar == sqStartBracket) {
             i = parseInBrackets(tokens, text, i);
             continue;
         }
 
         i = tokenize(tokens, text, i,
             [](size_t i, const string& text){return i < text.size() && text[i]!=MpySymbols::commaSep
-                && text[i] != MpySymbols::endBracket;});
-        if (text[i] == endBracket) {
-            addChar(tokens, endBracket);
+                && text[i] != MpySymbols::endBracket
+                && text[i] != MpySymbols::sqEndBracket;});
+        if (text[i] == eBracket) {
+            addChar(tokens, eBracket);
             return i;
         }
 
@@ -122,7 +124,7 @@ string Tokenizer::transformText(const string& text)
     return result;
 }
 
-size_t Tokenizer::tokenize(vector<string>& tokens, const string& text, size_t curr, bool(*until)(size_t, const string&))
+size_t Tokenizer::tokenize(vector<string>& tokens, const string& text, int curr, bool(*until)(size_t, const string&))
 {
     bool startNext, isInSpaces;
     isInSpaces = false;
@@ -151,12 +153,12 @@ size_t Tokenizer::tokenize(vector<string>& tokens, const string& text, size_t cu
                 i = parseQuotes(tokens, text, i);
                 continue;
             }
-            if (currChar == startBracket) {
+            if (currChar == startBracket || currChar == sqStartBracket) {
                 i = parseInBrackets(tokens, text, i);
                 continue;
             }
         }
-        else if (currChar == startBracket) {
+        else if (currChar == startBracket || currChar == sqStartBracket) {
             tokens.push_back(currToken);
             currToken.clear();
 
@@ -165,7 +167,7 @@ size_t Tokenizer::tokenize(vector<string>& tokens, const string& text, size_t cu
         }
         else if (isQuote(currChar))
             throw syntax_error("quote not in start of token");
-        else if (currChar == endBracket)
+        else if (currChar == endBracket || currChar == sqEndBracket)
             throw syntax_error("end bracket without start bracket");
 
         currToken.push_back(currChar);

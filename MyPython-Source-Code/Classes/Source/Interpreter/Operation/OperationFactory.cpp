@@ -1,6 +1,5 @@
 #include "Interpreter/Operation/OperationFactory.h"
 
-#include <emmintrin.h>
 #include <ranges>
 #include <pstl/parallel_backend_serial.h>
 
@@ -8,6 +7,7 @@
 #include "../../../Exception/SyntaxError.h"
 #include "../../../Header/Interpreter/MpySymbols.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.h"
+#include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/FloatCastOp.h"
@@ -30,16 +30,18 @@ OperationFactory::OperationFactory(vector<string>& lines)
 OperationFactory::OperationFactory(vector<string>& lines, size_t indentation)
     : lines(lines), eqTreeFactory(this), indentation(indentation) { }
 
-vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& tokens,
-                                                          size_t start, size_t end)
-{
+vector<unique_ptr<Operation>> OperationFactory::parseOpSequence(const vector<string>& tokens,
+    size_t start, size_t end) {
     vector<unique_ptr<Operation>> result;
-    if (!MpySymbols::isStartBracket(tokens[start-1])
-        || !MpySymbols::isEndBracket(tokens[end]))
+    if (start <= 0 || (!(MpySymbols::isStartBracket(tokens[start-1])
+            && MpySymbols::isEndBracket(tokens[end]))
+            && !(MpySymbols::isSqStartBracket(tokens[start-1])
+            && MpySymbols::isSqEndBracket(tokens[end]))))
         return result;
 
     size_t currStart = start;
     int bracketCounter = 0;
+    int sqBracketCounter = 0;
     bool ignoreCommas = false;
     for (size_t i = start; i < tokens.size(); i++) {
         if (MpySymbols::isStartBracket(tokens[i])) {
@@ -47,16 +49,22 @@ vector<unique_ptr<Operation>> OperationFactory::parseArgs(const vector<string>& 
             bracketCounter++;
         } else if (MpySymbols::isEndBracket(tokens[i]))
             bracketCounter--;
-        if (ignoreCommas && bracketCounter == 0)
+        else if (MpySymbols::isSqStartBracket(tokens[i])) {
+            ignoreCommas = true;
+            sqBracketCounter++;
+        } else if (MpySymbols::isSqEndBracket(tokens[i]))
+            sqBracketCounter--;
+        
+        if (ignoreCommas && bracketCounter == 0 && sqBracketCounter == 0)
             ignoreCommas = false;
         if (!ignoreCommas &&
-            (MpySymbols::isCommaSep(tokens[i]) || i == tokens.size()-1 || i == end)) {
+            (MpySymbols::isCommaSep(tokens[i]) || i == end || i == tokens.size()-1)) {
             result.push_back(unique_ptr<Operation>(create(tokens, currStart, i)));
             if (i == end || i == tokens.size()-1) {
                 break;
             }
             currStart = i + 1;
-            }
+        }
     }
 
     return result;
@@ -168,6 +176,17 @@ Operation * OperationFactory::createWhile(const std::vector<std::string>& tokens
     return new WhileOperation(cond, body);
 }
 
+ListEvalOp* OperationFactory::createList(const std::vector<std::string> &tokens, size_t start, size_t end) {
+    vector<unique_ptr<Operation>> elOps;
+    if (start <= 0 || !MpySymbols::isSqStartBracket(tokens[start-1])
+            || !MpySymbols::isSqEndBracket(tokens[end]))
+        return new ListEvalOp(elOps);
+
+    elOps = std::move(parseOpSequence(tokens, start, end));
+
+    return new ListEvalOp(elOps);
+}
+
 OperationBody OperationFactory::readBody(size_t& currLineIndex)
 {
     vector<unique_ptr<Operation>> operations;
@@ -200,16 +219,40 @@ bool isTupleEnd(const string& str) {
     return str.size() == 1 && str[0] == MpySymbols::endBracket;
 }
 
+bool isFunctionTuple(const vector<string>& tokens, size_t start, size_t end) {
+    return isTupleStart(tokens[start+1]) && isTupleEnd(tokens[end-1]);
+}
+
+bool isListStart(const string& str) {
+    return str.size() == 1 && str[0] == MpySymbols::sqStartBracket;
+}
+
+bool isListEnd(const string& str) {
+    return str.size() == 1 && str[0] == MpySymbols::sqEndBracket;
+}
+
+bool isList(const vector<string>& tokens, size_t start, size_t end) {
+    return isListStart(tokens[start]) && isListEnd(tokens[end-1]);
+}
+
+bool isIndexList(const vector<string>& tokens, size_t start, size_t end) {
+    return isList(tokens, start+1, end);
+}
+
 LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size_t start, size_t end) {
     if (end-start == 1) {
         return new EvalOp(tokens[start]);
     }
 
+    if (isList(tokens, start, end)) {
+        return createList(tokens, start+1, end-1);
+    }
+
     vector<unique_ptr<Operation>> args;
-    if (!isTupleStart(tokens[start+1]) || !isTupleEnd(tokens[end-1])) {
+    if (!isFunctionTuple(tokens, start, end)) {
         throw error("Leave is not one token. ");
     }
-    args = parseArgs(tokens, start+2, end-1);
+    args = parseOpSequence(tokens, start+2, end-1);
 
     if (tokens[start] == PrintOperation::NAME) {
         return new PrintOperation(args);

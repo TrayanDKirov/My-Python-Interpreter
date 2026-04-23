@@ -75,6 +75,14 @@ bool MpySymbols::isEndBracket(const std::string &str) {
     return str.size() == 1 && str[0] == endBracket;
 }
 
+bool MpySymbols::isSqStartBracket(const std::string &str) {
+    return str.size() == 1 && str[0] == sqStartBracket;
+}
+
+bool MpySymbols::isSqEndBracket(const std::string &str) {
+    return str.size() == 1 && str[0] == sqEndBracket;
+}
+
 string MpySymbols::toMpyString(const string& str) {
     string quote = "";
     quote.push_back(bigQuote);

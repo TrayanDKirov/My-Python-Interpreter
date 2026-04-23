@@ -45,6 +45,8 @@ public:
     static bool isCommaSep(const std::string& str);
     static bool isStartBracket(const std::string& str);
     static bool isEndBracket(const std::string& str);
+    static bool isSqStartBracket(const std::string& str);
+    static bool isSqEndBracket(const std::string& str);
 
     static std::string toMpyString(const std::string& str);
 };

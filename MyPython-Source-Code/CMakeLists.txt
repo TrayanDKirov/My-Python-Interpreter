@@ -91,6 +91,11 @@ add_executable(MyPython_Source_Code
         Classes/Header/Interpreter/Operation/PassOperation.h
         Classes/Source/Interpreter/Operation/WhileOperation.cpp
         Classes/Header/Interpreter/Operation/WhileOperation.h
+        Classes/Source/Variable/Iterable/ListVariable.cpp
+        Classes/Header/Variable/Iterable/ListVariable.h
+        Classes/Exception/IndexError.h
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

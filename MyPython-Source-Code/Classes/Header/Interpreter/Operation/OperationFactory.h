@@ -10,6 +10,7 @@
 #include "Interpreter/Tokenizer.h"
 
 
+class ListEvalOp;
 class EvalOp;
 
 class OperationFactory
@@ -23,13 +24,15 @@ class OperationFactory
     bool hasCorrectIndentation(size_t ind);
     bool hasCorrectIndentation(size_t ind, size_t currIndentation);
 
-    std::vector<std::unique_ptr<Operation>> parseArgs(const std::vector<std::string>& tokens,
+    std::vector<std::unique_ptr<Operation>> parseOpSequence(const std::vector<std::string>& tokens,
         size_t start, size_t end);
 
     Operation* createAssigment(const std::vector<std::string>& tokens, size_t start, size_t end);
     IfOperation* createIfBody(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLine);
     Operation* createIf(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLine);
     Operation* createWhile(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLine);
+
+    ListEvalOp* createList(const std::vector<std::string>& tokens, size_t start, size_t end);
 
     OperationBody readBody(size_t& currLine);
 
