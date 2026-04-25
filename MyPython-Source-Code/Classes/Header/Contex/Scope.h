@@ -9,6 +9,8 @@ class Scope {
     std::unordered_map<std::string, std::unique_ptr<Variable>> names;
     Scope* parent = nullptr;
 
+    Variable* getRealVar(const std::string& name);
+
 public:
     Scope() = default;
     Scope(Scope* parent);
@@ -18,12 +20,15 @@ public:
     Scope(Scope&&) = default;
     Scope& operator=(Scope&&) = default;
 
-    Variable* get(const std::string& name);
-    const Variable* get(const std::string& name) const;
+    Variable* get(const std::string& name) const;
+
+    Variable* getByIndex(const std::string& name, int index) const;
 
     bool contains(const std::string& name) const;
     bool assign(const std::string& name, std::unique_ptr<Variable> variable);
     bool assign(const std::string& name, const std::string& value);
+    
+    bool assignByIndex(const std::string& name, int index, std::unique_ptr<Variable> variable);
 
     friend std::ostream& operator<<(std::ostream& os, const Scope& scope);
 };

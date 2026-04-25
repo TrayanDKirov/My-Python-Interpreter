@@ -5,6 +5,7 @@
 
 class Assignment : public Operation {
     std::string name = "";
+    std::unique_ptr<Operation> getIndexOp;
     std::unique_ptr<Operation> operation;
 
 public:
@@ -13,6 +14,7 @@ public:
     static const std::string ASSIGMENT_SYNTAX;
 
     Assignment(const std::string& name, std::unique_ptr<Operation> operation);
+    Assignment(const std::string& name, std::unique_ptr<Operation> getIndexOp, std::unique_ptr<Operation> operation);
 
     Variable* execute(Context& contex) override;
 

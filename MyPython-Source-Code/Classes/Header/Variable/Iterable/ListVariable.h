@@ -12,9 +12,9 @@ public:
     ListVariable(std::vector<std::unique_ptr<Variable>>& value);
 
     std::string toString() const override;
-
-    const std::unique_ptr<Variable>& operator[](size_t index) const; 
-    std::unique_ptr<Variable>& operator[](size_t index);
+    
+    Variable* operator[](int index) const;
+    std::unique_ptr<Variable>& operator[](int index);
 
     size_t size() const;
 

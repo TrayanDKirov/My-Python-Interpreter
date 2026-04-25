@@ -6,6 +6,7 @@
 #include "Operation.h"
 #include "OperationBody.h"
 #include "EquationTree/EquationTreeFactory.h"
+#include "EquationTree/LeaveOperation/GetElementOp.h"
 #include "EquationTree/LeaveOperation/LeaveOperation.h"
 #include "Interpreter/Tokenizer.h"
 
@@ -33,6 +34,7 @@ class OperationFactory
     Operation* createWhile(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLine);
 
     ListEvalOp* createList(const std::vector<std::string>& tokens, size_t start, size_t end);
+    GetElementOp* createGetElementOp(const std::vector<std::string>& tokens, size_t start, size_t end);
 
     OperationBody readBody(size_t& currLine);
 

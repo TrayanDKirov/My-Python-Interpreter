@@ -11,7 +11,7 @@ Variable* EvalOp::execute(Context &contex)
     VariableFactory variableFactory = VariableFactory::getInstance();
     Variable* var = variableFactory.create(value);
 
-    if (VoidVariable* voidVar = dynamic_cast<VoidVariable*>(var)) {
+    if (dynamic_cast<VoidVariable*>(var)) {
         return variableFactory.createByName(value, contex);
     }
     

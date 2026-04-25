@@ -9,7 +9,7 @@ class VariableFactory
 public:
 
     Variable* create(const std::string& value) const;
-    Variable* createByName(const std::string& value, Context& context) const;
+    Variable* createByName(const std::string& name, Context& context) const;
 
     static std::string getTypeOfVariable(Variable* variable);
 

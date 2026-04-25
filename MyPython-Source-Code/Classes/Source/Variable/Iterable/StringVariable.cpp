@@ -3,6 +3,7 @@
 #include <memory>
 #include <stdexcept>
 
+#include "../../../Exception/IndexError.h"
 #include "../../../Exception/ValueError.h"
 #include "../../../Header/Variable/BoolVariable.h"
 using std::make_unique;
@@ -66,6 +67,30 @@ bool StringVariable::toBool() const {
     if (value == "")
         return false;
     return true;
+}
+
+std::string StringVariable::getValue() const {
+    return this->value;
+}
+
+void StringVariable::setValue(const std::string& value) {
+    this->value = value;
+}
+
+char StringVariable::operator[](int index) const {
+    if (index < 0 || index >= value.size()) {
+        throw index_error("index is out of range");
+    }
+
+    return value[index];
+}
+
+char& StringVariable::operator[](int index) {
+    if (index < 0 || index >= value.size()) {
+        throw index_error("index is out of range");
+    }
+
+    return value[index];
 }
 
 Variable * StringVariable::clone() const

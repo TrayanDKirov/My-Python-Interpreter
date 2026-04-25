@@ -17,6 +17,12 @@ public:
     float toFloat() const;
     bool toBool() const;
 
+    std::string getValue() const;
+    void setValue(const std::string& value);
+
+    char operator[](int index) const;
+    char& operator[](int index);
+
     Variable* clone() const override;
     ~StringVariable() override = default;
 

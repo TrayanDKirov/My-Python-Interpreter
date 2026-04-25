@@ -96,6 +96,8 @@ add_executable(MyPython_Source_Code
         Classes/Exception/IndexError.h
         Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.cpp
         Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.h
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/GetElementOp.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/GetElementOp.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

@@ -80,20 +80,53 @@ int indexOf(const vector<string>& tokens, const string& toSearch, size_t start, 
     return -1;
 }
 
+bool isListStart(const string& str) {
+    return str.size() == 1 && str[0] == MpySymbols::sqStartBracket;
+}
+
+bool isListEnd(const string& str) {
+    return str.size() == 1 && str[0] == MpySymbols::sqEndBracket;
+}
+
+bool isList(const vector<string>& tokens, size_t start, size_t end) {
+    return isListStart(tokens[start]) && isListEnd(tokens[end-1]);
+}
+
+bool isIndexList(const vector<string>& tokens, size_t start, size_t end) {
+    return isList(tokens, start+1, end);
+}
+
+void assertListIndexCorrect(const vector<string>& tokens, size_t start, size_t index) {
+    string commaSepStr = "";
+    commaSepStr += MpySymbols::commaSep;
+    int indexOfCommaSep = indexOf(tokens, commaSepStr, start+2, index-1);
+    if (indexOfCommaSep >= start+2 && indexOfCommaSep < index-1)
+        throw syntax_error("name [1, 3] is wrong syntax correct: name [1]");
+}
+
 Operation* OperationFactory::createAssigment(const vector<string>& tokens, size_t start, size_t end) {
     int index = indexOf(tokens, Assignment::ASSIGMENT_OPERATOR, start, end);
     if (index < start || index >= end) {
         return nullptr;
     }
 
-    if (index != start+1) {
-        //throw syntax_error(("valid syntax for assigment: " + Assignment::ASSIGMENT_SYNTAX).c_str());
-        return nullptr;
-    }
-
-    return new Assignment(tokens[start],
+    if (index == start+1) {
+        return new Assignment(tokens[start],
         unique_ptr<Operation>(
             eqTreeFactory.create(tokens, index+1, end)));
+    }
+
+    if (isIndexList(tokens, start, index)) {
+        assertListIndexCorrect(tokens, start, index);
+        
+        return new Assignment(tokens[start],
+            unique_ptr<Operation>(
+                eqTreeFactory.create(tokens, start+2, index-1)),
+            unique_ptr<Operation>(
+                eqTreeFactory.create(tokens, index+1, end)));
+    }
+
+    return nullptr;
 }
 
 bool OperationFactory::hasCorrectIndentation(size_t ind) {
@@ -187,6 +220,14 @@ ListEvalOp* OperationFactory::createList(const std::vector<std::string> &tokens,
     return new ListEvalOp(elOps);
 }
 
+GetElementOp* OperationFactory::createGetElementOp(const std::vector<std::string>& tokens,
+    size_t start, size_t end) {
+    unique_ptr<Operation> getListOp(new EvalOp(tokens[start]));
+    unique_ptr<Operation> getIndexOp(create(tokens, start+2, end-1));
+
+    return new GetElementOp(getListOp, getIndexOp);
+}
+
 OperationBody OperationFactory::readBody(size_t& currLineIndex)
 {
     vector<unique_ptr<Operation>> operations;
@@ -223,22 +264,6 @@ bool isFunctionTuple(const vector<string>& tokens, size_t start, size_t end) {
     return isTupleStart(tokens[start+1]) && isTupleEnd(tokens[end-1]);
 }
 
-bool isListStart(const string& str) {
-    return str.size() == 1 && str[0] == MpySymbols::sqStartBracket;
-}
-
-bool isListEnd(const string& str) {
-    return str.size() == 1 && str[0] == MpySymbols::sqEndBracket;
-}
-
-bool isList(const vector<string>& tokens, size_t start, size_t end) {
-    return isListStart(tokens[start]) && isListEnd(tokens[end-1]);
-}
-
-bool isIndexList(const vector<string>& tokens, size_t start, size_t end) {
-    return isList(tokens, start+1, end);
-}
-
 LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size_t start, size_t end) {
     if (end-start == 1) {
         return new EvalOp(tokens[start]);
@@ -246,6 +271,10 @@ LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size
 
     if (isList(tokens, start, end)) {
         return createList(tokens, start+1, end-1);
+    }
+
+    if (isIndexList(tokens, start, end)) {
+        return createGetElementOp(tokens, start, end);
     }
 
     vector<unique_ptr<Operation>> args;

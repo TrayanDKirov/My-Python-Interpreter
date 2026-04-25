@@ -93,9 +93,9 @@ Variable* VariableFactory::create(const string& value) const {
     return VoidVariable::getInstance().clone();
 }
 
-Variable* VariableFactory::createByName(const std::string &value, Context &context) const
+Variable* VariableFactory::createByName(const std::string& name, Context& context) const
 {
-    return context.getScope().get(value)->clone();
+    return context.getScope().get(name)->clone();
 }
 
 std::string VariableFactory::getTypeOfVariable(Variable* variable)

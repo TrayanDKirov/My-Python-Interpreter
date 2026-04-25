@@ -31,15 +31,15 @@ string ListVariable::toString() const {
     return result;
 }
 
-const std::unique_ptr<Variable> & ListVariable::operator[](size_t index) const {
-    if (index >= value.size())
+Variable* ListVariable::operator[](int index) const {
+    if (index < 0 || index >= value.size())
         throw index_error("list index out of range. ");
 
-    return value[index];
+    return value[index]->clone();
 }
 
-std::unique_ptr<Variable> & ListVariable::operator[](size_t index) {
-    if (index >= value.size())
+std::unique_ptr<Variable> & ListVariable::operator[](int index) {
+    if (index < 0 || index >= value.size())
         throw index_error("list index out of range. ");
 
     return value[index];
