@@ -3,7 +3,7 @@
 OperationBody::OperationBody(std::vector<std::unique_ptr<Operation>>& operations)
     : operations(std::move(operations)) { }
 
-void OperationBody::execute(Context &context) {
+void OperationBody::execute(Context &context) const {
     for (size_t i = 0; i < operations.size(); i++)
     {
         Variable* var = operations[i]->execute(context);

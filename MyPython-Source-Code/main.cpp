@@ -8,15 +8,17 @@ struct TestCase {
     std::string expected;
 };
 
-void runTest(const TestCase& test) {
+bool runTest(const TestCase& test) {
     std::ostringstream actual;
     Interpreter interpreter(test.fileName, std::cin, actual);
     interpreter.interpret();
 
+    bool passed = actual.str() == test.expected;
     std::cout << "=== " << test.fileName << " ===\n";
     std::cout << "Expected:\n" << test.expected;
     std::cout << "Actual:\n"   << actual.str();
-    std::cout << (actual.str() == test.expected ? "PASS" : "FAIL") << "\n\n";
+    std::cout << (passed ? "PASS" : "FAIL") << "\n\n";
+    return passed;
 }
 
 void runTests() {
@@ -29,12 +31,17 @@ void runTests() {
         { "tests/while.mpy",       "0\n1\n2\n3\n4\n15\n" },
         { "tests/list.mpy",        "[1, 2, 3, 4]\n1\n4\n[1, 10, 3, 4]\n6\n3\n99\n" },
         { "tests/for.mpy",         "10\n20\n30\nH\ni\n4\n5\n" },
-        { "tests/break_continue.mpy", "0\n1\n2\n1\n3\n5\n1\n2\n1\n2\n4\n5\n" }
+        { "tests/break_continue.mpy", "0\n1\n2\n1\n3\n5\n1\n2\n1\n2\n4\n5\n" },
+        { "tests/functions.mpy",      "Hello!\n7\n10\n9\n120\n" }
     };
 
+    int passed = 0;
+    int total = sizeof(tests) / sizeof(tests[0]);
     for (const auto& test : tests) {
-        runTest(test);
+        if (runTest(test))
+            passed++;
     }
+    std::cout << "=== Results: " << passed << "/" << total << " passed ===\n";
 }
 
 int main(int argc, char* argv[])

@@ -20,6 +20,9 @@
 #include "Interpreter/Operation/IfOperation.h"
 #include "Interpreter/Operation/PassOperation.h"
 #include "Interpreter/Operation/WhileOperation.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FuncDefOperation.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FunctionCallOperation.h"
+#include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ReturnOperation.h"
 
 using std::vector;
 using std::string;
@@ -40,6 +43,9 @@ vector<unique_ptr<Operation>> OperationFactory::parseOpSequence(const vector<str
             && MpySymbols::isEndBracket(tokens[end]))
             && !(MpySymbols::isSqStartBracket(tokens[start-1])
             && MpySymbols::isSqEndBracket(tokens[end]))))
+        return result;
+
+    if (start >= end)
         return result;
 
     size_t currStart = start;
@@ -225,6 +231,32 @@ Operation * OperationFactory::createFor(const std::vector<std::string> &tokens,
     return new ForOperation(tokens[start+1], std::move(opToGetIter), body);
 }
 
+Operation * OperationFactory::createFunctionDef(const std::vector<std::string> &tokens,
+    size_t start, size_t end, size_t &currLine) {
+    if (end - start < 5 || tokens[start] != FuncDefOperation::NAME || !MpySymbols::isStartBracket(tokens[start+2])
+        || !MpySymbols::isScopeStart(tokens[end-1]))
+        return nullptr;
+
+    vector<string> varNames;
+    for (size_t i = start+3; i < end-1 && i < tokens.size(); i++) {
+        if (MpySymbols::isEndBracket(tokens[i]))
+            break;
+
+        if (MpySymbols::isCommaSep(tokens[i])) {
+            if ((i - start) % 2 == 1)
+                throw syntax_error("comma separator not used correctly");
+            continue;
+        }
+        
+        varNames.push_back(tokens[i]);
+    }
+
+    OperationBody body = readBody(currLine);
+    currLine--;
+
+    return new FuncDefOperation(tokens[start+1], varNames, std::move(body));
+}
+
 ListEvalOp* OperationFactory::createList(const std::vector<std::string> &tokens, size_t start, size_t end) {
     vector<unique_ptr<Operation>> elOps;
     if (start <= 0 || !MpySymbols::isSqStartBracket(tokens[start-1])
@@ -317,7 +349,9 @@ LeaveOperation* OperationFactory::createLeave(const vector<string>& tokens, size
         return new BoolCastOp(args);
     }
 
-    return nullptr;
+    return new FunctionCallOperation(
+        unique_ptr<EvalOp>(new EvalOp(tokens[start])),
+        args);
 }
 
 Operation * OperationFactory::create(const std::vector<std::string> &tokens, size_t start, size_t end)
@@ -350,6 +384,11 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
         
         return new BreakOperation();
     }
+    if (tokens[start] == ReturnOperation::NAME) {
+        
+        return new ReturnOperation(
+            unique_ptr<Operation>(create(tokens, start+1, end)));
+    }
 
     Operation* result = createAssigment(tokens, start, end);
     if (result)
@@ -364,6 +403,10 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
         return result;
 
     result = createFor(tokens, start, end, currLine);
+    if (result)
+        return result;
+
+    result = createFunctionDef(tokens, start, end, currLine);
     if (result)
         return result;
 

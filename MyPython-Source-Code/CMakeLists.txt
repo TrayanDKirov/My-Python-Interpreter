@@ -105,6 +105,17 @@ add_executable(MyPython_Source_Code
         Classes/Exception/InterpreterCalls/Call.h
         Classes/Exception/InterpreterCalls/ContinueCall.h
         Classes/Exception/InterpreterCalls/BreakCall.h
+        Classes/Source/Interpreter/Operation/BreakOperation.cpp
+        Classes/Header/Interpreter/Operation/BreakOperation.h
+        Classes/Source/Variable/FunctionVariable.cpp
+        Classes/Header/Variable/FunctionVariable.h
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FunctionCallOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FunctionCallOperation.h
+        Classes/Exception/InterpreterCalls/ReturnCall.h
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FuncDefOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FuncDefOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ReturnOperation.cpp
+        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ReturnOperation.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

@@ -33,6 +33,7 @@ class OperationFactory
     Operation* createIf(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLine);
     Operation* createWhile(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLine);
     Operation* createFor(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLine);
+    Operation* createFunctionDef(const std::vector<std::string>& tokens, size_t start, size_t end, size_t& currLine);
 
     ListEvalOp* createList(const std::vector<std::string>& tokens, size_t start, size_t end);
     GetElementOp* createGetElementOp(const std::vector<std::string>& tokens, size_t start, size_t end);

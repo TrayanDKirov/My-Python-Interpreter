@@ -11,7 +11,7 @@ public:
     OperationBody() = default;
     OperationBody(std::vector<std::unique_ptr<Operation>>& operations);
 
-    void execute(Context& context);
+    void execute(Context& context) const;
 
     bool empty() const;
 };
