@@ -1,6 +1,6 @@
 #include "../../../Header/Variable/Iterable/ListVariable.h"
 
-#include "../../../Exception/IndexError.h"
+#include "../../../Exception/Errors/IndexError.h"
 #include "Interpreter/MpySymbols.h"
 #include "Variable/Iterable/StringVariable.h"
 
@@ -38,7 +38,7 @@ Variable* ListVariable::operator[](int index) const {
     return value[index]->clone();
 }
 
-std::unique_ptr<Variable> & ListVariable::operator[](int index) {
+std::unique_ptr<Variable>& ListVariable::operator[](int index) {
     if (index < 0 || index >= value.size())
         throw index_error("list index out of range. ");
 

@@ -3,10 +3,10 @@
 #include <memory>
 #include <stdexcept>
 
-#include "../../../Exception/IndexError.h"
-#include "../../../Exception/ValueError.h"
+#include "../../../Exception/Errors/IndexError.h"
+#include "../../../Exception/Errors/ValueError.h"
 #include "../../../Header/Variable/BoolVariable.h"
-using std::make_unique;
+using std::string;
 
 const char StringVariable::BIG_QUOTE = '"';
 const char StringVariable::SMALL_QUOTE = '\'';
@@ -77,12 +77,15 @@ void StringVariable::setValue(const std::string& value) {
     this->value = value;
 }
 
-char StringVariable::operator[](int index) const {
+Variable* StringVariable::operator[](int index) const {
     if (index < 0 || index >= value.size()) {
         throw index_error("index is out of range");
     }
 
-    return value[index];
+    string str = "";
+    str += value[index];
+
+    return new StringVariable("\"" + str + "\"");
 }
 
 char& StringVariable::operator[](int index) {
@@ -93,7 +96,11 @@ char& StringVariable::operator[](int index) {
     return value[index];
 }
 
-Variable * StringVariable::clone() const
+size_t StringVariable::size() const {
+    return this->value.size();
+}
+
+Variable* StringVariable::clone() const
 {
     return new StringVariable(*this);
 }

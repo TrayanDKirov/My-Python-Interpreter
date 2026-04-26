@@ -3,8 +3,8 @@
 #include <fstream>
 #include <iostream>
 
-#include "../../Exception/Error.h"
-#include "../../Exception/FileNotFoundError.h"
+#include "../../Exception/Errors/Error.h"
+#include "../../Exception/Errors/FileNotFoundError.h"
 using std::ifstream;
 using std::string;
 
@@ -50,7 +50,8 @@ void Interpreter::interpret()
         while (currLineIndex < lines.size())
         {
             Operation* operation = operationFactory.create(currLineIndex);
-            delete operation->execute(context);
+            if (operation)
+                delete operation->execute(context);
 
             delete operation;
         }

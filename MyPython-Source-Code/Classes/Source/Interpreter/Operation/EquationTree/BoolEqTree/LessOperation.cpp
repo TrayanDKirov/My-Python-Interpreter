@@ -1,6 +1,6 @@
 #include "Interpreter/Operation/EquationTree/BooleanEqTree/LessOperation.h"
 
-#include "../Exception/TypeError.h"
+#include "../../../../../Exception/Errors/TypeError.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/NoneVariable.h"
 #include "Variable/Number/FloatingPointNumber.h"

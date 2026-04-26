@@ -1,5 +1,6 @@
 #include "Interpreter/Operation/EquationTree/EquationTreeFactory.h"
 
+#include "../../../../Exception/Errors/SyntaxError.h"
 #include "../../../../Header/Interpreter/Operation/EquationTree/BooleanEqTree/LessOrEqualOperation.h"
 #include "Interpreter/MpySymbols.h"
 #include "Interpreter/Operation/OperationFactory.h"
@@ -207,10 +208,20 @@ void EquationTreeFactory::findEndBracket(const std::vector<std::string> &tokens,
             return;
         }
     }
+
+    throw syntax_error("unmatched '('");
 }
 
 void EquationTreeFactory::initBracketIndexes(const std::vector<std::string>& tokens, size_t start, size_t end)
 {
+    int count = 0;
+    for (size_t i = start; i < end && i < tokens.size(); i++) {
+        if (MpySymbols::isStartBracket(tokens[i])) count++;
+        else if (MpySymbols::isEndBracket(tokens[i])) count--;
+        if (count < 0)
+            throw syntax_error("unmatched ')'");
+    }
+    
     for (size_t i = start; i < end && i < tokens.size(); i++)
     {
         if (MpySymbols::isStartBracket(tokens[i]))

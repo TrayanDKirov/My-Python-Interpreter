@@ -1,6 +1,6 @@
 #include "../../../../../Header/Interpreter/Operation/EquationTree/BooleanEqTree/AndOperation.h"
 
-#include "../Exception/TypeError.h"
+#include "../../../../../Exception/Errors/TypeError.h"
 #include "Variable/BoolVariable.h"
 using std::unique_ptr;
 using std::string;

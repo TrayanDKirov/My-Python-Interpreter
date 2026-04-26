@@ -1,6 +1,6 @@
 #include "../../../../../Header/Interpreter/Operation/EquationTree/BooleanEqTree/EqualOperation.h"
 
-#include "../Exception/TypeError.h"
+#include "../../../../../Exception/Errors/TypeError.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/NoneVariable.h"
 #include "Variable/Iterable/StringVariable.h"

@@ -1,7 +1,7 @@
 #include "TestTokenizer.h"
 #include <iostream>
 
-#include "../Classes/Exception/SyntaxError.h"
+#include "../Classes/Exception/Errors/SyntaxError.h"
 using namespace std;
 
 

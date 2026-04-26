@@ -1,6 +1,6 @@
 #include "Interpreter/Operation/EquationTree/BooleanEqTree/DifferentOperation.h"
 
-#include "../Exception/TypeError.h"
+#include "../../../../../Exception/Errors/TypeError.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/NoneVariable.h"
 #include "Variable/Iterable/StringVariable.h"
@@ -105,6 +105,7 @@ Variable* DifferentOperation::execute(Context& contex)
     delete rightVar;
 
     if (!result)
-        return new BoolVariable(false);
+        result = new BoolVariable(true);
+    
     return result;
 }

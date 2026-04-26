@@ -1,6 +1,8 @@
 #include "../../../Header/Variable/Number/FloatingPointNumber.h"
 #include <cmath>
 
+const float FloatingPointNumber::EPSI = 0.00001;
+
 FloatingPointNumber::FloatingPointNumber(float value) : value(value) { }
 
 std::string FloatingPointNumber::toString() const {
@@ -13,6 +15,10 @@ int FloatingPointNumber::toInt() const {
 
 int FloatingPointNumber::toBool() const {
     return (bool)value;
+}
+
+float FloatingPointNumber::getValue() const {
+    return this->value;
 }
 
 Variable * FloatingPointNumber::clone() const
@@ -44,9 +50,7 @@ FloatingPointNumber power(const FloatingPointNumber &left, const FloatingPointNu
 
 bool operator==(const FloatingPointNumber& left, const FloatingPointNumber& right)
 {
-    float epsi = 0.000001;
-
-    return abs(left.value - right.value) < epsi;
+    return std::fabs(left.value - right.value) < FloatingPointNumber::EPSI;
 }
 bool operator!=(const FloatingPointNumber& left, const FloatingPointNumber& right) {
     return !(left == right);

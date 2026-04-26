@@ -6,12 +6,12 @@
 
 class GetElementOp : public LeaveOperation
 {
-    std::unique_ptr<Operation> getListOp;
+    std::string iterableName;
     std::unique_ptr<Operation> getIndexOp;
 
 public:
 
-    GetElementOp(std::unique_ptr<Operation>& getListOp,
+    GetElementOp(const std::string& iterableName,
         std::unique_ptr<Operation>& getIndexOp);
 
     Variable* execute(Context &contex) override;

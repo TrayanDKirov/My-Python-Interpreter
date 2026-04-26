@@ -1,6 +1,6 @@
 #include "../../../../../Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PercentOperation.h"
 
-#include "../Exception/TypeError.h"
+#include "../../../../../Exception/Errors/TypeError.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/Number/FloatingPointNumber.h"
 #include "Variable/Number/IntegerNumber.h"

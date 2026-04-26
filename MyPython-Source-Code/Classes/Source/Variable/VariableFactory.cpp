@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-#include "../../Exception/ValueError.h"
+#include "../../Exception/Errors/ValueError.h"
 #include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.h"
 #include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/FloatCastOp.h"
 #include "../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.h"
@@ -95,7 +95,7 @@ Variable* VariableFactory::create(const string& value) const {
 
 Variable* VariableFactory::createByName(const std::string& name, Context& context) const
 {
-    return context.getScope().get(name)->clone();
+    return context.getScope().get(name);
 }
 
 std::string VariableFactory::getTypeOfVariable(Variable* variable)

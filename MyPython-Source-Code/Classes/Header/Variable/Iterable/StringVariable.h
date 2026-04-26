@@ -1,7 +1,7 @@
 #pragma once
-#include "Iterable.h"
+#include "IterableVariable.h"
 
-class StringVariable : public Iterable
+class StringVariable : public IterableVariable
 {
     std::string value = "";
     static const char BIG_QUOTE;
@@ -20,8 +20,10 @@ public:
     std::string getValue() const;
     void setValue(const std::string& value);
 
-    char operator[](int index) const;
+    Variable* operator[](int index) const override;
     char& operator[](int index);
+
+    size_t size() const override;
 
     Variable* clone() const override;
     ~StringVariable() override = default;

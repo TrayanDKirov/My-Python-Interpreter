@@ -1,7 +1,7 @@
 #include "../../Header/Contex/Scope.h"
 
-#include "../../Exception/TypeError.h"
-#include "../../Exception/ValueError.h"
+#include "../../Exception/Errors/TypeError.h"
+#include "../../Exception/Errors/ValueError.h"
 #include "../../Header/Variable/VariableFactory.h"
 #include "Variable/Iterable/ListVariable.h"
 #include "Variable/Iterable/StringVariable.h"
@@ -28,26 +28,16 @@ Variable* Scope::get(const string& name) const {
         return iter->second.get()->clone();
     }
     if (parent) {
-        return parent->get(name);
+        return parent->getRealVar(name)->clone();
     }
 
     throw value_error(("ValueError: " + name + " not defined in this scope").c_str());
 }
 
 Variable * Scope::getByIndex(const std::string& name, int index) const {
-    const Variable* var = get(name);
-    if (auto listVar = dynamic_cast<const ListVariable*>(var)) {
-        Variable* result = (*listVar)[index];
-        delete var;
-        
-        return result;
-    }
-    if (auto strVar = dynamic_cast<const StringVariable*>(var)) {
-        char ch = (*strVar)[index];
-        string chStr;
-        chStr += ch;
-        
-        Variable* result = new StringVariable("'" + chStr + "'");
+    Variable* var = get(name);
+    if (auto iterableVar = dynamic_cast<IterableVariable*>(var)) {
+        Variable* result = (*iterableVar)[index];
         delete var;
         
         return result;

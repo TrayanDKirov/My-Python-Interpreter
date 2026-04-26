@@ -3,8 +3,8 @@
 #include <ranges>
 #include <pstl/parallel_backend_serial.h>
 
-#include "../../../Exception/Error.h"
-#include "../../../Exception/SyntaxError.h"
+#include "../../../Exception/Errors/Error.h"
+#include "../../../Exception/Errors/SyntaxError.h"
 #include "../../../Header/Interpreter/MpySymbols.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.h"
@@ -14,6 +14,7 @@
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.h"
+#include "Interpreter/Operation/ForOperation.h"
 #include "Interpreter/Operation/IfOperation.h"
 #include "Interpreter/Operation/PassOperation.h"
 #include "Interpreter/Operation/WhileOperation.h"
@@ -209,6 +210,19 @@ Operation * OperationFactory::createWhile(const std::vector<std::string>& tokens
     return new WhileOperation(cond, body);
 }
 
+Operation * OperationFactory::createFor(const std::vector<std::string> &tokens,
+    size_t start, size_t end, size_t& currLineIndex) {
+    if (end - start < 5 || tokens[start] != ForOperation::NAME || tokens[start+2] != ForOperation::IN
+        || !MpySymbols::isScopeStart(tokens[end-1]))
+        return nullptr;
+
+    unique_ptr<Operation> opToGetIter(create(tokens, start+3, end-1));
+    OperationBody body = readBody(currLineIndex);
+    
+    currLineIndex--;
+    return new ForOperation(tokens[start+1], std::move(opToGetIter), body);
+}
+
 ListEvalOp* OperationFactory::createList(const std::vector<std::string> &tokens, size_t start, size_t end) {
     vector<unique_ptr<Operation>> elOps;
     if (start <= 0 || !MpySymbols::isSqStartBracket(tokens[start-1])
@@ -222,10 +236,9 @@ ListEvalOp* OperationFactory::createList(const std::vector<std::string> &tokens,
 
 GetElementOp* OperationFactory::createGetElementOp(const std::vector<std::string>& tokens,
     size_t start, size_t end) {
-    unique_ptr<Operation> getListOp(new EvalOp(tokens[start]));
     unique_ptr<Operation> getIndexOp(create(tokens, start+2, end-1));
 
-    return new GetElementOp(getListOp, getIndexOp);
+    return new GetElementOp(tokens[start], getIndexOp);
 }
 
 OperationBody OperationFactory::readBody(size_t& currLineIndex)
@@ -331,6 +344,10 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
         return result;
 
     result = createWhile(tokens, start, end, currLine);
+    if (result)
+        return result;
+
+    result = createFor(tokens, start, end, currLine);
     if (result)
         return result;
 

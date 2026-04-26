@@ -2,9 +2,9 @@
 #include <memory>
 #include <vector>
 
-#include "Iterable.h"
+#include "IterableVariable.h"
 
-class ListVariable : public Iterable
+class ListVariable : public IterableVariable
 {
     std::vector<std::unique_ptr<Variable>> value;
 
@@ -13,10 +13,10 @@ public:
 
     std::string toString() const override;
     
-    Variable* operator[](int index) const;
+    Variable* operator[](int index) const override;
     std::unique_ptr<Variable>& operator[](int index);
 
-    size_t size() const;
+    size_t size() const override;
 
     Variable* clone() const override;
     ~ListVariable() override = default;

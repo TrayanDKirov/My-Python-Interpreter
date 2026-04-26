@@ -1,6 +1,6 @@
 #include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.h"
 
-#include "../Exception/TypeError.h"
+#include "../../../../../../Exception/Errors/TypeError.h"
 #include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ArgumentOperation.h"
 #include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.h"
 #include "Variable/NoneVariable.h"
@@ -16,15 +16,27 @@ void PrintOperation::assignVars(Context& myContext) {
     myContext.getScope().assign("end", "'\n'");
     myContext.getScope().assign("sep", "' '");
     this->variables = getArgs(myContext);
-    StringVariable* sepVar = dynamic_cast<StringVariable*>(myContext.getScope().get("sep"));
-    if (!sepVar)
+    Variable* sepVar = myContext.getScope().get("sep");
+    StringVariable* sepStr = dynamic_cast<StringVariable*>(sepVar);
+    if (!sepStr) {
+        delete sepVar;
+        
         throw type_error(("type of sep must be " + StringCastOp::NAME).c_str());
-    StringVariable* endVar = dynamic_cast<StringVariable*>(myContext.getScope().get("end"));
-    if (!endVar)
+    }
+    Variable* endVar = myContext.getScope().get("end");
+    StringVariable* endStr = dynamic_cast<StringVariable*>(endVar);
+    if (!endStr) {
+        delete sepVar;
+        delete endVar;
+        
         throw type_error(("type of end must be " + StringCastOp::NAME).c_str());
+    }
 
-    this->sep = sepVar->toString();
-    this->end = endVar->toString();
+    this->sep = sepStr->getValue();
+    this->end = endStr->getValue();
+
+    delete sepVar;
+    delete endVar;
 }
 
 PrintOperation::PrintOperation(std::vector<std::unique_ptr<Operation>>& args)

@@ -1,6 +1,6 @@
 #include "../../../Header/Interpreter/Operation/Assignment.h"
 
-#include "../../../Exception/TypeError.h"
+#include "../../../Exception/Errors/TypeError.h"
 #include "../../../Header/Variable/NoneVariable.h"
 #include "../../../Header/Variable/VariableFactory.h"
 #include "../../../Header/Variable/VoidVariable.h"

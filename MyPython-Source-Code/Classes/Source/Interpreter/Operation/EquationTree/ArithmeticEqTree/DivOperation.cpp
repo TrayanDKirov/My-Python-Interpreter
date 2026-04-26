@@ -1,6 +1,9 @@
 #include "Interpreter/Operation/EquationTree/ArithmeticEqTree/DivOperation.h"
 
-#include "../Exception/TypeError.h"
+#include <cmath>
+
+#include "../../../../../Exception/Errors/TypeError.h"
+#include "../../../../../Exception/Errors/ZeroDivisionError.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/Number/FloatingPointNumber.h"
 #include "Variable/Number/IntegerNumber.h"
@@ -18,6 +21,13 @@ Number* DivOperation::divInt(Variable* leftVar, Variable* rightVar)
     if (!rightInt)
         return nullptr;
 
+    if (rightInt->getValue() == 0) {
+        delete leftVar;
+        delete rightVar;
+        
+        throw zero_division_error("can not divide by zero");
+    }
+
     FloatingPointNumber* result = new FloatingPointNumber(*leftInt / *rightInt);
 
     return result;
@@ -31,6 +41,13 @@ Number* DivOperation::divFloat(Variable* leftVar, Variable* rightVar)
     FloatingPointNumber* rightFloat = dynamic_cast<FloatingPointNumber*>(rightVar);
     if (!rightFloat)
         return nullptr;
+
+    if (std::fabs(rightFloat->getValue()) <= FloatingPointNumber::EPSI) {
+        delete leftVar;
+        delete rightVar;
+        
+        throw zero_division_error("can not divide by zero");
+    }
 
     FloatingPointNumber* result = new FloatingPointNumber(*leftFloat / *rightFloat);
 

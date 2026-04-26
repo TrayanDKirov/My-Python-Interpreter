@@ -1,13 +1,12 @@
 #include "../../../Header/Interpreter/Operation/WhileOperation.h"
 
-#include "../../../Exception/ValueError.h"
+#include "../../../Exception/Errors/ValueError.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/VoidVariable.h"
 using std::string;
 using std::unique_ptr;
 
 const string WhileOperation::NAME = "while";
-
 
 WhileOperation::WhileOperation(std::unique_ptr<BasicEqTree>& condition, OperationBody& body)
     : condition(std::move(condition)), body(std::move(body)) { }
