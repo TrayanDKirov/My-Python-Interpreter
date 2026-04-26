@@ -1,6 +1,8 @@
 #include "../../../Header/Interpreter/Operation/ForOperation.h"
 
 #include "../../../Exception/Errors/TypeError.h"
+#include "../../../Exception/InterpreterCalls/BreakCall.h"
+#include "../../../Exception/InterpreterCalls/ContinueCall.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/VoidVariable.h"
 using std::string;
@@ -28,7 +30,13 @@ Variable* ForOperation::execute(Context& contex) {
     for (size_t i = 0; i < iterable->size(); i++) {
         myContex.getScope().assign(nameOfI, unique_ptr<Variable>((*iterable)[i]));
 
-        body.execute(myContex);
+        try {
+            body.execute(myContex);
+        } catch (continue_call& cCall) {
+            continue;
+        } catch (break_call& bCall) {
+            break;
+        }
     }
 
     delete var;    

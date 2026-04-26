@@ -1,6 +1,8 @@
 #include "../../../Header/Interpreter/Operation/WhileOperation.h"
 
 #include "../../../Exception/Errors/ValueError.h"
+#include "../../../Exception/InterpreterCalls/ContinueCall.h"
+#include "../../../Exception/InterpreterCalls/BreakCall.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/VoidVariable.h"
 using std::string;
@@ -22,7 +24,15 @@ Variable* WhileOperation::execute(Context& contex) {
 
     while (cond->getValue()) {
         delete cond;
-        body.execute(contex);
+
+        try {
+            body.execute(contex);
+        } catch (continue_call& cCall) {
+        } catch (break_call& bCall) {
+            cond = nullptr;
+            
+            break;
+        }
         
         condResult = condition->execute(contex);
         cond = dynamic_cast<BoolVariable*>(condResult);

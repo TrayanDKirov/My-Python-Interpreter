@@ -5,6 +5,7 @@
 
 #include "../../Exception/Errors/Error.h"
 #include "../../Exception/Errors/FileNotFoundError.h"
+#include "../../Exception/InterpreterCalls/Call.h"
 using std::ifstream;
 using std::string;
 
@@ -57,6 +58,9 @@ void Interpreter::interpret()
         }
     } catch (error& error) {
         context.getOutputStream() << "Line " << currLineIndex+1 << ": " << error.what() << std::endl;
+    } catch (call& call) {
+        context.getOutputStream() << "Line " << currLineIndex+1 <<
+            ": SyntaxError: " <<  call.what() << std::endl;
     }
 }
 

@@ -14,6 +14,8 @@
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.h"
 #include "../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.h"
+#include "Interpreter/Operation/BreakOperation.h"
+#include "Interpreter/Operation/ContinueOperation.h"
 #include "Interpreter/Operation/ForOperation.h"
 #include "Interpreter/Operation/IfOperation.h"
 #include "Interpreter/Operation/PassOperation.h"
@@ -332,8 +334,22 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
 
 Operation * OperationFactory::create(const std::vector<std::string> &tokens, size_t start, size_t end, size_t& currLine)
 {
-    if (tokens.empty())
+    
+    if (tokens.empty() || tokens[start] == PassOperation::NAME)
         return new PassOperation();
+    
+    if (tokens[start] == ContinueOperation::NAME) {
+        if (tokens.size() > 1)
+            throw syntax_error((ContinueOperation::NAME + " must be alone on line").c_str());
+        
+        return new ContinueOperation();
+    }
+    if (tokens[start] == BreakOperation::NAME) {
+        if (tokens.size() > 1)
+            throw syntax_error((BreakOperation::NAME + " must be alone on line").c_str());
+        
+        return new BreakOperation();
+    }
 
     Operation* result = createAssigment(tokens, start, end);
     if (result)

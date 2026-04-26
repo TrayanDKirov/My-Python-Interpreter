@@ -28,7 +28,8 @@ void runTests() {
         { "tests/casting.mpy",     "42\n1\n3.140000\nFalse\nTrue\n100\nTrue\nhello\n" },
         { "tests/while.mpy",       "0\n1\n2\n3\n4\n15\n" },
         { "tests/list.mpy",        "[1, 2, 3, 4]\n1\n4\n[1, 10, 3, 4]\n6\n3\n99\n" },
-        { "tests/for.mpy",         "10\n20\n30\nH\ni\n4\n5\n" }
+        { "tests/for.mpy",         "10\n20\n30\nH\ni\n4\n5\n" },
+        { "tests/break_continue.mpy", "0\n1\n2\n1\n3\n5\n1\n2\n1\n2\n4\n5\n" }
     };
 
     for (const auto& test : tests) {
