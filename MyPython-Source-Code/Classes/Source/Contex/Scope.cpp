@@ -17,7 +17,7 @@ Variable* Scope::getRealVar(const string& name) {
         return parent->getRealVar(name);
     }
 
-    throw value_error(("ValueError: " + name + " not defined in this scope").c_str());
+    throw value_error((name + " not defined in this scope").c_str());
 }
 
 Scope::Scope(Scope* parent) : parent(parent) { }

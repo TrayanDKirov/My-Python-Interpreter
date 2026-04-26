@@ -368,7 +368,6 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
 
 Operation * OperationFactory::create(const std::vector<std::string> &tokens, size_t start, size_t end, size_t& currLine)
 {
-    
     if (tokens.empty() || tokens[start] == PassOperation::NAME)
         return new PassOperation();
     
@@ -385,7 +384,6 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
         return new BreakOperation();
     }
     if (tokens[start] == ReturnOperation::NAME) {
-        
         return new ReturnOperation(
             unique_ptr<Operation>(create(tokens, start+1, end)));
     }
@@ -410,7 +408,7 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
     if (result)
         return result;
 
-    result = createLeave(tokens, start, end);
+    result = eqTreeFactory.create(tokens, start, end);
     if (result)
         return result;
 

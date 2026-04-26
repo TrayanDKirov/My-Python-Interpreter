@@ -36,6 +36,11 @@ BasicEqTree* EquationTreeFactory::createPr2(const std::vector<std::string>& toke
             i = endBracketIndexes[i];
             continue;
         }
+        if (MpySymbols::isSqStartBracket(tokens[i])) {
+            i = sqEndBracketIndexes[i];
+            continue;
+        }
+        
         if (tokens[i] == PowerOperation::NAME)
         {
             return new PowerOperation(unique_ptr<BasicEqTree>(createPr4(tokens, start, i)),
@@ -52,6 +57,10 @@ BasicEqTree* EquationTreeFactory::createPr3(const std::vector<std::string> &toke
     {
         if (MpySymbols::isEndBracket(tokens[i])) {
             i = startBracketIndexes[i];
+            continue;
+        }
+        if (MpySymbols::isSqEndBracket(tokens[i])) {
+            i = sqStartBracketIndexes[i];
             continue;
         }
 
@@ -82,6 +91,10 @@ BasicEqTree * EquationTreeFactory::createPr4(const std::vector<std::string> &tok
             i = startBracketIndexes[i];
             continue;
         }
+        if (MpySymbols::isSqEndBracket(tokens[i])) {
+            i = sqStartBracketIndexes[i];
+            continue;
+        }
 
         if (tokens[i] == PlusOperation::NAME)
         {
@@ -104,6 +117,10 @@ BasicEqTree * EquationTreeFactory::createPr5(const std::vector<std::string> &tok
     {
         if (MpySymbols::isEndBracket(tokens[i])) {
             i = startBracketIndexes[i];
+            continue;
+        }
+        if (MpySymbols::isSqEndBracket(tokens[i])) {
+            i = sqStartBracketIndexes[i];
             continue;
         }
 
@@ -145,6 +162,11 @@ BasicEqTree * EquationTreeFactory::createPr6(const std::vector<std::string>& tok
             i = startBracketIndexes[i];
             continue;
         }
+        if (MpySymbols::isSqEndBracket(tokens[i])) {
+            i = sqStartBracketIndexes[i];
+            continue;
+        }
+        
         if (tokens[i] == NotOperation::NAME)
         {
             return new NotOperation(unique_ptr<BasicEqTree>(nullptr),
@@ -161,6 +183,10 @@ BasicEqTree* EquationTreeFactory::createPr7(const std::vector<std::string>& toke
     {
         if (MpySymbols::isEndBracket(tokens[i])) {
             i = startBracketIndexes[i];
+            continue;
+        }
+        if (MpySymbols::isSqEndBracket(tokens[i])) {
+            i = sqStartBracketIndexes[i];
             continue;
         }
 
@@ -180,6 +206,10 @@ BasicEqTree* EquationTreeFactory::createPr8(const std::vector<std::string>& toke
     {
         if (MpySymbols::isEndBracket(tokens[i])) {
             i = startBracketIndexes[i];
+            continue;
+        }
+        if (MpySymbols::isSqEndBracket(tokens[i])) {
+            i = sqStartBracketIndexes[i];
             continue;
         }
 
@@ -212,30 +242,60 @@ void EquationTreeFactory::findEndBracket(const std::vector<std::string> &tokens,
     throw syntax_error("unmatched '('");
 }
 
+void EquationTreeFactory::findSqEndBracket(const std::vector<std::string>& tokens,
+    size_t startBracketIndex, size_t end) {
+    int bracketCounter = 0;
+    for (size_t i = startBracketIndex; i < end; i++)
+    {
+        if (MpySymbols::isSqStartBracket(tokens[i]))
+            bracketCounter++;
+        else if (MpySymbols::isSqEndBracket(tokens[i]))
+            bracketCounter--;
+
+        if (bracketCounter == 0) {
+            sqEndBracketIndexes[startBracketIndex] = i;
+            return;
+        }
+    }
+
+    throw syntax_error("unmatched '['");
+}
+
 void EquationTreeFactory::initBracketIndexes(const std::vector<std::string>& tokens, size_t start, size_t end)
 {
     int count = 0;
+    int sqBracketCount = 0;
     for (size_t i = start; i < end && i < tokens.size(); i++) {
         if (MpySymbols::isStartBracket(tokens[i])) count++;
         else if (MpySymbols::isEndBracket(tokens[i])) count--;
+        else if (MpySymbols::isSqStartBracket(tokens[i])) sqBracketCount++;
+        else if (MpySymbols::isSqEndBracket(tokens[i])) sqBracketCount--;
         if (count < 0)
             throw syntax_error("unmatched ')'");
+        if (sqBracketCount < 0)
+            throw syntax_error("unmatched ']'");
     }
     
     for (size_t i = start; i < end && i < tokens.size(); i++)
     {
         if (MpySymbols::isStartBracket(tokens[i]))
             findEndBracket(tokens, i, end);
+        else if (MpySymbols::isSqStartBracket(tokens[i]))
+            findSqEndBracket(tokens, i, end);
     }
 
     for (const auto& [key, value] : endBracketIndexes)
         startBracketIndexes[value] = key;
+    for (const auto& [key, value] : sqEndBracketIndexes)
+        sqStartBracketIndexes[value] = key;
 }
 
 void EquationTreeFactory::clearFactory()
 {
     startBracketIndexes.clear();
     endBracketIndexes.clear();
+    sqEndBracketIndexes.clear();
+    sqStartBracketIndexes.clear();
 }
 
 EquationTreeFactory::EquationTreeFactory(OperationFactory* operationFactory)
@@ -243,11 +303,18 @@ EquationTreeFactory::EquationTreeFactory(OperationFactory* operationFactory)
 
 BasicEqTree * EquationTreeFactory::create(const std::vector<std::string>& tokens, size_t start, size_t end)
 {
-    initBracketIndexes(tokens, start, end);
+    bool isTopLevel = (depth == 0);
+    depth++;
+
+    if (isTopLevel)
+        initBracketIndexes(tokens, start, end);
 
     BasicEqTree* result = createPr8(tokens, start, end);
 
-    clearFactory();
+    depth--;
+    if (depth == 0)
+        clearFactory();
 
     return result;
+
 }
