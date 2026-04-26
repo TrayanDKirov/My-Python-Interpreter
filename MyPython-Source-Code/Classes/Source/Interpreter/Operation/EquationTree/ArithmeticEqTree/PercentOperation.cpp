@@ -1,6 +1,7 @@
 #include "../../../../../Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PercentOperation.h"
 
 #include "../../../../../Exception/Errors/TypeError.h"
+#include "../../../../../Exception/Errors/ZeroDivisionError.h"
 #include "Variable/BoolVariable.h"
 #include "Variable/Number/FloatingPointNumber.h"
 #include "Variable/Number/IntegerNumber.h"
@@ -17,6 +18,13 @@ Number* PercentOperation::percentInt(Variable* leftVar, Variable* rightVar)
     IntegerNumber* rightInt = dynamic_cast<IntegerNumber*>(rightVar);
     if (!rightInt)
         return nullptr;
+
+    if (rightInt->getValue() == 0) {
+        delete leftVar;
+        delete rightVar;
+
+        throw zero_division_error("can not divide by zero with %");
+    }
 
     IntegerNumber* result = new IntegerNumber(*leftInt % *rightInt);
 
