@@ -4,5 +4,5 @@
 class file_not_found_error : public error
 {
 public:
-    file_not_found_error(const char* msg) : error(msg) { }
+    file_not_found_error(const char* msg) : error(("FileNotFoundError: " + std::string(msg)).c_str()) { }
 };
