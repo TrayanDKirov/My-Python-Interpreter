@@ -44,6 +44,10 @@ void Interpreter::readFile() {
 
 void Interpreter::interpret()
 {
+    interpret(this->context);
+}
+
+void Interpreter::interpret(Context& context) {
     readFile();
 
     size_t currLineIndex = 0;

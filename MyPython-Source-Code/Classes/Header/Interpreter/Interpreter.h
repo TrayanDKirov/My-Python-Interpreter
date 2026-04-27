@@ -22,6 +22,7 @@ public:
     void setFileName(const std::string& fileName);
 
     void interpret();
+    void interpret(Context& context);
 
     void printContex() const;
 };

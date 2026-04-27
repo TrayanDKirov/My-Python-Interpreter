@@ -18,6 +18,7 @@
 #include "Interpreter/Operation/ContinueOperation.h"
 #include "Interpreter/Operation/ForOperation.h"
 #include "Interpreter/Operation/IfOperation.h"
+#include "Interpreter/Operation/ImportOperation.h"
 #include "Interpreter/Operation/PassOperation.h"
 #include "Interpreter/Operation/WhileOperation.h"
 #include "Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FuncDefOperation.h"
@@ -386,6 +387,11 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
     if (tokens[start] == ReturnOperation::NAME) {
         return new ReturnOperation(
             unique_ptr<Operation>(create(tokens, start+1, end)));
+    }
+    if (tokens[start] == ImportOperation::NAME) {
+        if (end - start != 2)
+            throw syntax_error("import exactly accepts one argument filePath");
+        return new ImportOperation(tokens[start+1]);
     }
 
     Operation* result = createAssigment(tokens, start, end);

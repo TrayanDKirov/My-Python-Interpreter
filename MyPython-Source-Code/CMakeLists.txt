@@ -116,6 +116,8 @@ add_executable(MyPython_Source_Code
         Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FuncDefOperation.h
         Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ReturnOperation.cpp
         Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ReturnOperation.h
+        Classes/Source/Interpreter/Operation/ImportOperation.cpp
+        Classes/Header/Interpreter/Operation/ImportOperation.h
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE
