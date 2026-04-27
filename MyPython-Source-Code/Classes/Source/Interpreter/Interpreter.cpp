@@ -20,12 +20,24 @@ void Interpreter::setFileName(const std::string& fileName) {
     this->fileName = fileName;
 }
 
+bool isOnlyWhiteSpaces(const std::string& line) {
+    for (char ch : line) {
+        if (!std::isspace((unsigned char)ch))
+            return false;
+    }
+    return true;
+}
+
 void Interpreter::readLines(ifstream& inputFile) {
     string line = "";
 
     while (!inputFile.eof())
     {
         std::getline(inputFile, line);
+        if (isOnlyWhiteSpaces(line)) {
+            line = "";
+        }
+        
         lines.push_back(line);
     }
 }
@@ -80,7 +92,7 @@ void Interpreter::interpret(Context& context) {
     Operation* operation = nullptr;
     try {
         while (currLineIndex < lines.size())
-        {
+        {            
             operation = operationFactory.create(currLineIndex);
             if (operation)
                 delete operation->execute(context);

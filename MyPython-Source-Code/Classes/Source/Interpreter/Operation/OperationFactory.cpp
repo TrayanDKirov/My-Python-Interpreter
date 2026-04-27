@@ -1,8 +1,5 @@
 #include "Interpreter/Operation/OperationFactory.h"
 
-#include <ranges>
-#include <pstl/parallel_backend_serial.h>
-
 #include "../../../Exception/Errors/Error.h"
 #include "../../../Exception/Errors/SyntaxError.h"
 #include "../../../Header/Interpreter/MpySymbols.h"
@@ -282,18 +279,21 @@ OperationBody OperationFactory::readBody(size_t& currLineIndex)
 
     size_t currInd = getIndentation(lines[currLineIndex]);
     if (!hasCorrectIndentation(currInd))
-        throw syntax_error("SyntaxError: indentation is not correct");
+        throw syntax_error("indentation is not correct");
 
     currLineIndex++;
-    while (currLineIndex < lines.size() && getIndentation(lines[currLineIndex]) == currInd + indentation)
+    while (currLineIndex < lines.size() && (lines[currLineIndex].empty()
+        || getIndentation(lines[currLineIndex]) == currInd + indentation))
     {
-        operations.push_back(unique_ptr<Operation>(create(currLineIndex)));
+        Operation* op = create(currLineIndex);
+        if (op)
+            operations.push_back(unique_ptr<Operation>(op));
     }
 
     if (currLineIndex < lines.size()) {
         size_t ind = getIndentation(lines[currLineIndex]);
         if (!hasCorrectIndentation(ind) || ind > currInd) {
-            throw syntax_error("SyntaxError: indentation is not correct");
+            throw syntax_error("indentation is not correct");
         }
     }
 
@@ -422,6 +422,11 @@ Operation * OperationFactory::create(const std::vector<std::string> &tokens, siz
 }
 
 Operation * OperationFactory::create(size_t& currLineIndex) {
+    if (lines[currLineIndex].empty()) {
+        currLineIndex++;
+        return nullptr;
+    }
+    
     vector<string> tokens = tokenizer.tokenize(lines[currLineIndex]);
 
     Operation* result = create(tokens, 0, tokens.size(), currLineIndex);

@@ -1,2 +1,0 @@
-if nums[j] > nums[j + 1]:
-    temp = nums[j]
