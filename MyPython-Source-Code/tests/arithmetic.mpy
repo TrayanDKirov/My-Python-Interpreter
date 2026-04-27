@@ -1,0 +1,13 @@
+x = 5
+y = 3
+print(x + y)
+print(x - y)
+print(x * y)
+print(x % y)
+print(x ** y)
+print(x / y)
+a = 10
+b = 4
+print(a - b * 2)
+print(a ** 2 + b ** 2)
+print((a + b) % 3)

@@ -1,0 +1,16 @@
+l = [10, 20, 30]
+for x in l:
+    print(x)
+s = "Hi"
+for ch in s:
+    print(ch)
+nums = [1, 2, 3, 4, 5]
+for n in nums:
+    if n > 3:
+        print(n)
+total = 0
+j = 0
+while j < 5:
+    total = total + nums[j]
+    j = j + 1
+print(total)

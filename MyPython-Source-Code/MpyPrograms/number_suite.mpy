@@ -1,0 +1,131 @@
+def is_even(n):
+    if n % 2 == 0:
+        return True
+    return False
+
+def abs_val(n):
+    if n < 0:
+        return 0 - n
+    return n
+
+def power(base, exp):
+    if exp == 0:
+        return 1
+    return base * power(base, exp - 1)
+
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+def is_prime(n):
+    if n < 2:
+        return False
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i = i + 1
+    return True
+
+def clamp(val, lo, hi):
+    if val < lo:
+        return lo
+    if val > hi:
+        return hi
+    return val
+
+print("=== Math Utilities ===")
+print(is_even(4))
+print(is_even(7))
+print(abs_val(15))
+print(abs_val(8))
+print(power(2, 10))
+print(power(3, 4))
+print(factorial(6))
+print(factorial(0))
+print(clamp(5, 1, 10))
+print(clamp(3, 0, 100))
+print(clamp(200, 0, 100))
+
+print("=== Fibonacci Sequence ===")
+i = 0
+while i < 11:
+    print(fibonacci(i))
+    i = i + 1
+
+print("=== Primes up to 30 ===")
+i = 2
+while i <= 30:
+    if is_prime(i):
+        print(i)
+    i = i + 1
+
+print("=== List Stats ===")
+nums = [64, 34, 25, 12, 22, 11, 90]
+n = 7
+total = 0
+mn = nums[0]
+mx = nums[0]
+i = 0
+while i < n:
+    total = total + nums[i]
+    if nums[i] < mn:
+        mn = nums[i]
+    if nums[i] > mx:
+        mx = nums[i]
+    i = i + 1
+print(total)
+print(mn)
+print(mx)
+
+print("=== Count Evens and Odds ===")
+evens = 0
+odds = 0
+for x in [64, 34, 25, 12, 22, 11, 90]:
+    if is_even(x) == False:
+        odds = odds + 1
+        continue
+    evens = evens + 1
+print(evens)
+print(odds)
+
+print("=== Bubble Sort ===")
+i = 0
+while i < n:
+    j = 0
+    while j < n - i - 1:
+        if nums[j] > nums[j + 1]:
+            temp = nums[j]
+            nums[j] = nums[j + 1]
+            nums[j + 1] = temp
+        j = j + 1
+    i = i + 1
+print(nums)
+
+print("=== First Prime Above 20 ===")
+i = 21
+while i < 100:
+    if is_prime(i):
+        print(i)
+        break
+    i = i + 1
+
+print("=== Sum of Even Numbers 1 to 20 ===")
+total = 0
+for x in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]:
+    if is_even(x) == False:
+        continue
+    total = total + x
+print(total)
+
+print("=== Powers of 2 ===")
+i = 0
+while i < 8:
+    print(power(2, i))
+    i = i + 1

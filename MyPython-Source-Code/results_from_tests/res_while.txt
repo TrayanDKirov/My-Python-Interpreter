@@ -1,0 +1,42 @@
+=== Test: tests/while.mpy ===
+
+
+--- Code ---
+i = 0
+while i < 5:
+    print(i)
+    i = i + 1
+sum = 0
+j = 1
+while j <= 5:
+    sum = sum + j
+    j = j + 1
+print(sum)
+n = 10
+result = 1
+while n > 1:
+    result = result * n
+    n = n - 1
+print(result)
+
+--- Expected ---
+0
+1
+2
+3
+4
+15
+3628800
+
+
+--- Actual ---
+0
+1
+2
+3
+4
+15
+3628800
+
+
+--- Result: PASSED ---

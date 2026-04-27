@@ -1,0 +1,36 @@
+=== Test: tests/strings.mpy ===
+
+
+--- Code ---
+a = 'hello'
+b = ' world'
+print(a + b)
+print(a[0])
+print(a[4])
+s = 'abc'
+for ch in s:
+    print(ch)
+c = str(42)
+print(c)
+
+--- Expected ---
+hello world
+h
+o
+a
+b
+c
+42
+
+
+--- Actual ---
+hello world
+h
+o
+a
+b
+c
+42
+
+
+--- Result: PASSED ---

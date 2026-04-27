@@ -1,0 +1,43 @@
+=== Test: tests/arithmetic.mpy ===
+
+
+--- Code ---
+x = 5
+y = 3
+print(x + y)
+print(x - y)
+print(x * y)
+print(x % y)
+print(x ** y)
+print(x / y)
+a = 10
+b = 4
+print(a - b * 2)
+print(a ** 2 + b ** 2)
+print((a + b) % 3)
+
+--- Expected ---
+8
+2
+15
+2
+125
+1.666667
+2
+116
+2
+
+
+--- Actual ---
+8
+2
+15
+2
+125
+1.666667
+2
+116
+2
+
+
+--- Result: PASSED ---

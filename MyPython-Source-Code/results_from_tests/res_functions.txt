@@ -1,0 +1,55 @@
+=== Test: tests/functions.mpy ===
+
+
+--- Code ---
+def greet():
+    print("Hello!")
+
+greet()
+
+def add(a, b):
+    return a + b
+
+print(add(3, 4))
+
+def max_of(a, b):
+    if a > b:
+        return a
+    return b
+
+print(max_of(10, 7))
+print(max_of(3, 9))
+
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+print(factorial(5))
+
+def fib(n):
+    if n <= 1:
+        return n
+    return fib(n - 1) + fib(n - 2)
+
+print(fib(7))
+
+--- Expected ---
+Hello!
+7
+10
+9
+120
+13
+
+
+--- Actual ---
+Hello!
+7
+10
+9
+120
+13
+
+
+--- Result: PASSED ---

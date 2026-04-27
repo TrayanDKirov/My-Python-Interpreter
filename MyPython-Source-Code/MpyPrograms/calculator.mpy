@@ -1,0 +1,20 @@
+print("Write num1 *enter* sign *enter* num2 *enter* and get result.")
+a = input('', end='')
+while a != "q":
+    a = int(a)
+    op = input('', end='')
+    b = int(input('', end=''))
+    
+    if op == "+":
+        print(a + b)
+    elif op == "-":
+        print(a - b)
+    elif op == "*":
+        print(a * b)
+    elif op == "/":
+        print(a / b)
+    else:
+        print("unknown op -", op, "try + - * /")
+    
+    print("Write num1 *enter* op *enter* num2 *enter* and get result.")
+    a = input('', end='')

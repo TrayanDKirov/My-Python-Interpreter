@@ -1,0 +1,24 @@
+x = 15
+if x > 10:
+    print('big')
+y = 5
+if y > 10:
+    print('big')
+elif y > 3:
+    print('medium')
+else:
+    print('small')
+z = 0
+if z > 0:
+    print('positive')
+else:
+    print('not positive')
+a = 7
+if a > 10:
+    print('large')
+elif a > 5:
+    print('medium')
+elif a > 2:
+    print('small')
+else:
+    print('tiny')

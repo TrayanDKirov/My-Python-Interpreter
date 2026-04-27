@@ -1,0 +1,12 @@
+print(True and True)
+print(True and False)
+print(False or True)
+print(False or False)
+print(not True)
+print(not False)
+x = True and True and False
+print(x)
+y = False or False or True
+print(y)
+z = True and False
+print(not z)

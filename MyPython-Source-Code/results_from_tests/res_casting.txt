@@ -1,0 +1,45 @@
+=== Test: tests/casting.mpy ===
+
+
+--- Code ---
+print(int('42'))
+print(int(True))
+print(int(False))
+print(float('3.14'))
+print(bool(0))
+print(bool(1))
+print(bool(''))
+print(bool('hi'))
+print(str(100))
+print(str(True))
+print(str('hello'))
+
+--- Expected ---
+42
+1
+0
+3.140000
+False
+True
+False
+True
+100
+True
+hello
+
+
+--- Actual ---
+42
+1
+0
+3.140000
+False
+True
+False
+True
+100
+True
+hello
+
+
+--- Result: PASSED ---

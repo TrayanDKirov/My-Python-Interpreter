@@ -1,0 +1,51 @@
+scores = [0, 0, 0, 0, 0]
+n = 5
+total = 0
+passing = 0
+i = 0
+
+print("=== Student Grade Book ===")
+print("Enter 5 scores (0-100):")
+
+while i < n:
+    scores[i] = int(input(""))
+    i = i + 1
+
+i = 0
+mn = scores[0]
+mx = scores[0]
+
+while i < n:
+    total = total + scores[i]
+    if scores[i] < mn:
+        mn = scores[i]
+    if scores[i] > mx:
+        mx = scores[i]
+    if scores[i] >= 60:
+        passing = passing + 1
+    i = i + 1
+
+print("=== Results ===")
+print("Scores:")
+print(scores)
+print("Total:")
+print(total)
+print("Min:")
+print(mn)
+print("Max:")
+print(mx)
+print("Passing (>=60):")
+print(passing)
+print("Failed:")
+print(n - passing)
+
+if total >= 450:
+    print("Class grade: A")
+elif total >= 400:
+    print("Class grade: B")
+elif total >= 350:
+    print("Class grade: C")
+elif total >= 300:
+    print("Class grade: D")
+else:
+    print("Class grade: F")

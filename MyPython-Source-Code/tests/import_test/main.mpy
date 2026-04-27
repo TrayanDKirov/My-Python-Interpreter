@@ -1,0 +1,30 @@
+import tests.import_test.math_utils
+import tests.import_test.greet_utils
+
+greet("Alice")
+greet("Bob")
+
+print("--- Factorials ---")
+print(factorial(1))
+print(factorial(5))
+print(factorial(10))
+
+print("--- Powers ---")
+print(power(2, 8))
+print(power(3, 3))
+print(power(10, 4))
+
+print("--- Even Check ---")
+print(is_even(4))
+print(is_even(7))
+
+print("--- Primes up to 20 ---")
+i = 2
+while i <= 20:
+    if is_prime(i):
+        print(i)
+    i = i + 1
+
+greet_twice("Charlie")
+farewell("Alice")
+farewell("Bob")

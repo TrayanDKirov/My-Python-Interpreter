@@ -1,0 +1,9 @@
+def greet(name):
+    print("Hello, ", name, "!", sep='')
+
+def farewell(name):
+    print("Goodbye, ", name, "!", sep='')
+
+def greet_twice(name):
+    greet(name)
+    greet(name)
