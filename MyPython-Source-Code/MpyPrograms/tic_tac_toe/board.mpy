@@ -1,0 +1,22 @@
+def get_sym(cell, pos):
+    if cell == 1:
+        return 'X'
+    if cell == 2:
+        return 'O'
+    return str(pos + 1)
+
+def print_board(b):
+    s0 = get_sym(b[0], 0)
+    s1 = get_sym(b[1], 1)
+    s2 = get_sym(b[2], 2)
+    s3 = get_sym(b[3], 3)
+    s4 = get_sym(b[4], 4)
+    s5 = get_sym(b[5], 5)
+    s6 = get_sym(b[6], 6)
+    s7 = get_sym(b[7], 7)
+    s8 = get_sym(b[8], 8)
+    print(s0, ' | ', s1, ' | ', s2, sep='')
+    print('---+---+---')
+    print(s3, ' | ', s4, ' | ', s5, sep='')
+    print('---+---+---')
+    print(s6, ' | ', s7, ' | ', s8, sep='')

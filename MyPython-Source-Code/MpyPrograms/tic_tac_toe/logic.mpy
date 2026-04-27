@@ -1,0 +1,18 @@
+def check_win(b, p):
+    if b[0] == p and b[1] == p and b[2] == p:
+        return True
+    if b[3] == p and b[4] == p and b[5] == p:
+        return True
+    if b[6] == p and b[7] == p and b[8] == p:
+        return True
+    if b[0] == p and b[3] == p and b[6] == p:
+        return True
+    if b[1] == p and b[4] == p and b[7] == p:
+        return True
+    if b[2] == p and b[5] == p and b[8] == p:
+        return True
+    if b[0] == p and b[4] == p and b[8] == p:
+        return True
+    if b[2] == p and b[4] == p and b[6] == p:
+        return True
+    return False

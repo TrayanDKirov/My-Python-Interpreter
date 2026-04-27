@@ -1,0 +1,50 @@
+import MpyPrograms.tic_tac_toe.board
+import MpyPrograms.tic_tac_toe.logic
+
+board = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+moves_made = 0
+x_turn = True
+winner = 0
+
+print('=== Tic-Tac-Toe ===')
+print('Player 1: X  |  Player 2: O')
+print_board(board)
+
+while moves_made < 9:
+    if x_turn:
+        player = 1
+        print('Player 1 (X) - enter move (1-9):')
+    else:
+        player = 2
+        print('Player 2 (O) - enter move (1-9):')
+        
+    idx = int(input(end='')) - 1
+    
+    if idx < 0 or idx > 8:
+        print('Invalid! Enter a number between 1 and 9.')
+        continue
+        
+    if board[idx] != 0:
+        print('Cell already taken! Try again.')
+        continue
+        
+    board[idx] = player
+    moves_made = moves_made + 1
+    
+    print()
+    print_board(board)
+    if check_win(board, player):
+        winner = player
+        break
+        
+    if x_turn:
+        x_turn = False
+    else:
+        x_turn = True
+        
+if winner == 1:
+    print('Player 1 (X) wins!')
+elif winner == 2:
+    print('Player 2 (O) wins!')
+else:
+    print("It's a draw!")
