@@ -28,9 +28,9 @@ Variable* ImportOperation::execute(Context& contex) {
     try {
         interpreter.interpret(contex);
     } catch (file_not_found_error& error) {
-        throw file_not_found_error((error.what() + string(": ") + filePath).c_str());
+        throw file_not_found_error((error.what() + string(": ") + path).c_str());
     } catch (error& err) {
-        throw error(("Error interpreting: " + filePath + err.what()).c_str());
+        err.rethrowWithMessage("Error interpreting '" + path + "': ");
     }
     
     return VoidVariable::getInstance().clone();

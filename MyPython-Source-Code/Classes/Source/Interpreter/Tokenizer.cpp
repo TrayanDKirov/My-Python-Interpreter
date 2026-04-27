@@ -1,4 +1,4 @@
-#include "../../Header/Interpreter/Tokenizer.h"
+#include "Interpreter/Tokenizer.h"
 
 #include "../../Exception/Errors/SyntaxError.h"
 #include "../../Header/Interpreter/MpySymbols.h"

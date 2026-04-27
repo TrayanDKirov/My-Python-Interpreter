@@ -41,6 +41,10 @@ Variable * FunctionCallOperation::execute(Context& context) {
         delete funcVar;
         
         return rCall.result;
+    } catch (error& err) {
+        delete funcVar;
+
+        err.rethrowWithMessage("In '" + funcVar->getName() + "': ");
     }
 
     delete funcVar;

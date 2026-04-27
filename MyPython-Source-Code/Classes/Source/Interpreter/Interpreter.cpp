@@ -44,27 +44,52 @@ void Interpreter::readFile() {
 
 void Interpreter::interpret()
 {
-    interpret(this->context);
+    readFile();
+
+    size_t currLineIndex = 0;
+    Operation* operation = nullptr;
+    try {
+        while (currLineIndex < lines.size())
+        {
+            operation = operationFactory.create(currLineIndex);
+            if (operation)
+                delete operation->execute(context);
+
+            delete operation;
+            operation = nullptr;
+        }
+    } catch (error& error) {
+        delete operation;
+        
+        context.getOutputStream() << "Line " << currLineIndex+1 << ": " << error.what() << std::endl;
+    } catch (call& call) {
+        delete operation;
+        
+        context.getOutputStream() << "Line " << currLineIndex+1 <<
+            ": SyntaxError: " <<  call.what() << std::endl;
+    } catch (...) {
+        delete operation;
+    }
 }
 
 void Interpreter::interpret(Context& context) {
     readFile();
 
     size_t currLineIndex = 0;
+    Operation* operation = nullptr;
     try {
         while (currLineIndex < lines.size())
         {
-            Operation* operation = operationFactory.create(currLineIndex);
+            operation = operationFactory.create(currLineIndex);
             if (operation)
                 delete operation->execute(context);
 
             delete operation;
+            operation = nullptr;
         }
-    } catch (error& error) {
-        context.getOutputStream() << "Line " << currLineIndex+1 << ": " << error.what() << std::endl;
-    } catch (call& call) {
-        context.getOutputStream() << "Line " << currLineIndex+1 <<
-            ": SyntaxError: " <<  call.what() << std::endl;
+    } catch(...) {
+        delete operation;
+        throw;
     }
 }
 

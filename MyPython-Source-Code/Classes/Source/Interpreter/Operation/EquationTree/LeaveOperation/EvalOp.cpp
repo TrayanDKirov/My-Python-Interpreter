@@ -1,5 +1,7 @@
 #include "../../../../../Header/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.h"
 
+#include <memory_resource>
+
 #include "../../../../../Header/Variable/VariableFactory.h"
 #include "../../../../../Header/Variable/VoidVariable.h"
 
@@ -12,6 +14,8 @@ Variable* EvalOp::execute(Context &contex)
     Variable* var = variableFactory.create(value);
 
     if (dynamic_cast<VoidVariable*>(var)) {
+        delete var;
+        
         return variableFactory.createByName(value, contex);
     }
     

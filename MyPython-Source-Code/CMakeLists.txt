@@ -49,7 +49,6 @@ add_executable(MyPython_Source_Code
         Classes/Source/Variable/Iterable/StringVariable.cpp
 
         # Tests (if you want them in this executable)
-        Tests/TestTokenizer.cpp
         Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/OrOperation.cpp
         Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/OrOperation.h
         Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/NotOperation.cpp
