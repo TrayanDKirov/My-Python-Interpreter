@@ -57,7 +57,13 @@ PlusOperation::PlusOperation(unique_ptr<BasicEqTree> left,
 Variable* PlusOperation::execute(Context& contex)
 {
     Variable* leftVar = left->execute(contex);
-    Variable* rightVar = right->execute(contex);
+    Variable* rightVar = nullptr;
+    try {
+        rightVar = right->execute(contex);
+    } catch (...) {
+        delete leftVar;
+        throw;
+    }
 
     Variable* result = nullptr;
     result = plusInt(leftVar, rightVar);

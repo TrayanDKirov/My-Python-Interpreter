@@ -35,5 +35,5 @@ Variable* StringCastOp::execute(Context& contex)
     if (result)
         return result;
 
-    throw value_error("ValueError: can not convert this type to string");
+    throw value_error("can not convert this type to string");
 }

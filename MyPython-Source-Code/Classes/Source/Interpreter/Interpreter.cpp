@@ -69,6 +69,7 @@ void Interpreter::interpret()
             ": SyntaxError: " <<  call.what() << std::endl;
     } catch (...) {
         delete operation;
+        throw;
     }
 }
 

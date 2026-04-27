@@ -36,6 +36,12 @@ Variable* ForOperation::execute(Context& contex) {
             continue;
         } catch (break_call& bCall) {
             break;
+        } catch (call&) {
+            delete var;
+            throw;
+        } catch (error&) {
+            delete var;
+            throw;
         }
     }
 

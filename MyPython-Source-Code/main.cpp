@@ -32,7 +32,15 @@ void runTests() {
         { "tests/list.mpy",        "[1, 2, 3, 4]\n1\n4\n[1, 10, 3, 4]\n6\n3\n99\n" },
         { "tests/for.mpy",         "10\n20\n30\nH\ni\n4\n5\n" },
         { "tests/break_continue.mpy", "0\n1\n2\n1\n3\n5\n1\n2\n1\n2\n4\n5\n" },
-        { "tests/functions.mpy",      "Hello!\n7\n10\n9\n120\n" }
+        { "tests/functions.mpy",      "Hello!\n7\n10\n9\n120\n" },
+        { "tests/import_test/main.mpy",
+            "Hello, Alice!\nHello, Bob!\n"
+            "--- Factorials ---\n1\n120\n3628800\n"
+            "--- Powers ---\n256\n27\n10000\n"
+            "--- Even Check ---\nTrue\nFalse\n"
+            "--- Primes up to 20 ---\n2\n3\n5\n7\n11\n13\n17\n19\n"
+            "Hello, Charlie!\nHello, Charlie!\n"
+            "Goodbye, Alice!\nGoodbye, Bob!\n" }
     };
 
     int passed = 0;

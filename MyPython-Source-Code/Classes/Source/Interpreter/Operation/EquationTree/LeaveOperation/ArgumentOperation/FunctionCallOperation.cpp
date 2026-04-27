@@ -6,6 +6,7 @@
 #include "Variable/NoneVariable.h"
 
 using std::vector;
+using std::string;
 using std::unique_ptr;
 
 void FunctionCallOperation::assignVars(Context& context, FunctionVariable* funcVar) {
@@ -42,9 +43,10 @@ Variable * FunctionCallOperation::execute(Context& context) {
         
         return rCall.result;
     } catch (error& err) {
+        string funcName = funcVar->getName();
         delete funcVar;
 
-        err.rethrowWithMessage("In '" + funcVar->getName() + "': ");
+        err.rethrowWithMessage("In '" + funcName + "': ");
     }
 
     delete funcVar;

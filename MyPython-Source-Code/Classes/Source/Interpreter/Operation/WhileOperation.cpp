@@ -19,7 +19,7 @@ Variable* WhileOperation::execute(Context& contex) {
     if (!cond) {
         delete condResult;
         
-        throw value_error("ValueError: condition in while should return a bool value");
+        throw value_error("condition in while should return a bool value");
     }
 
     while (cond->getValue()) {
@@ -39,7 +39,7 @@ Variable* WhileOperation::execute(Context& contex) {
         if (!cond) {
             delete condResult;
             
-            throw value_error("ValueError: condition in while should return a bool value");
+            throw value_error("condition in while should return a bool value");
         }
     }
 

@@ -27,7 +27,7 @@ Variable* createInt(const string& value)
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
-        throw value_error("ValueError: value is of type int but is out of range. ");
+        throw value_error("value is of type int but is out of range. ");
     } catch (...) { }
 
     return nullptr;
@@ -43,7 +43,7 @@ Variable* createFloat(const string& value)
         }
     } catch (const std::invalid_argument&) {
     } catch (const std::out_of_range&) {
-        throw value_error("ValueError: value is of type float but is out of range. ");
+        throw value_error("value is of type float but is out of range. ");
     } catch (...) { }
 
     return nullptr;

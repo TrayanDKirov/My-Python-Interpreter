@@ -42,7 +42,7 @@ Variable * IfOperation::execute(Context& contex) {
     if (!cond) {
         delete condResult;
         
-        throw value_error("ValueError: condition in if should return a bool value");
+        throw value_error("condition in if should return a bool value");
     }
 
     if (cond->getValue()) {

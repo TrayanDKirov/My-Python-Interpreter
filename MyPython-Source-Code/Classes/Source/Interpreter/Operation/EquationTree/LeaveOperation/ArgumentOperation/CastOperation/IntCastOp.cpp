@@ -35,5 +35,5 @@ Variable* IntCastOp::execute(Context& contex)
     if (result)
         return result;
 
-    throw value_error("ValueError: can not convert this type to int");
+    throw value_error("can not convert this type to int");
 }
