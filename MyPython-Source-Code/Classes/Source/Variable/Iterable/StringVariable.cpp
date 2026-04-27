@@ -105,6 +105,10 @@ Variable* StringVariable::clone() const
     return new StringVariable(*this);
 }
 
+StringVariable operator+(const StringVariable &left, const StringVariable &right) {
+    return StringVariable(left.getValue() + right.getValue());
+}
+
 bool operator==(const StringVariable& left, const StringVariable& right)
 {
     return left.value == right.value;

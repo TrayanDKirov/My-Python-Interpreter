@@ -37,6 +37,20 @@ Number* PlusOperation::plusFloat(Variable* leftVar, Variable* rightVar)
     return result;
 }
 
+StringVariable* PlusOperation::plusString(Variable* leftVar, Variable* rightVar) {
+    auto leftStr = dynamic_cast<StringVariable*>(leftVar);
+    if (!leftStr)
+        return nullptr;
+    auto rightStr = dynamic_cast<StringVariable*>(rightVar);
+    if (!rightStr)
+        return nullptr;
+
+    StringVariable* result = new StringVariable(*leftStr + *rightStr);
+
+    return result;
+}
+
+
 PlusOperation::PlusOperation(unique_ptr<BasicEqTree> left,
                              unique_ptr<BasicEqTree> right) : ArithmeticEqTree(std::move(left), std::move(right)) { }
 
@@ -45,10 +59,12 @@ Variable* PlusOperation::execute(Context& contex)
     Variable* leftVar = left->execute(contex);
     Variable* rightVar = right->execute(contex);
 
-    Number* result = nullptr;
+    Variable* result = nullptr;
     result = plusInt(leftVar, rightVar);
     if (!result)
         result = plusFloat(leftVar, rightVar);
+    if (!result)
+        result = plusString(leftVar, rightVar);
 
     delete leftVar;
     delete rightVar;

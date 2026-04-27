@@ -28,6 +28,7 @@ public:
     Variable* clone() const override;
     ~StringVariable() override = default;
 
+    friend StringVariable operator+(const StringVariable& left, const StringVariable& right);
     friend bool operator==(const StringVariable& left, const StringVariable& right);
 };
 
