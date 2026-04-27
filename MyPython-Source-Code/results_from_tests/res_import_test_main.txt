@@ -1,6 +1,5 @@
 === Test: tests/import_test/main.mpy ===
 
-
 --- Code ---
 import tests.import_test.math_utils
 import tests.import_test.greet_utils

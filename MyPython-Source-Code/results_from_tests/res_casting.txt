@@ -1,6 +1,5 @@
 === Test: tests/casting.mpy ===
 
-
 --- Code ---
 print(int('42'))
 print(int(True))

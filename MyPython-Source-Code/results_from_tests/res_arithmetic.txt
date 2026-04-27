@@ -1,6 +1,5 @@
 === Test: tests/arithmetic.mpy ===
 
-
 --- Code ---
 x = 5
 y = 3

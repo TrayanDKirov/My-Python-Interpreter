@@ -1,6 +1,5 @@
 === Test: tests/comparison.mpy ===
 
-
 --- Code ---
 a = 10
 b = 5

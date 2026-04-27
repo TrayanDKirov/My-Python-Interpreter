@@ -1,6 +1,5 @@
 === Test: tests/conditionals.mpy ===
 
-
 --- Code ---
 x = 15
 if x > 10:

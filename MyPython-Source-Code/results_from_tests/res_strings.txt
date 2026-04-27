@@ -1,6 +1,5 @@
 === Test: tests/strings.mpy ===
 
-
 --- Code ---
 a = 'hello'
 b = ' world'

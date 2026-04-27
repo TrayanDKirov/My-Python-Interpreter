@@ -1,6 +1,5 @@
 === Test: tests/while.mpy ===
 
-
 --- Code ---
 i = 0
 while i < 5:

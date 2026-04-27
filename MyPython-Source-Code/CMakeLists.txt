@@ -6,117 +6,121 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(MyPython_Source_Code
         main.cpp
 
-        # Interpreter
+        # ---------------------------------------------------------------
+        # Interpreter Core
+        # ---------------------------------------------------------------
         Classes/Source/Interpreter/Interpreter.cpp
         Classes/Source/Interpreter/Tokenizer.cpp
         Classes/Source/Interpreter/MpySymbols.cpp
 
-        # Operations
-        Classes/Source/Interpreter/Operation/Operation.cpp
-        Classes/Source/Interpreter/Operation/OperationFactory.cpp
-        Classes/Source/Interpreter/Operation/Assignment.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ArgumentOperation.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BooleanEqTree.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/AndOperation.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/EquationTreeFactory.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.cpp
-
-        # Cast operations
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/CastOperation.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/FloatCastOp.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.cpp
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.cpp
-
-        # Context / Scope
-        Classes/Source/Contex/Scope.cpp
+        # ---------------------------------------------------------------
+        # Context & Scope
+        # ---------------------------------------------------------------
         Classes/Source/Contex/Context.cpp
+        Classes/Source/Contex/Scope.cpp
 
+        # ---------------------------------------------------------------
         # Variables
+        # ---------------------------------------------------------------
+
+        # Base
         Classes/Source/Variable/Variable.cpp
         Classes/Source/Variable/VariableFactory.cpp
         Classes/Source/Variable/BoolVariable.cpp
         Classes/Source/Variable/NoneVariable.cpp
         Classes/Source/Variable/VoidVariable.cpp
 
+        # Numbers
+        Classes/Source/Variable/Number/Number.cpp
         Classes/Source/Variable/Number/IntegerNumber.cpp
         Classes/Source/Variable/Number/FloatingPointNumber.cpp
-        Classes/Source/Variable/Number/Number.cpp
 
+        # Iterables
         Classes/Source/Variable/Iterable/IterableVariable.cpp
         Classes/Source/Variable/Iterable/StringVariable.cpp
-
-        # Tests (if you want them in this executable)
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/OrOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/OrOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/NotOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/NotOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/EqualOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/EqualOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/DifferentOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/DifferentOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/LessOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/LessOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BiggerOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/BiggerOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/LessOrEqualOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/LessOrEqualOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BiggerOrEqualOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/BooleanEqTree/BiggerOrEqualOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/ArithmeticEqTree.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/ArithmeticEqTree.h
-        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PlusOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PlusOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/MinusOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/MinusOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/MultOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/MultOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/DivOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/DivOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PercentOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PercentOperation.h
-        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PowerOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/ArithmeticEqTree/PowerOperation.h
-        Classes/Exception/Errors/ValueError.h
-        Classes/Exception/Errors/ZeroDivisionError.h
-        Classes/Exception/Errors/FileNotFoundError.h
-        Classes/Source/Interpreter/Operation/IfOperation.cpp
-        Classes/Header/Interpreter/Operation/IfOperation.h
-        Classes/Source/Interpreter/Operation/OperationBody.cpp
-        Classes/Header/Interpreter/Operation/OperationBody.h
-        Classes/Source/Interpreter/Operation/PassOperation.cpp
-        Classes/Header/Interpreter/Operation/PassOperation.h
-        Classes/Source/Interpreter/Operation/WhileOperation.cpp
-        Classes/Header/Interpreter/Operation/WhileOperation.h
         Classes/Source/Variable/Iterable/ListVariable.cpp
-        Classes/Header/Variable/Iterable/ListVariable.h
-        Classes/Exception/Errors/IndexError.h
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.h
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/GetElementOp.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/GetElementOp.h
-        Classes/Source/Interpreter/Operation/ForOperation.cpp
-        Classes/Header/Interpreter/Operation/ForOperation.h
-        Classes/Source/Interpreter/Operation/ContinueOperation.cpp
-        Classes/Header/Interpreter/Operation/ContinueOperation.h
-        Classes/Exception/InterpreterCalls/Call.h
-        Classes/Exception/InterpreterCalls/ContinueCall.h
-        Classes/Exception/InterpreterCalls/BreakCall.h
-        Classes/Source/Interpreter/Operation/BreakOperation.cpp
-        Classes/Header/Interpreter/Operation/BreakOperation.h
+
+        # Functions
         Classes/Source/Variable/FunctionVariable.cpp
-        Classes/Header/Variable/FunctionVariable.h
-        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FunctionCallOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FunctionCallOperation.h
-        Classes/Exception/InterpreterCalls/ReturnCall.h
+
+        # ---------------------------------------------------------------
+        # Operations — Core
+        # ---------------------------------------------------------------
+        Classes/Source/Interpreter/Operation/Operation.cpp
+        Classes/Source/Interpreter/Operation/OperationFactory.cpp
+        Classes/Source/Interpreter/Operation/OperationBody.cpp
+        Classes/Source/Interpreter/Operation/Assignment.cpp
+
+        # ---------------------------------------------------------------
+        # Operations — Control Flow
+        # ---------------------------------------------------------------
+        Classes/Source/Interpreter/Operation/IfOperation.cpp
+        Classes/Source/Interpreter/Operation/WhileOperation.cpp
+        Classes/Source/Interpreter/Operation/ForOperation.cpp
+        Classes/Source/Interpreter/Operation/BreakOperation.cpp
+        Classes/Source/Interpreter/Operation/ContinueOperation.cpp
+        Classes/Source/Interpreter/Operation/PassOperation.cpp
+
+        # ---------------------------------------------------------------
+        # Operations — Functions
+        # ---------------------------------------------------------------
         Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FuncDefOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FuncDefOperation.h
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/FunctionCallOperation.cpp
         Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ReturnOperation.cpp
-        Classes/Header/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ReturnOperation.h
+
+        # ---------------------------------------------------------------
+        # Operations — Import
+        # ---------------------------------------------------------------
         Classes/Source/Interpreter/Operation/ImportOperation.cpp
-        Classes/Header/Interpreter/Operation/ImportOperation.h
+
+        # ---------------------------------------------------------------
+        # Expression Tree — Core & Leaf
+        # ---------------------------------------------------------------
+        Classes/Source/Interpreter/Operation/EquationTree/EquationTreeFactory.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/EvalOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ListEvalOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/GetElementOp.cpp
+
+        # ---------------------------------------------------------------
+        # Expression Tree — Arithmetic Operations
+        # ---------------------------------------------------------------
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/ArithmeticEqTree.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PlusOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/MinusOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/MultOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/DivOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PercentOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/ArithmeticEqTree/PowerOperation.cpp
+
+        # ---------------------------------------------------------------
+        # Expression Tree — Boolean & Comparison Operations
+        # ---------------------------------------------------------------
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BooleanEqTree.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/AndOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/OrOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/NotOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/EqualOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/DifferentOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/LessOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BiggerOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/LessOrEqualOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/BoolEqTree/BiggerOrEqualOperation.cpp
+
+        # ---------------------------------------------------------------
+        # Expression Tree — Argument Operations
+        # ---------------------------------------------------------------
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/ArgumentOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/PrintOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/InputOperation.cpp
+
+        # ---------------------------------------------------------------
+        # Expression Tree — Type Cast Operations
+        # ---------------------------------------------------------------
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/CastOperation.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/IntCastOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/FloatCastOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/StringCastOp.cpp
+        Classes/Source/Interpreter/Operation/EquationTree/LeaveOperation/ArgumentOperation/CastOperation/BoolCastOp.cpp
 )
 
 target_include_directories(MyPython_Source_Code PRIVATE

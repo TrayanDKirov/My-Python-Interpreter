@@ -1,6 +1,5 @@
 === Test: tests/break_continue.mpy ===
 
-
 --- Code ---
 i = 0
 while i < 10:

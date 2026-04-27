@@ -1,6 +1,5 @@
 === Test: tests/functions.mpy ===
 
-
 --- Code ---
 def greet():
     print("Hello!")

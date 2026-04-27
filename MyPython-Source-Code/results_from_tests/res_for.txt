@@ -1,6 +1,5 @@
 === Test: tests/for.mpy ===
 
-
 --- Code ---
 l = [10, 20, 30]
 for x in l:

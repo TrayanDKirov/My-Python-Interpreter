@@ -1,6 +1,5 @@
 === Test: tests/boolean.mpy ===
 
-
 --- Code ---
 print(True and True)
 print(True and False)
