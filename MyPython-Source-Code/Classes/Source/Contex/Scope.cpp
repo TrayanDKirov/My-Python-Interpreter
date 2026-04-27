@@ -31,7 +31,7 @@ Variable* Scope::get(const string& name) const {
         return parent->getRealVar(name)->clone();
     }
 
-    throw value_error(("ValueError: " + name + " not defined in this scope").c_str());
+    throw value_error((name + " not defined in this scope").c_str());
 }
 
 Variable * Scope::getByIndex(const std::string& name, int index) const {
