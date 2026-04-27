@@ -224,12 +224,11 @@ cmake --build .
 ```bash
 ./MyPython_Source_Code <file-path>
 ```
-Or
+The interpreter takes the `filePath` as argument. Then opnes the .mpy file and interprets it. 
 ```bash
 ./MyPython_Source_Code -run-tests
 ```
-
-The interpreter takes the `filePath` as argument. Then opnes the .mpy file and interprets it. Alternativly you can use `-run-tests`. The test files in tests\ are executed and you get the result - how many passed. In the results_from_test\ directory you will find the expected and actual output of each test file.
+Alternatively you can use `-run-tests`. The test files in tests\ are executed and you get the result - how many passed. In the results_from_test\ directory you will find the expected and actual output of each test file.
 
 ---
 
@@ -296,12 +295,79 @@ Line 3: SyntaxError: indentation is not correct
 
 ---
 
-## 🏗️ Architecture Notes
+## 🏗️ How a Line is Parsed and Executed
 
-**Parsing** is done in a single pass. `OperationFactory` tokenizes each line and builds an `Operation` tree. Expressions are parsed by `EquationTreeFactory` using a recursive precedence-climbing approach (8 priority levels: `or` → `and` → `not` → comparisons → `+/-` → `*/%` → `**` → leaf).
+Take this single line as an example:
 
-**Execution** is tree-walking. Each `Operation` node implements `execute(Context&)` which returns a `Variable*`. The `Context` carries the current `Scope` (a linked chain for nested scopes) and the I/O streams.
+```python
+x = (a + 3) * b
+```
 
-**Control flow** (`break`, `continue`, `return`) is implemented via C++ exceptions (`break_call`, `continue_call`, `return_call`) that unwind the call stack to the appropriate handler in `WhileOperation`, `ForOperation`, and `FunctionCallOperation`.
+---
 
-**Scoping** follows Python's flat function scope: `if` and `while` share the parent scope; functions create a new isolated scope.
+### Step 1 — 📖 Reading (`Interpreter`)
+
+`Interpreter::interpret()` reads the file line by line into a `vector<string>`. It then loops over them, calling `OperationFactory::create(currLineIndex)` for each one.
+
+---
+
+### Step 2 — ✂️ Tokenizing (`Tokenizer`)
+
+`Tokenizer::tokenize()` receives the raw string `"x = (a + 3) * b"`.
+
+First `transformText()` walks every character and inserts spaces around operators so the string becomes `"x = ( a + 3 ) * b"`. Then the token loop splits on spaces and handles brackets and quotes recursively, producing:
+
+```
+[ "x", "=", "(", "a", "+", "3", ")", "*", "b" ]
+```
+
+---
+
+### Step 3 — 🏭 Operation creation (`OperationFactory`)
+
+`OperationFactory::create(tokens, 0, 9)` scans the token list:
+
+- It spots `"="` at index 1, and the left side is a single name `"x"` → this is an **Assignment**.
+- It delegates the right-hand side tokens `["(", "a", "+", "3", ")", "*", "b"]` to `EquationTreeFactory::create()`.
+- The result is wrapped: `new Assignment("x", <expression tree>)`.
+
+---
+
+### Step 4 — 🌳 Expression parsing (`EquationTreeFactory`)
+
+The factory builds an expression tree using **recursive precedence climbing** across 8 levels. For `(a + 3) * b`:
+
+1. `createPr3` (handles `*`) scans right-to-left, finds `"*"` at the outermost level → creates a `MultOperation` node.
+2. Left child: `(a + 3)` — the outer brackets are stripped, `createPr4` (handles `+`) finds `"+"` → creates a `PlusOperation` node with `EvalOp("a")` and `EvalOp("3")` as children.
+3. Right child: `b` → `EvalOp("b")`.
+
+The resulting tree:
+
+```
+        MultOperation
+       /             \
+  PlusOperation    EvalOp("b")
+  /          \
+EvalOp("a")  EvalOp("3")
+```
+
+---
+
+### Step 5 — ▶️ Execution (tree-walking)
+
+`Assignment::execute(context)` is called:
+
+1. It calls `execute()` on the `MultOperation`.
+2. `MultOperation` calls `execute()` on its left child `PlusOperation`.
+3. `PlusOperation` calls `execute()` on `EvalOp("a")` → looks up `"a"` in the `Scope`, finds `IntegerNumber(5)`, returns a clone.
+4. `PlusOperation` calls `execute()` on `EvalOp("3")` → `VariableFactory::create("3")` recognises an integer literal, returns `IntegerNumber(3)`.
+5. `PlusOperation` adds them → returns `IntegerNumber(8)`.
+6. `MultOperation` calls `execute()` on `EvalOp("b")` → finds `IntegerNumber(2)` in scope.
+7. `MultOperation` multiplies → returns `IntegerNumber(16)`.
+8. `Assignment` receives `IntegerNumber(16)` and calls `scope.assign("x", value)`, storing it in the current `Scope`.
+
+---
+
+### Step 6 — 🗄️ Scope storage (`Scope`)
+
+`Scope` is a `unordered_map<string, unique_ptr<Variable>>` with a pointer to a parent scope. `assign("x", ...)` inserts or replaces the entry for `"x"`. Future lookups for `"x"` call `scope.get("x")`, which walks up the parent chain until found or throws a `ValueError`.
